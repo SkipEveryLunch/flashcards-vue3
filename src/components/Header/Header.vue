@@ -15,8 +15,10 @@
     <div>
       <div class="flex items-center px-2 py-5">
         <router-link to="/login" class="px-2 pr-4">ログイン</router-link>
-        <a class="px-2 py-2 text-yellow-700 bg-yellow-300 rounded-md"
-          >サインイン</a
+        <router-link
+          to="/register"
+          class="px-2 py-2 text-yellow-700 bg-yellow-300 rounded-md"
+          >新規登録</router-link
         >
       </div>
     </div>

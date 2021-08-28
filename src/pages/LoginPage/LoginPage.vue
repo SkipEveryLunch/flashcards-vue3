@@ -1,1 +1,3 @@
-<template>This is LoginPage</template>
+<template>
+  <div data-testid="login-page"></div>
+</template>

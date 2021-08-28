@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  .btn {
+    @apply px-4 py-2 border rounded cursor-pointer w-max;
+  }
+  .btn-blue {
+    @apply text-blue-700 bg-transparent border-blue-500 hover:bg-blue-500 hover:text-white hover:border-transparent;
+  }
+  .btn-black {
+    @apply text-white bg-transparent border-white hover:bg-gray-500;
+  }
+  .btn-yellow {
+    @apply text-yellow-700 bg-yellow-300 hover:bg-yellow-100;
+  }
+  .btn-red {
+    @apply text-red-700 bg-transparent border-red-500 hover:bg-red-500 hover:text-white hover:border-transparent;
+  }
+  .formWrapper {
+    @apply flex items-center m-3;
+  }
+  .btnbox-bottom {
+    @apply fixed bottom-0 flex p-3 transform -translate-x-1/2 mb-14 left-1/2;
+  }
+}

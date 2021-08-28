@@ -15,7 +15,7 @@
         <a class="px-2">今日の宿題</a>
       </div>
     </div>
-    <div>
+    <div v-if="name.length === 0">
       <div class="flex items-center px-2 py-5">
         <router-link data-testid="login-link" to="/login" class="px-2 pr-4"
           >ログイン</router-link
@@ -27,10 +27,34 @@
         >
       </div>
     </div>
+    <div v-else>
+      <div class="flex items-center px-2 py-5">
+        <span data-testid="logout-link" class="px-2 pr-4"> ログアウト </span>
+        <router-link
+          data-testid="profile-link"
+          to="/profile"
+          class="px-2 pr-4"
+          >{{ name }}</router-link
+        >
+      </div>
+    </div>
   </nav>
 </template>
 <script>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 export default {
   name: 'Header',
+  setup() {
+    const store = useStore();
+    const name = computed(() => {
+      return store.state.user
+        ? `${store.state.user.first_name} ${store.state.user.last_name} `
+        : '';
+    });
+    return {
+      name,
+    };
+  },
 };
 </script>

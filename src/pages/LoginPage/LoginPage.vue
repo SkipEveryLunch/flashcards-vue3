@@ -16,7 +16,13 @@
         :error="[]"
       />
       <div class="flex justify-center">
-        <button data-testid="login-button" class="btn btn-yellow">投稿</button>
+        <button
+          data-testid="login-button"
+          class="btn btn-yellow"
+          @click="onLogin"
+        >
+          投稿
+        </button>
       </div>
     </div>
   </div>
@@ -24,10 +30,15 @@
 <script>
 import { reactive } from 'vue';
 import Input from '../../components/Input.vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 export default {
   name: 'LoginPage',
   components: { Input },
   setup() {
+    const router = useRouter();
+    const store = useStore();
     const form = reactive({
       email: '',
       password: '',
@@ -38,10 +49,21 @@ export default {
     const onChangePassword = (payload) => {
       form.password = payload;
     };
+    const onLogin = async () => {
+      const {
+        data: { user },
+        status,
+      } = await axios.post('login', form);
+      if (status === 200 && user) {
+        store.dispatch('setUser', user);
+        router.push('/');
+      }
+    };
     return {
       form,
       onChangeEmail,
       onChangePassword,
+      onLogin,
     };
   },
 };

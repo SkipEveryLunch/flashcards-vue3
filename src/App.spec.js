@@ -68,4 +68,14 @@ describe('Authentication', () => {
     await waitForElementToBeRemoved(logoutLink);
     expect(profileLink).not.toBeInTheDocument();
   });
+
+  it('shows profile page after click profile link', async () => {
+    await setup('/login');
+    const loginButton = screen.queryByTestId('login-button');
+    userEvent.click(loginButton);
+    const profileLink = await screen.findByTestId('profile-link');
+    userEvent.click(profileLink);
+    const profilePage = await screen.findByTestId('profile-page');
+    expect(profilePage).toBeInTheDocument();
+  });
 });

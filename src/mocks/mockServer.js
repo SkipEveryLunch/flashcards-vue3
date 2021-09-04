@@ -14,7 +14,7 @@ export const server = setupServer(
     return res(
       ctx.status(200),
       ctx.cookie('token', '12345'),
-      ctx.json({ user: userData })
+      ctx.json(userData)
     );
   }),
   rest.delete(`${baseUrl}logout`, (req, res, ctx) => {
@@ -22,7 +22,7 @@ export const server = setupServer(
     return res(
       ctx.status(200),
       ctx.cookie('token', '', { maxAge: 0 }),
-      ctx.json({ user: userData })
+      ctx.json(userData)
     );
   }),
   rest.get(`${baseUrl}current_user`, (req, res, ctx) => {
@@ -37,11 +37,11 @@ export const server = setupServer(
     reqBody = req.body;
     const copyUserData = deepCopy(userData);
     Object.assign(copyUserData, req.body);
-    return res(ctx.status(200), ctx.json({ user: copyUserData }));
+    return res(ctx.status(200), ctx.json(copyUserData));
   }),
   rest.put(`${baseUrl}password_update`, (req, res, ctx) => {
     reqBody = req.body;
-    return res(ctx.status(200), ctx.json({ user: userData }));
+    return res(ctx.status(200), ctx.json(userData));
   })
 );
 const userData = {
@@ -51,5 +51,5 @@ const userData = {
 };
 
 const deepCopy = (obj) => {
-  return [obj].map((ob) => ({ ...ob }));
+  return [obj].map((ob) => ({ ...ob }))[0];
 };

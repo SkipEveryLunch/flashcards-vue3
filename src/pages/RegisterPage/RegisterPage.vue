@@ -62,10 +62,12 @@
 import { reactive, watch, ref, computed } from 'vue';
 import Input from '../../components/Input.vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 export default {
   name: 'LoginPage',
   components: { Input },
   setup() {
+    const router = useRouter();
     const form = reactive({
       first_name: '',
       last_name: '',
@@ -159,6 +161,7 @@ export default {
       isCalling.value = true;
       try {
         await axios.post('register', form);
+        router.push('/login');
       } catch (e) {
         console.log(e);
       }

@@ -3,6 +3,7 @@
     <span data-testid="user-firstname">{{ user.first_name }}</span>
     <span data-testid="user-lastname">{{ user.last_name }}</span>
     <span data-testid="user-email">{{ user.email }}</span>
+    <router-link to="/profile_edit"> 編集 </router-link>
   </div>
   <div v-else data-testid="profile-page">ログインしてください</div>
 </template>
@@ -10,7 +11,7 @@
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 export default {
-  name: 'ProfilePage',
+  name: 'ProfileShowPage',
   setup() {
     const store = useStore();
     const user = computed(() => {

@@ -18,7 +18,7 @@ export default {
     const store = useStore();
     onMounted(async () => {
       try {
-        const { data } = await axios.get('user');
+        const { data } = await axios.get('current_user');
         store.dispatch('setUser', data);
       } catch (e) {
         store.dispatch('discardUser');

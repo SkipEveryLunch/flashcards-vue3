@@ -25,17 +25,31 @@ export const server = setupServer(
       ctx.json({ user: userData })
     );
   }),
-  rest.get(`${baseUrl}user`, (req, res, ctx) => {
+  rest.get(`${baseUrl}current_user`, (req, res, ctx) => {
     const { token } = req.cookies;
     if (token && token === '12345') {
       return res(ctx.status(200), ctx.json(userData));
     } else {
       return res(ctx.status(401), ctx.json({ message: 'not authenticated' }));
     }
+  }),
+  rest.put(`${baseUrl}user_update`, (req, res, ctx) => {
+    reqBody = req.body;
+    const copyUserData = deepCopy(userData);
+    Object.assign(copyUserData, req.body);
+    return res(ctx.status(200), ctx.json({ user: copyUserData }));
+  }),
+  rest.put(`${baseUrl}password_update`, (req, res, ctx) => {
+    reqBody = req.body;
+    return res(ctx.status(200), ctx.json({ user: userData }));
   })
 );
 const userData = {
   first_name: 'John',
   last_name: 'Smith',
   email: 'js@test.io',
+};
+
+const deepCopy = (obj) => {
+  return [obj].map((ob) => ({ ...ob }));
 };

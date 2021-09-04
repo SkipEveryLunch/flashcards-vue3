@@ -1,11 +1,12 @@
-import ProfilePage from './ProfilePage.vue';
+import ProfileShowPage from './ProfileShowPage.vue';
 import { render, screen } from '@testing-library/vue';
 import '@testing-library/jest-dom';
 import store from '../../store/index.ts';
+import router from '../../router/index.ts';
 
 const setup = async () => {
-  render(ProfilePage, {
-    global: { plugins: [store] },
+  render(ProfileShowPage, {
+    global: { plugins: [store, router] },
   });
   await store.dispatch('setUser', userData);
 };

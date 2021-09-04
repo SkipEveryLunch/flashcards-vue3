@@ -29,12 +29,16 @@
     </div>
     <div v-else>
       <div class="flex items-center px-2 py-5">
-        <span @click="logout" data-testid="logout-link" class="px-2 pr-4">
+        <span
+          @click="logout"
+          data-testid="logout-link"
+          class="px-2 pr-4 cursor-pointer"
+        >
           ログアウト
         </span>
         <router-link
           data-testid="profile-link"
-          to="/profile"
+          to="/profile_show"
           class="px-2 pr-4"
           >{{ name }}</router-link
         >

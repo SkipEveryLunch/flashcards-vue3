@@ -133,7 +133,6 @@ export default {
       onPasswordUpdate,
       isChangingUser,
       isChangingPassword,
-      isUserButtonDisabled,
     };
   },
 };

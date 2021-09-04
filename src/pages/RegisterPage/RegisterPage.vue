@@ -159,7 +159,9 @@ export default {
       isCalling.value = true;
       try {
         await axios.post('register', form);
-      } catch (e) {}
+      } catch (e) {
+        console.log(e);
+      }
       isCalling.value = false;
     };
     const disabled = computed(() => {

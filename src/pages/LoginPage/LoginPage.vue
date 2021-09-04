@@ -6,29 +6,34 @@
         name="メールアドレス"
         @custom-input="onChangeEmail"
         :modelValue="form.email"
-        :error="[]"
+        :error="errors.email"
       />
       <Input
         id="password"
         name="パスワード"
         @custom-input="onChangePassword"
         :modelValue="form.password"
-        :error="[]"
+        :error="errors.password"
       />
       <div class="flex justify-center">
         <button
           data-testid="login-button"
           class="btn btn-yellow"
           @click="onLogin"
+          v-if="!isCalling"
+          :disabled="disabled"
         >
           投稿
+        </button>
+        <button data-testid="logingin-message" class="btn btn-yellow" v-else>
+          投稿中…
         </button>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { reactive } from 'vue';
+import { ref, reactive, watch, computed } from 'vue';
 import Input from '../../components/Input.vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
@@ -43,17 +48,56 @@ export default {
       email: '',
       password: '',
     });
+    const errors = reactive({
+      email: ['メールアドレスが未入力です'],
+      password: ['パスワードが未入力です'],
+    });
+    const isCalling = ref(false);
     const onChangeEmail = (payload) => {
       form.email = payload;
     };
     const onChangePassword = (payload) => {
       form.password = payload;
     };
+    watch(form, () => {
+      const mailReg =
+        /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}.[A-Za-z0-9]{1,}$/;
+      if (form.email.length === 0) {
+        pushToArr(errors.email, 'メールアドレスが未入力です');
+      } else {
+        deleteFromArr(errors.email, 'メールアドレスが未入力です');
+      }
+      if (form.email.length > 0 && !mailReg.test(form.email)) {
+        pushToArr(errors.email, '正しいメールアドレスを入力して下さい');
+      } else {
+        deleteFromArr(errors.email, '正しいメールアドレスを入力して下さい');
+      }
+      if (form.password.length === 0) {
+        pushToArr(errors.password, 'パスワードが未入力です');
+      } else {
+        deleteFromArr(errors.password, 'パスワードが未入力です');
+      }
+    });
+    const pushToArr = (arr, str) => {
+      if (!arr.includes(str)) {
+        arr.push(str);
+      }
+    };
+    const deleteFromArr = (arr, str) => {
+      if (arr.includes(str)) {
+        arr = arr.splice(arr.indexOf(str), 1);
+      }
+    };
+    const disabled = computed(() => {
+      return !(errors.email.length === 0 && errors.password.length === 0);
+    });
     const onLogin = async () => {
+      isCalling.value = true;
       const {
         data: { user },
         status,
       } = await axios.post('login', form);
+      isCalling.value = false;
       if (status === 200 && user) {
         store.dispatch('setUser', user);
         router.push('/');
@@ -64,6 +108,9 @@ export default {
       onChangeEmail,
       onChangePassword,
       onLogin,
+      disabled,
+      errors,
+      isCalling,
     };
   },
 };

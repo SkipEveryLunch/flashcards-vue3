@@ -93,13 +93,10 @@ export default {
     });
     const onLogin = async () => {
       isCalling.value = true;
-      const {
-        data: { user },
-        status,
-      } = await axios.post('login', form);
+      const { data, status } = await axios.post('login', form);
       isCalling.value = false;
-      if (status === 200 && user) {
-        store.dispatch('setUser', user);
+      if (status === 200 && data) {
+        store.dispatch('setUser', data);
         router.push('/');
       }
     };

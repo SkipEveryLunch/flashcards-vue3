@@ -43,6 +43,7 @@ describe('Authentication', () => {
       await waitForElementToBeRemoved(logoutLink);
     } catch (e) {}
   });
+  beforeEach(() => store.dispatch('discardUser'));
 
   it('does not show ProfileLink before logging in', async () => {
     await setup('/');
@@ -52,6 +53,10 @@ describe('Authentication', () => {
 
   it('shows profileLink after logging in', async () => {
     await setup('/login');
+    const emailInput = screen.queryByTestId('email-input');
+    const passwordInput = screen.queryByTestId('password-input');
+    await userEvent.type(emailInput, '01@test.io');
+    await userEvent.type(passwordInput, '1234');
     const loginButton = screen.queryByTestId('login-button');
     userEvent.click(loginButton);
     const profileLink = await screen.findByTestId('profile-link');
@@ -60,6 +65,10 @@ describe('Authentication', () => {
 
   it('does not show profileLink after logging out', async () => {
     await setup('/login');
+    const emailInput = screen.queryByTestId('email-input');
+    const passwordInput = screen.queryByTestId('password-input');
+    await userEvent.type(emailInput, '01@test.io');
+    await userEvent.type(passwordInput, '1234');
     const loginButton = screen.queryByTestId('login-button');
     await userEvent.click(loginButton);
     const logoutLink = await screen.findByTestId('logout-link');
@@ -71,6 +80,10 @@ describe('Authentication', () => {
 
   it('shows profile page after click profile link', async () => {
     await setup('/login');
+    const emailInput = screen.queryByTestId('email-input');
+    const passwordInput = screen.queryByTestId('password-input');
+    await userEvent.type(emailInput, '01@test.io');
+    await userEvent.type(passwordInput, '1234');
     const loginButton = screen.queryByTestId('login-button');
     userEvent.click(loginButton);
     const profileLink = await screen.findByTestId('profile-link');

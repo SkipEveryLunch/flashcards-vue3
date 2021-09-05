@@ -179,8 +179,10 @@ export default {
     const onUserUpdate = async () => {
       isChangingUser.value = true;
       try {
-        const { data } = await axios.put('user_update', userForm);
-        await store.dispatch('setUser', data);
+        const {
+          data: { user },
+        } = await axios.put('user_update', userForm);
+        await store.dispatch('setUser', user);
         isChangingUser.value = false;
       } catch (e) {
         console.log(e);
@@ -191,8 +193,10 @@ export default {
       const { password, password_confirm } = passwordForm;
       if (password === password_confirm) {
         try {
-          const { data } = await axios.put('password_update', { password });
-          store.dispatch('setUser', data);
+          const {
+            data: { user },
+          } = await axios.put('password_update', { password });
+          store.dispatch('setUser', user);
           isChangingPassword.value = false;
         } catch (e) {
           console.log(e);

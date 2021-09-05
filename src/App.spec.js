@@ -134,19 +134,38 @@ describe('Authentication', () => {
     expect(sectionPage).toBeInTheDocument();
   });
 
-  it('shows profile page after click profile link', async () => {
+  it('shows SectionPage after logging out', async () => {
     await setup('/login');
     const emailInput = screen.queryByTestId('email-input');
     const passwordInput = screen.queryByTestId('password-input');
     await userEvent.type(emailInput, '01@test.io');
     await userEvent.type(passwordInput, '1234');
     const loginButton = screen.queryByTestId('login-button');
-    userEvent.click(loginButton);
+    await userEvent.click(loginButton);
     const profileMenu = await screen.findByTestId('profile-menu');
     userEvent.click(profileMenu);
-    const profileLink = await screen.findByTestId('profile-link');
-    userEvent.click(profileLink);
-    const profilePage = await screen.findByTestId('profile-page');
-    expect(profilePage).toBeInTheDocument();
+    const logoutButton = await screen.findByTestId('logout-button');
+    userEvent.click(logoutButton);
+    await waitForElementToBeRemoved(logoutButton);
+    const sectionPage = await screen.findByTestId('section-page');
+    expect(sectionPage).toBeInTheDocument();
+  });
+
+  it('does not show profile show page before loging in', async () => {
+    await setup('/profile_show');
+    const loginPage = await screen.findByTestId('login-page');
+    expect(loginPage).toBeInTheDocument();
+  });
+
+  it('does not show profile edit page before loging in', async () => {
+    await setup('/profile_edit');
+    const loginPage = await screen.findByTestId('login-page');
+    expect(loginPage).toBeInTheDocument();
+  });
+
+  it('does not show password edit page before loging in', async () => {
+    await setup('/password_edit');
+    const loginPage = await screen.findByTestId('login-page');
+    expect(loginPage).toBeInTheDocument();
   });
 });

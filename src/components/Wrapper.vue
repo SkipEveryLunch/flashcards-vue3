@@ -35,7 +35,7 @@ export default {
         } = await axios.get('current_user');
         store.dispatch('setUser', user);
       } catch (e) {
-        await router.push('/login');
+        // await router.push('/login');
         store.dispatch('discardUser');
       }
     });

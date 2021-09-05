@@ -38,15 +38,17 @@
   </div>
 </template>
 <script>
-import { reactive, watch, ref, computed } from 'vue';
+import { reactive, watch, ref, computed, onMounted } from 'vue';
 import Input from '../../components/Input.vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 export default {
   name: 'LoginPage',
   components: { Input },
   setup() {
     const router = useRouter();
+    const store = useStore();
     const form = reactive({
       password: '',
       password_confirm: '',
@@ -89,6 +91,11 @@ export default {
         arr = arr.splice(arr.indexOf(str), 1);
       }
     };
+    onMounted(() => {
+      if (!store.state.user) {
+        router.push('/login');
+      }
+    });
     const onUpdate = async () => {
       isCalling.value = true;
       try {

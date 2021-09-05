@@ -47,12 +47,14 @@
 <script>
 import { reactive, watch, ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import Input from '../../components/Input.vue';
 import axios from 'axios';
 export default {
   name: 'LoginPage',
   components: { Input },
   setup() {
+    const router = useRouter();
     const store = useStore();
     const form = reactive({
       first_name: '',
@@ -76,6 +78,11 @@ export default {
     };
     const user = computed(() => {
       return store.state.user;
+    });
+    onMounted(() => {
+      if (!store.state.user) {
+        router.push('/login');
+      }
     });
     watch(user, () => {
       form.first_name = user.value.first_name;

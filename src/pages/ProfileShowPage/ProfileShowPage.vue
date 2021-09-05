@@ -8,17 +8,24 @@
   <div v-else data-testid="profile-page">ログインしてください</div>
 </template>
 <script>
-import { computed } from 'vue';
+import { onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 export default {
   name: 'ProfileShowPage',
   setup() {
     const store = useStore();
+    const router = useRouter();
     const user = computed(() => {
       if (store.state.user) {
         return store.state.user;
       } else {
         return null;
+      }
+    });
+    onMounted(() => {
+      if (!store.state.user) {
+        router.push('/login');
       }
     });
     return {

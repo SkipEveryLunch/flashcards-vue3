@@ -50,9 +50,11 @@
 import axios from 'axios';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 export default {
   name: 'Header',
   setup() {
+    const router = useRouter();
     const store = useStore();
     const name = computed(() => {
       return store.state.user
@@ -60,8 +62,13 @@ export default {
         : '';
     });
     const logout = async () => {
-      const { data } = await axios.delete('logout');
-      store.dispatch('discardUser', data);
+      try {
+        const { data } = await axios.delete('logout');
+        store.dispatch('discardUser', data);
+        router.push('/');
+      } catch (e) {
+        console.log(e);
+      }
     };
     return {
       name,

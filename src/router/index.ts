@@ -4,6 +4,7 @@ import LoginPage from '../pages/LoginPage/LoginPage.vue';
 import RegisterPage from '../pages/RegisterPage/RegisterPage.vue';
 import ProfileShowPage from '../pages/ProfilePage/ProfileShowPage.vue';
 import ProfileEditPage from '../pages/ProfilePage/ProfileEditPage.vue';
+import SectionPage from '../pages/SectionPage/SectionPage.vue';
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:8000/api/';
 axios.defaults.withCredentials = true;
@@ -13,6 +14,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '',
     component: Wrapper,
     children: [
+      {
+        path: '',
+        name: 'SectionPage',
+        component: SectionPage,
+      },
       {
         path: '/login',
         name: 'LoginPage',

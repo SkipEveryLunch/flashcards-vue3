@@ -96,6 +96,22 @@ describe('Authentication', () => {
     expect(profileLink).not.toBeInTheDocument();
   });
 
+  it('shows SectionPage after logging out', async () => {
+    await setup('/login');
+    const emailInput = screen.queryByTestId('email-input');
+    const passwordInput = screen.queryByTestId('password-input');
+    await userEvent.type(emailInput, '01@test.io');
+    await userEvent.type(passwordInput, '1234');
+    const loginButton = screen.queryByTestId('login-button');
+    await userEvent.click(loginButton);
+    const logoutLink = await screen.findByTestId('logout-link');
+    const profileLink = await screen.findByTestId('profile-link');
+    userEvent.click(logoutLink);
+    await waitForElementToBeRemoved(logoutLink);
+    const sectionPage = await screen.findByTestId('section-page');
+    expect(sectionPage).toBeInTheDocument();
+  });
+
   it('shows profile page after click profile link', async () => {
     await setup('/login');
     const emailInput = screen.queryByTestId('email-input');

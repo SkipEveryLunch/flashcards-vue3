@@ -1,4 +1,5 @@
 import App from './App.vue';
+import { rest } from 'msw';
 import {
   render,
   screen,
@@ -79,6 +80,23 @@ describe('Authentication', () => {
     userEvent.click(loginButton);
     const profileLink = await screen.findByTestId('profile-link');
     expect(profileLink).toBeInTheDocument();
+  });
+
+  it('shows Modal after failing loging in', async () => {
+    await setup('/login');
+    server.use(
+      rest.post('http://localhost:8000/api/login', (req, res, ctx) => {
+        return res.once(ctx.status(400));
+      })
+    );
+    const emailInput = screen.queryByTestId('email-input');
+    const passwordInput = screen.queryByTestId('password-input');
+    await userEvent.type(emailInput, '01@test.io');
+    await userEvent.type(passwordInput, '1234');
+    const loginButton = screen.queryByTestId('login-button');
+    userEvent.click(loginButton);
+    const modal = await screen.findByTestId('modal');
+    expect(modal).toBeInTheDocument();
   });
 
   it('does not show profileLink after logging out', async () => {

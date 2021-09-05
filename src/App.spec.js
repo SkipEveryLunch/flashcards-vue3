@@ -39,17 +39,19 @@ it('shows LoginPage after clicking login link', async () => {
 describe('Authentication', () => {
   afterEach(async () => {
     try {
-      const logoutLink = await screen.findByTestId('logout-link');
-      userEvent.click(logoutLink);
-      await waitForElementToBeRemoved(logoutLink);
+      const profileMenu = await screen.findByTestId('profile-menu');
+      userEvent.click(profileMenu);
+      const logoutButton = await screen.findByTestId('logout-button');
+      userEvent.click(logoutButton);
+      await waitForElementToBeRemoved(logoutButton);
     } catch (e) {}
   });
   beforeEach(() => store.dispatch('discardUser'));
 
-  it('does not show ProfileLink before logging in', async () => {
+  it('does not show ProfileMenu before logging in', async () => {
     await setup('/');
-    const ProfileLink = screen.queryByTestId('profile-link');
-    expect(ProfileLink).not.toBeInTheDocument();
+    const ProfileMenu = screen.queryByTestId('profile-menu');
+    expect(ProfileMenu).not.toBeInTheDocument();
   });
 
   it('shows LoginPage after registeration', async () => {
@@ -70,7 +72,7 @@ describe('Authentication', () => {
     expect(loginPage).toBeInTheDocument();
   });
 
-  it('shows profileLink after logging in', async () => {
+  it('shows profileMenu after logging in', async () => {
     await setup('/login');
     const emailInput = screen.queryByTestId('email-input');
     const passwordInput = screen.queryByTestId('password-input');
@@ -78,8 +80,8 @@ describe('Authentication', () => {
     await userEvent.type(passwordInput, '1234');
     const loginButton = screen.queryByTestId('login-button');
     userEvent.click(loginButton);
-    const profileLink = await screen.findByTestId('profile-link');
-    expect(profileLink).toBeInTheDocument();
+    const profileMenu = await screen.findByTestId('profile-menu');
+    expect(profileMenu).toBeInTheDocument();
   });
 
   it('shows Modal after failing loging in', async () => {
@@ -99,7 +101,7 @@ describe('Authentication', () => {
     expect(modal).toBeInTheDocument();
   });
 
-  it('does not show profileLink after logging out', async () => {
+  it('does not show profileMenu after logging out', async () => {
     await setup('/login');
     const emailInput = screen.queryByTestId('email-input');
     const passwordInput = screen.queryByTestId('password-input');
@@ -107,11 +109,12 @@ describe('Authentication', () => {
     await userEvent.type(passwordInput, '1234');
     const loginButton = screen.queryByTestId('login-button');
     await userEvent.click(loginButton);
-    const logoutLink = await screen.findByTestId('logout-link');
-    const profileLink = await screen.findByTestId('profile-link');
-    userEvent.click(logoutLink);
-    await waitForElementToBeRemoved(logoutLink);
-    expect(profileLink).not.toBeInTheDocument();
+    const profileMenu = await screen.findByTestId('profile-menu');
+    userEvent.click(profileMenu);
+    const logoutButton = await screen.findByTestId('logout-button');
+    userEvent.click(logoutButton);
+    await waitForElementToBeRemoved(logoutButton);
+    expect(profileMenu).not.toBeInTheDocument();
   });
 
   it('shows SectionPage after logging out', async () => {
@@ -122,10 +125,11 @@ describe('Authentication', () => {
     await userEvent.type(passwordInput, '1234');
     const loginButton = screen.queryByTestId('login-button');
     await userEvent.click(loginButton);
-    const logoutLink = await screen.findByTestId('logout-link');
-    const profileLink = await screen.findByTestId('profile-link');
-    userEvent.click(logoutLink);
-    await waitForElementToBeRemoved(logoutLink);
+    const profileMenu = await screen.findByTestId('profile-menu');
+    userEvent.click(profileMenu);
+    const logoutButton = await screen.findByTestId('logout-button');
+    userEvent.click(logoutButton);
+    await waitForElementToBeRemoved(logoutButton);
     const sectionPage = await screen.findByTestId('section-page');
     expect(sectionPage).toBeInTheDocument();
   });
@@ -138,6 +142,8 @@ describe('Authentication', () => {
     await userEvent.type(passwordInput, '1234');
     const loginButton = screen.queryByTestId('login-button');
     userEvent.click(loginButton);
+    const profileMenu = await screen.findByTestId('profile-menu');
+    userEvent.click(profileMenu);
     const profileLink = await screen.findByTestId('profile-link');
     userEvent.click(profileLink);
     const profilePage = await screen.findByTestId('profile-page');

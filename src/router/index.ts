@@ -2,8 +2,9 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Wrapper from '../components/Wrapper.vue';
 import LoginPage from '../pages/LoginPage/LoginPage.vue';
 import RegisterPage from '../pages/RegisterPage/RegisterPage.vue';
-import ProfileShowPage from '../pages/ProfilePage/ProfileShowPage.vue';
-import ProfileEditPage from '../pages/ProfilePage/ProfileEditPage.vue';
+import ProfileShowPage from '../pages/ProfileShowPage/ProfileShowPage.vue';
+import PasswordEditPage from '../pages/PasswordEditPage/PasswordEditPage.vue';
+import ProfileEditPage from '../pages/ProfileEditPage/ProfileEditPage.vue';
 import SectionPage from '../pages/SectionPage/SectionPage.vue';
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:8000/api/';
@@ -38,6 +39,11 @@ const routes: Array<RouteRecordRaw> = [
         path: '/profile_edit',
         name: 'ProfileEditPage',
         component: ProfileEditPage,
+      },
+      {
+        path: '/password_edit',
+        name: 'PasswordEditPage',
+        component: PasswordEditPage,
       },
     ],
   },

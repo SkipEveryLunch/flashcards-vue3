@@ -2,18 +2,17 @@
   <div
     data-testid="profile-dropdown"
     class="absolute right-0 text-black bg-white border border-gray-400 rounded shadow-sm  top-full w-max"
+    v-click-away="toggleDropDown"
   >
     <ul>
-      <ul class="profileList">
-        <router-link data-testid="profile-link" to="/profile_show">
-          プロフィールを見る
-        </router-link>
+      <ul @click="goTo('/profile_show')" class="profileList">
+        <span data-testid="profile-link"> プロフィールを見る </span>
       </ul>
-      <ul class="profileList">
-        <router-link to="/profile_edit"> プロフィールを編集する </router-link>
+      <ul @click="goTo('/profile_edit')" class="profileList">
+        <span> プロフィールを編集する </span>
       </ul>
-      <ul class="profileList">
-        <router-link to="/password_edit"> パスワードを変更する </router-link>
+      <ul @click="goTo('/password_edit')" class="profileList">
+        <span> パスワードを変更する </span>
       </ul>
       <ul data-testid="logout-button" @click="onLogout" class="profileList">
         ログアウトする
@@ -22,9 +21,34 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 export default {
   name: 'ProfileDropDown',
-  props: ['onLogout'],
+  props: ['toggleDropDown'],
+  setup(props) {
+    const router = useRouter();
+    const store = useStore();
+    const goTo = (path) => {
+      props.toggleDropDown();
+      router.push(path);
+    };
+    const onLogout = async () => {
+      try {
+        const { data } = await axios.delete('logout');
+        store.dispatch('discardUser', data);
+        props.toggleDropDown();
+        router.push('/');
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    return {
+      onLogout,
+      goTo,
+    };
+  },
 };
 </script>
 <style scoped>

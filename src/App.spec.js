@@ -10,13 +10,14 @@ import router from './router/index.ts';
 import store from './store/index.ts';
 import userEvent from '@testing-library/user-event';
 import { server } from './mocks/mockServer';
+import VueClickAway from 'vue3-click-away';
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterAll(() => server.close());
 
 const setup = async (path) => {
   render(App, {
-    global: { plugins: [store, router] },
+    global: { plugins: [store, router, VueClickAway] },
   });
   router.replace(path);
   await router.isReady();
@@ -167,5 +168,51 @@ describe('Authentication', () => {
     await setup('/password_edit');
     const loginPage = await screen.findByTestId('login-page');
     expect(loginPage).toBeInTheDocument();
+  });
+
+  it('shows modal when password is duplicated', async () => {
+    server.use(
+      rest.post('http://localhost:8000/api/register', (req, res, ctx) => {
+        return res.once(ctx.status(409));
+      })
+    );
+    await setup('/register');
+    const firstNameInput = screen.queryByTestId('first-name-input');
+    const lastNameInput = screen.queryByTestId('last-name-input');
+    const emailInput = screen.queryByTestId('email-input');
+    const passwordInput = screen.queryByTestId('password-input');
+    const passwordConfirmInput = screen.queryByTestId('password-confirm-input');
+    await userEvent.type(firstNameInput, '01');
+    await userEvent.type(lastNameInput, '01');
+    await userEvent.type(emailInput, '01@test.io');
+    await userEvent.type(passwordInput, '1234');
+    await userEvent.type(passwordConfirmInput, '1234');
+    const registerButton = screen.queryByTestId('register-button');
+    userEvent.click(registerButton);
+    const modal = await screen.findByTestId('modal');
+    expect(modal).toBeInTheDocument();
+  });
+
+  it('shows modal when unknown registaration error occurred', async () => {
+    server.use(
+      rest.post('http://localhost:8000/api/register', (req, res, ctx) => {
+        return res.once(ctx.status(400));
+      })
+    );
+    await setup('/register');
+    const firstNameInput = screen.queryByTestId('first-name-input');
+    const lastNameInput = screen.queryByTestId('last-name-input');
+    const emailInput = screen.queryByTestId('email-input');
+    const passwordInput = screen.queryByTestId('password-input');
+    const passwordConfirmInput = screen.queryByTestId('password-confirm-input');
+    await userEvent.type(firstNameInput, '01');
+    await userEvent.type(lastNameInput, '01');
+    await userEvent.type(emailInput, '01@test.io');
+    await userEvent.type(passwordInput, '1234');
+    await userEvent.type(passwordConfirmInput, '1234');
+    const registerButton = screen.queryByTestId('register-button');
+    userEvent.click(registerButton);
+    const modal = await screen.findByTestId('modal');
+    expect(modal).toBeInTheDocument();
   });
 });

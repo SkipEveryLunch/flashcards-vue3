@@ -63,11 +63,13 @@ import { reactive, watch, ref, computed } from 'vue';
 import Input from '../../components/Input.vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 export default {
   name: 'LoginPage',
   components: { Input },
   setup() {
     const router = useRouter();
+    const store = useStore();
     const form = reactive({
       first_name: '',
       last_name: '',
@@ -163,7 +165,15 @@ export default {
         await axios.post('register', form);
         router.push('/login');
       } catch (e) {
-        console.log(e);
+        if (e.response.status === 409) {
+          store.dispatch('setModal', {
+            message: 'そのメールアドレスは既に使われています',
+          });
+        } else {
+          store.dispatch('setModal', {
+            message: '不明なエラーです',
+          });
+        }
       }
       isCalling.value = false;
     };

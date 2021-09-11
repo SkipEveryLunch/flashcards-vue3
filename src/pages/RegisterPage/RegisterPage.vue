@@ -162,8 +162,17 @@ export default {
     const onRegister = async () => {
       isCalling.value = true;
       try {
-        await axios.post('register', form);
-        router.push('/login');
+        const {
+          status,
+          data: { user },
+        } = await axios.post('register', form);
+        console.log(status);
+        if (user && status === 201) {
+          router.push('/login');
+          store.dispatch('setModal', {
+            message: '登録が完了しました',
+          });
+        }
       } catch (e) {
         if (e.response.status === 409) {
           store.dispatch('setModal', {

@@ -102,11 +102,20 @@ export default {
         if (status === 200 && user) {
           store.dispatch('setUser', user);
           router.push('/');
+          store.dispatch('setModal', {
+            message: 'ログインしました',
+          });
         }
       } catch (e) {
-        store.dispatch('setModal', {
-          message: 'メールアドレスかパスワードが違います',
-        });
+        if (e.response.status === 401) {
+          store.dispatch('setModal', {
+            message: 'メールアドレスかパスワードが違います',
+          });
+        } else {
+          store.dispatch('setModal', {
+            message: '不明なエラーです',
+          });
+        }
         isCalling.value = false;
       }
     };

@@ -40,6 +40,9 @@ export default {
         store.dispatch('discardUser', data);
         props.toggleDropDown();
         router.push('/');
+        store.dispatch('setModal', {
+          message: 'ログアウトしました',
+        });
       } catch (e) {
         console.log(e);
       }

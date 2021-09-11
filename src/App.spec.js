@@ -55,6 +55,24 @@ describe('Authentication', () => {
     expect(ProfileMenu).not.toBeInTheDocument();
   });
 
+  it('shows Modal after registeration', async () => {
+    await setup('/register');
+    const firstNameInput = screen.queryByTestId('first-name-input');
+    const lastNameInput = screen.queryByTestId('last-name-input');
+    const emailInput = screen.queryByTestId('email-input');
+    const passwordInput = screen.queryByTestId('password-input');
+    const passwordConfirmInput = screen.queryByTestId('password-confirm-input');
+    await userEvent.type(firstNameInput, '01');
+    await userEvent.type(lastNameInput, '01');
+    await userEvent.type(emailInput, '01@test.io');
+    await userEvent.type(passwordInput, '1234');
+    await userEvent.type(passwordConfirmInput, '1234');
+    const registerButton = screen.queryByTestId('register-button');
+    userEvent.click(registerButton);
+    const modal = await screen.findByTestId('modal');
+    expect(modal).toBeInTheDocument();
+  });
+
   it('shows LoginPage after registeration', async () => {
     await setup('/register');
     const firstNameInput = screen.queryByTestId('first-name-input');
@@ -69,8 +87,22 @@ describe('Authentication', () => {
     await userEvent.type(passwordConfirmInput, '1234');
     const registerButton = screen.queryByTestId('register-button');
     userEvent.click(registerButton);
+    const modalButton = await screen.findByTestId('modal-button');
+    userEvent.click(modalButton);
     const loginPage = await screen.findByTestId('login-page');
     expect(loginPage).toBeInTheDocument();
+  });
+
+  it('shows modal after logging in', async () => {
+    await setup('/login');
+    const emailInput = screen.queryByTestId('email-input');
+    const passwordInput = screen.queryByTestId('password-input');
+    await userEvent.type(emailInput, '01@test.io');
+    await userEvent.type(passwordInput, '1234');
+    const loginButton = await screen.queryByTestId('login-button');
+    userEvent.click(loginButton);
+    const modal = await screen.findByTestId('modal');
+    expect(modal).toBeInTheDocument();
   });
 
   it('shows profileMenu after logging in', async () => {
@@ -81,6 +113,8 @@ describe('Authentication', () => {
     await userEvent.type(passwordInput, '1234');
     const loginButton = screen.queryByTestId('login-button');
     userEvent.click(loginButton);
+    const modalButton = await screen.findByTestId('modal-button');
+    userEvent.click(modalButton);
     const profileMenu = await screen.findByTestId('profile-menu');
     expect(profileMenu).toBeInTheDocument();
   });

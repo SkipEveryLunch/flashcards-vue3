@@ -7,7 +7,7 @@ export let reqBody;
 export const server = setupServer(
   rest.post(`${baseUrl}register`, (req, res, ctx) => {
     reqBody = req.body;
-    return res(ctx.status(200));
+    return res(ctx.status(201), ctx.json({ user: userData }));
   }),
   rest.post(`${baseUrl}login`, (req, res, ctx) => {
     reqBody = req.body;

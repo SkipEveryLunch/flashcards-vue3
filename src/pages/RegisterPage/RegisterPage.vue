@@ -166,7 +166,6 @@ export default {
           status,
           data: { user },
         } = await axios.post('register', form);
-        console.log(status);
         if (user && status === 201) {
           router.push('/login');
           store.dispatch('setModal', {

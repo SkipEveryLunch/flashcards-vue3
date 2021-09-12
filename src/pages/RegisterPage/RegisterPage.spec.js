@@ -170,34 +170,3 @@ describe('validation', () => {
     expect(message).toBeInTheDocument();
   });
 });
-
-describe('API interaction', () => {
-  beforeAll(() => server.listen());
-  afterAll(() => server.close());
-  it('sends proper values', async () => {
-    render(RegisterPage, {
-      global: { plugins: [router] },
-    });
-    const firstNameInput = screen.queryByTestId('first-name-input');
-    const lastNameInput = screen.queryByTestId('last-name-input');
-    const emailInput = screen.queryByTestId('email-input');
-    const passwordInput = screen.queryByTestId('password-input');
-    const passwordConfirmInput = screen.queryByTestId('password-confirm-input');
-    await userEvent.type(firstNameInput, '01');
-    await userEvent.type(lastNameInput, '01');
-    await userEvent.type(emailInput, '01@test.io');
-    await userEvent.type(passwordInput, '1234');
-    await userEvent.type(passwordConfirmInput, '1234');
-    const registerButton = screen.queryByTestId('register-button');
-    userEvent.click(registerButton);
-    const registeringMessage = await screen.findByTestId('registering-message');
-    await waitForElementToBeRemoved(registeringMessage);
-    expect(reqBody).toEqual({
-      first_name: '01',
-      last_name: '01',
-      email: '01@test.io',
-      password: '1234',
-      password_confirm: '1234',
-    });
-  });
-});

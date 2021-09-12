@@ -1,13 +1,8 @@
 import RegisterPage from './RegisterPage.vue';
-import {
-  render,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/vue';
+import { render, screen } from '@testing-library/vue';
 import '@testing-library/jest-dom';
 import router from '../../router/index.ts';
 import userEvent from '@testing-library/user-event';
-import { server, reqBody } from '../../mocks/mockServer';
 
 const setup = () => {
   render(RegisterPage, {

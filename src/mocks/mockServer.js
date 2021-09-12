@@ -42,6 +42,10 @@ export const server = setupServer(
   rest.put(`${baseUrl}password_update`, (req, res, ctx) => {
     reqBody = req.body;
     return res(ctx.status(200), ctx.json({ user: userData }));
+  }),
+  rest.get(`${baseUrl}sections`, (req, res, ctx) => {
+    reqBody = req.body;
+    return res(ctx.status(200), ctx.json({ sections: sectionsData }));
   })
 );
 const userData = {
@@ -49,6 +53,33 @@ const userData = {
   last_name: 'Smith',
   email: 'js@test.io',
 };
+
+export const sectionsData = [
+  {
+    id: 1,
+    title: 'enim',
+    created_at: '2021-09-11T13:42:10.000000Z',
+    updated_at: '2021-09-11T13:42:10.000000Z',
+  },
+  {
+    id: 2,
+    title: 'error',
+    created_at: '2021-09-11T13:42:10.000000Z',
+    updated_at: '2021-09-11T13:42:10.000000Z',
+  },
+  {
+    id: 3,
+    title: 'sit',
+    created_at: '2021-09-11T13:42:10.000000Z',
+    updated_at: '2021-09-11T13:42:10.000000Z',
+  },
+  {
+    id: 4,
+    title: 'amet',
+    created_at: '2021-09-11T13:42:10.000000Z',
+    updated_at: '2021-09-11T13:42:10.000000Z',
+  },
+];
 
 const deepCopy = (obj) => {
   return [obj].map((ob) => ({ ...ob }))[0];

@@ -6,6 +6,7 @@ import ProfileShowPage from '../pages/ProfileShowPage/ProfileShowPage.vue';
 import PasswordEditPage from '../pages/PasswordEditPage/PasswordEditPage.vue';
 import ProfileEditPage from '../pages/ProfileEditPage/ProfileEditPage.vue';
 import SectionsPage from '../pages/SectionsPage/SectionsPage.vue';
+import SectionSubmitPage from '../pages/SectionSubmitPage/SectionSubmitPage.vue';
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:8000/api/';
 axios.defaults.withCredentials = true;
@@ -44,6 +45,11 @@ const routes: Array<RouteRecordRaw> = [
         path: '/password_edit',
         name: 'PasswordEditPage',
         component: PasswordEditPage,
+      },
+      {
+        path: '/section_submit',
+        name: 'SectionSubmitPage',
+        component: SectionSubmitPage,
       },
     ],
   },

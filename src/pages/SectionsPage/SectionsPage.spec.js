@@ -1,18 +1,12 @@
 import SectionsPage from './SectionsPage.vue';
-import {
-  render,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/vue';
+import { render, screen } from '@testing-library/vue';
 import '@testing-library/jest-dom';
 import router from '../../router/index.ts';
-import store from '../../store/index.ts';
-import userEvent from '@testing-library/user-event';
 import { server, sectionsData } from '../../mocks/mockServer';
 
 const setup = () => {
   render(SectionsPage, {
-    global: { plugins: [router, store] },
+    global: { plugins: [router] },
   });
 };
 

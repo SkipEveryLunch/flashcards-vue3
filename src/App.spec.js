@@ -37,6 +37,16 @@ it('shows LoginPage after clicking login link', async () => {
   expect(loginPage).toBeInTheDocument();
 });
 
+it('shows modal after submit a section', async () => {
+  await setup('/section_submit');
+  const titleInput = screen.getByTestId('title-input');
+  await userEvent.type(titleInput, 'test');
+  const submitButton = await screen.findByTestId('submit-button');
+  await userEvent.click(submitButton);
+  const modal = await screen.findByTestId('modal');
+  expect(modal).toBeInTheDocument();
+});
+
 describe('Authentication', () => {
   afterEach(async () => {
     try {
@@ -271,6 +281,29 @@ describe('Authentication', () => {
     await userEvent.type(passwordConfirmInput, '1234');
     const registerButton = screen.queryByTestId('register-button');
     userEvent.click(registerButton);
+    const modal = await screen.findByTestId('modal');
+    expect(modal).toBeInTheDocument();
+  });
+  it('shows modal after submit a section', async () => {
+    await setup('/section_submit');
+    const titleInput = screen.getByTestId('title-input');
+    await userEvent.type(titleInput, 'test');
+    const submitButton = await screen.findByTestId('submit-button');
+    await userEvent.click(submitButton);
+    const modal = await screen.findByTestId('modal');
+    expect(modal).toBeInTheDocument();
+  });
+  it('shows modal after submit a duplicated section', async () => {
+    server.use(
+      rest.post('http://localhost:8000/api/register', (req, res, ctx) => {
+        return res.once(ctx.status(409));
+      })
+    );
+    await setup('/section_submit');
+    const titleInput = screen.getByTestId('title-input');
+    await userEvent.type(titleInput, 'test');
+    const submitButton = await screen.findByTestId('submit-button');
+    await userEvent.click(submitButton);
     const modal = await screen.findByTestId('modal');
     expect(modal).toBeInTheDocument();
   });

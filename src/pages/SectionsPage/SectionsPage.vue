@@ -8,13 +8,17 @@
         </button>
       </div>
       <div>
-        <button class="btn btn-yellow">新セクションを作る</button>
+        <router-link to="section_submit"
+          ><button class="btn btn-yellow">
+            新セクションを作る
+          </button></router-link
+        >
       </div>
     </div>
-    <ul v-if="sections.length > 0">
+    <ul v-if="fSections.length > 0">
       <li
         data-testid="section-card"
-        v-for="section in sections"
+        v-for="section in fSections"
         :key="section.id"
       >
         <div
@@ -40,19 +44,30 @@ interface Section {
   id: string;
   title: string;
 }
-import { ref, onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import axios from 'axios';
 export default {
   name: 'SectionsPage',
   setup() {
     const sections = ref<Section[]>([]);
+    const fSections = ref<Section[]>([]);
     const search = ref('');
+    watch(search, () => {
+      if (sections.value.length > 0 && search.value.length > 0) {
+        fSections.value = sections.value.filter((el) => {
+          return ~el.title.indexOf(search.value);
+        });
+      } else {
+        fSections.value = sections.value;
+      }
+    });
     onMounted(async () => {
       const { data } = await axios.get('sections');
       sections.value = data.sections;
+      fSections.value = data.sections;
     });
     return {
-      sections,
+      fSections,
       search,
     };
   },

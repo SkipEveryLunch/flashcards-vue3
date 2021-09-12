@@ -8,7 +8,10 @@
         </button>
       </div>
       <div>
-        <router-link to="section_submit"
+        <router-link
+          data-testid="section-submit-link"
+          v-if="user"
+          to="section_submit"
           ><button class="btn btn-yellow">
             新セクションを作る
           </button></router-link
@@ -44,14 +47,17 @@ interface Section {
   id: string;
   title: string;
 }
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted, computed } from 'vue';
+import { useStore } from 'vuex';
 import axios from 'axios';
 export default {
   name: 'SectionsPage',
   setup() {
     const sections = ref<Section[]>([]);
     const fSections = ref<Section[]>([]);
+    const store = useStore();
     const search = ref('');
+    const user = computed(() => store.state.user);
     watch(search, () => {
       if (sections.value.length > 0 && search.value.length > 0) {
         fSections.value = sections.value.filter((el) => {
@@ -69,6 +75,7 @@ export default {
     return {
       fSections,
       search,
+      user,
     };
   },
 };

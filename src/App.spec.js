@@ -9,7 +9,7 @@ import '@testing-library/jest-dom';
 import router from './router/index.ts';
 import store from './store/index.ts';
 import userEvent from '@testing-library/user-event';
-import { server, reqBody } from './mocks/mockServer';
+import { server, reqBody, userData } from './mocks/mockServer';
 import VueClickAway from 'vue3-click-away';
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
@@ -37,16 +37,6 @@ it('shows LoginPage after clicking login link', async () => {
   expect(loginPage).toBeInTheDocument();
 });
 
-it('shows modal after submit a section', async () => {
-  await setup('/section_submit');
-  const titleInput = screen.getByTestId('title-input');
-  await userEvent.type(titleInput, 'test');
-  const submitButton = await screen.findByTestId('submit-button');
-  await userEvent.click(submitButton);
-  const modal = await screen.findByTestId('modal');
-  expect(modal).toBeInTheDocument();
-});
-
 describe('Authentication', () => {
   afterEach(async () => {
     try {
@@ -57,7 +47,10 @@ describe('Authentication', () => {
       await waitForElementToBeRemoved(logoutButton);
     } catch (e) {}
   });
-  beforeEach(() => store.dispatch('discardUser'));
+  beforeEach(async () => {
+    await store.dispatch('discardUser');
+    await store.dispatch('discardModal');
+  });
 
   it('does not show ProfileMenu before logging in', async () => {
     await setup('/');
@@ -284,7 +277,15 @@ describe('Authentication', () => {
     const modal = await screen.findByTestId('modal');
     expect(modal).toBeInTheDocument();
   });
+  it('shows SectionPage after loging in', async () => {
+    await store.dispatch('setUser', userData);
+    await setup('/section_submit');
+    const sectionSubmitPage = await screen.findByTestId('section-submit-page');
+    expect(sectionSubmitPage).toBeInTheDocument();
+  });
+
   it('shows modal after submit a section', async () => {
+    await store.dispatch('setUser', userData);
     await setup('/section_submit');
     const titleInput = screen.getByTestId('title-input');
     await userEvent.type(titleInput, 'test');
@@ -292,13 +293,17 @@ describe('Authentication', () => {
     await userEvent.click(submitButton);
     const modal = await screen.findByTestId('modal');
     expect(modal).toBeInTheDocument();
+    await store.dispatch('discardUser');
   });
+
   it('shows modal after submit a duplicated section', async () => {
+    await store.dispatch('discardUser');
     server.use(
       rest.post('http://localhost:8000/api/register', (req, res, ctx) => {
         return res.once(ctx.status(409));
       })
     );
+    await store.dispatch('setUser', userData);
     await setup('/section_submit');
     const titleInput = screen.getByTestId('title-input');
     await userEvent.type(titleInput, 'test');

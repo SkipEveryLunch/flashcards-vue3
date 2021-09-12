@@ -52,7 +52,7 @@ export const server = setupServer(
     return res(ctx.status(201), ctx.json({ section: sectionsData[0] }));
   })
 );
-const userData = {
+export const userData = {
   first_name: 'John',
   last_name: 'Smith',
   email: 'js@test.io',

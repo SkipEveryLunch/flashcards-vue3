@@ -1,6 +1,6 @@
 <template>
-  <div data-testid="section-submit-page" class="flex justify-center">
-    <div class="w-2/3 p-5 m-5">
+  <div class="flex justify-center">
+    <div data-testid="section-submit-page" v-if="user" class="w-2/3 p-5 m-5">
       <Input
         id="title"
         name="タイトル"
@@ -9,24 +9,33 @@
         :error="errors.title"
       />
       <div class="flex justify-center">
-        <button
-          data-testid="submit-button"
-          class="btn btn-yellow"
-          @click="onSubmit"
-          v-if="!isCalling"
-          :disabled="disabled"
-        >
-          投稿
-        </button>
-        <button data-testid="submiting-message" class="btn btn-yellow" v-else>
-          投稿中…
-        </button>
+        <div class="flex">
+          <button
+            data-testid="submit-button"
+            class="mr-2 btn btn-yellow"
+            @click="onSubmit"
+            v-if="!isCalling"
+            :disabled="disabled"
+          >
+            投稿
+          </button>
+          <button
+            data-testid="submiting-message"
+            class="mr-2 btn btn-yellow"
+            v-else
+          >
+            投稿中…
+          </button>
+          <router-link to="/">
+            <button class="btn btn-blue">戻る</button>
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { ref, reactive, watch, computed } from 'vue';
+import { ref, reactive, watch, computed, onMounted } from 'vue';
 import Input from '../../components/Input.vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
@@ -72,6 +81,14 @@ export default {
     const disabled = computed(() => {
       return !(errors.title.length === 0);
     });
+    const user = computed(() => {
+      return store.state.user;
+    });
+    onMounted(() => {
+      if (!user.value) {
+        router.push('/');
+      }
+    });
     const onSubmit = async () => {
       isCalling.value = true;
       try {
@@ -111,6 +128,7 @@ export default {
       disabled,
       errors,
       isCalling,
+      user,
     };
   },
 };

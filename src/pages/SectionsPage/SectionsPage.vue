@@ -1,7 +1,7 @@
 <template>
   <div data-testid="section-page" class="h-full">
     <div class="flex justify-around w-full p-5">
-      <div class="flex">
+      <div class="flex w-2/5">
         <input v-model="search" class="formInput" type="text" />
         <button class="btn btn-blue">
           <span class="whitespace-nowrap">検索する</span>
@@ -28,7 +28,7 @@
             {{ section.title }}
           </div>
           <div class="flex">
-            <router-link :to="`/section/${section.id}`">
+            <router-link to="/">
               <div class="mr-2 btn btn-yellow">学習する</div>
             </router-link>
             <div class="btn btn-black">編集する</div>

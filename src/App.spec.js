@@ -297,7 +297,6 @@ describe('Authentication', () => {
   });
 
   it('shows modal after submit a duplicated section', async () => {
-    await store.dispatch('discardUser');
     server.use(
       rest.post('http://localhost:8000/api/register', (req, res, ctx) => {
         return res.once(ctx.status(409));

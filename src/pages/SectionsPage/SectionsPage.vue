@@ -31,7 +31,7 @@
             {{ section.title }}
           </div>
           <div class="flex">
-            <router-link to="/">
+            <router-link :to="`/section/${section.id}/study`">
               <div class="mr-2 btn btn-yellow">学習する</div>
             </router-link>
             <div class="btn btn-black">編集する</div>

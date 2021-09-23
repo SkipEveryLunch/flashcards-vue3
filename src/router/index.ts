@@ -8,6 +8,8 @@ import ProfileEditPage from '../pages/ProfileEditPage/ProfileEditPage.vue';
 import SectionsPage from '../pages/SectionsPage/SectionsPage.vue';
 import SectionSubmitPage from '../pages/SectionSubmitPage/SectionSubmitPage.vue';
 import SectionEditPage from '../pages/SectionEditPage/SectionEditPage.vue';
+import QuestionSubmitPage from '../pages/QuestionSubmitPage/QuestionSubmitPage.vue';
+import QuestionEditPage from '../pages/QuestionEditPage/QuestionEditPage.vue';
 import StudyPage from '../pages/StudyPage/StudyPage.vue';
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:8000/api/';
@@ -62,6 +64,16 @@ const routes: Array<RouteRecordRaw> = [
         path: '/section/:sectionId/edit',
         name: 'SectionEdit',
         component: SectionEditPage,
+      },
+      {
+        path: '/section/:sectionId/submit',
+        name: 'QuestionSubmitPage',
+        component: QuestionSubmitPage,
+      },
+      {
+        path: '/question/:questionId/edit',
+        name: 'QuestionEditPage',
+        component: QuestionEditPage,
       },
     ],
   },

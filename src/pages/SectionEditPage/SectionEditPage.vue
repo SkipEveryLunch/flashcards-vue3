@@ -10,7 +10,10 @@
       <p>Front: {{ question.front.slice(0, 100) + '...' }}</p>
       <p>Back: {{ question.back.slice(0, 100) + '...' }}</p>
       <div class="flex justify-center mt-3">
-        <div class="mr-2 btn btn-yellow">編集する</div>
+        <router-link :to="`/question/${question.id}/edit`">
+          <button class="mr-2 btn btn-yellow">編集する</button>
+        </router-link>
+
         <div class="btn btn-white">削除する</div>
       </div>
     </div>
@@ -18,7 +21,9 @@
       <router-link to="/">
         <button class="mr-2 btn btn-yellow">戻る</button>
       </router-link>
-      <button class="bg-white btn btn-blue">問題を作る</button>
+      <router-link :to="`/section/${sectionId}/submit`">
+        <button class="bg-white btn btn-blue">問題を作る</button>
+      </router-link>
     </div>
   </div>
   <div data-testid="not-found-message">section not found</div>
@@ -68,6 +73,7 @@ export default {
     return {
       section,
       user,
+      sectionId,
     };
   },
 };

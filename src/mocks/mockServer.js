@@ -57,6 +57,18 @@ export const server = setupServer(
   rest.get(`${baseUrl}sections/*/new_questions`, (req, res, ctx) => {
     reqBody = req.body;
     return res(ctx.status(200), ctx.json({ questions: questionsData }));
+  }),
+  rest.post(`${baseUrl}questions`, (req, res, ctx) => {
+    reqBody = req.body;
+    return res(ctx.status(201));
+  }),
+  rest.get(`${baseUrl}questions/*`, (req, res, ctx) => {
+    reqBody = req.body;
+    return res(ctx.status(200), ctx.json({ question: questionsData[0] }));
+  }),
+  rest.put(`${baseUrl}questions/*`, (req, res, ctx) => {
+    reqBody = req.body;
+    return res(ctx.status(202), ctx.json({ question: questionsData[0] }));
   })
 );
 export const userData = {

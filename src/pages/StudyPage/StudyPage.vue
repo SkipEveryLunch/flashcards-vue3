@@ -57,23 +57,10 @@
   </div>
 </template>
 <script lang="ts">
-interface Question {
-  id: string;
-  front: string;
-  back: string;
-  section_id: string;
-  created_at: string;
-  updated_at: string;
-}
 interface FormState {
   question_ids: string[];
 }
-interface Section {
-  id: string;
-  title: string;
-  created_at: string;
-  updated_at: string;
-}
+import { Section, Question } from '../../types';
 import axios from 'axios';
 import { ref, reactive, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -179,10 +166,6 @@ export default {
           }
         } while (!remains.value.includes(progress.value));
       }
-      console.log('after');
-      console.log(remains.value);
-      console.log(questions.value.length);
-      console.log(progress.value);
     };
     const onSubmit = async () => {
       const { status, data } = await axios.post(

@@ -34,7 +34,9 @@
             <router-link :to="`/section/${section.id}/study`">
               <div class="mr-2 btn btn-yellow">学習する</div>
             </router-link>
-            <div class="btn btn-black">編集する</div>
+            <router-link :to="`/section/${section.id}/edit`">
+              <div class="btn btn-black">編集する</div>
+            </router-link>
           </div>
         </div>
       </li>
@@ -43,13 +45,10 @@
   </div>
 </template>
 <script lang="ts">
-interface Section {
-  id: string;
-  title: string;
-}
 import { ref, watch, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
+import { Section } from '../../types';
 export default {
   name: 'SectionsPage',
   setup() {

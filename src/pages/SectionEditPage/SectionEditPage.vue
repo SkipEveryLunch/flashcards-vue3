@@ -35,7 +35,7 @@
       </router-link>
     </div>
   </div>
-  <div data-testid="not-found-message">section not found</div>
+  <div v-else data-testid="not-found-message">section not found</div>
 </template>
 <script lang="ts">
 import axios from 'axios';

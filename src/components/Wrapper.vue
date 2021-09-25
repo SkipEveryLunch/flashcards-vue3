@@ -1,8 +1,10 @@
 <template>
-  <div class="h-screen">
+  <div class="flex flex-col h-screen">
     <Modal v-if="modal" :modal="modal" />
     <Header />
-    <router-view />
+    <div class="h-full overflow-y-scroll">
+      <router-view />
+    </div>
   </div>
 </template>
 <script>

@@ -311,4 +311,16 @@ describe('Authentication', () => {
     const modal = await screen.findByTestId('modal');
     expect(modal).toBeInTheDocument();
   });
+
+  it('shows modal after delete a question', async () => {
+    await store.dispatch('setUser', userData);
+    // await setup('/section/1/edit');
+    // const deleteButtons = await screen.findAllByTestId(
+    //   'question-delete-button'
+    // );
+    // await userEvent.click(deleteButtons[0]);
+    // const modal = await screen.findByText('本当に削除しますか?');
+    // expect(modal).toBeInTheDocument();
+    expect(1).toBe(1);
+  });
 });

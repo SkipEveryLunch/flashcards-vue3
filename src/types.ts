@@ -1,5 +1,5 @@
 export interface Question {
-  id: string;
+  id: number;
   front: string;
   back: string;
   section_id: string;
@@ -7,7 +7,7 @@ export interface Question {
   updated_at: string;
 }
 export interface Section {
-  id: string;
+  id: number;
   title: string;
   created_at: string;
   updated_at: string;

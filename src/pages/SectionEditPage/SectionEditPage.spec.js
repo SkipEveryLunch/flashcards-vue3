@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import router from '../../router/index.ts';
 import userEvent from '@testing-library/user-event';
 import store from '../../store/index.ts';
-import { server, userData, sectionData } from '../../mocks/mockServer';
+import { server, reqBody, userData, sectionData } from '../../mocks/mockServer';
 import { rest } from 'msw';
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));

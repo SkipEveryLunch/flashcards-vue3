@@ -58,7 +58,7 @@
 </template>
 <script lang="ts">
 interface FormState {
-  question_ids: string[];
+  question_ids: number[];
 }
 import { Section, Question } from '../../types';
 import axios from 'axios';

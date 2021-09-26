@@ -1,6 +1,8 @@
 <template>
   <div class="flex flex-col h-screen">
-    <Modal v-if="modal" :modal="modal" />
+    <transition name="modal" appear>
+      <Modal v-if="modal" :modal="modal" />
+    </transition>
     <Header />
     <div class="h-full overflow-y-scroll">
       <router-view />
@@ -47,3 +49,17 @@ export default {
   },
 };
 </script>
+<style>
+.modal-enter-from {
+  opacity: 0;
+}
+.modal-enter-active {
+  transition: all 0.25s ease;
+}
+.modal-leave-to {
+  opacity: 0;
+}
+.modal-leave-active {
+  transition: all 0.25s ease;
+}
+</style>

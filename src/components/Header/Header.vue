@@ -38,21 +38,24 @@
         <span class="mr-2 cursor-pointer">
           {{ name }}
         </span>
-        <span class="mt-1 ml-1 text-sm" v-if="!showDropDown"> ▼ </span>
-        <span class="mt-1 ml-1 text-sm" v-else> ▲ </span>
+        <span class="mt-1 ml-1 text-sm arrow" :class="{ up: showDropDown }">
+          <Arrow />
+        </span>
       </div>
-      <ProfileDropDown v-if="showDropDown" :toggleDropDown="toggleDropDown" />
+      <transition name="dropdown" appear>
+        <ProfileDropDown v-if="showDropDown" :toggleDropDown="toggleDropDown" />
+      </transition>
     </div>
-    <!-- </div> -->
   </nav>
 </template>
 <script>
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import ProfileDropDown from '../ProfileDropDown.vue';
+import Arrow from '../../assets/Arrow.vue';
 export default {
   name: 'Header',
-  components: { ProfileDropDown },
+  components: { ProfileDropDown, Arrow },
   setup() {
     const store = useStore();
     const showDropDown = ref(false);
@@ -73,3 +76,37 @@ export default {
   },
 };
 </script>
+<style>
+.dropdown-enter-from {
+  opacity: 0;
+  transform-origin: top;
+  transform: scaleY(0);
+}
+.dropdown-enter-to {
+  opacity: 1;
+  transform-origin: top;
+  transform: scaleY(1);
+}
+.dropdown-enter-active {
+  transition: all 0.25s ease-out;
+}
+.dropdown-leave-from {
+  opacity: 1;
+  transform-origin: top;
+  transform: scaleY(1);
+}
+.dropdown-leave-to {
+  opacity: 0;
+  transform-origin: top;
+  transform: scaleY(0);
+}
+.dropdown-leave-active {
+  transition: all 0.25s ease-out;
+}
+.arrow {
+  transition: all 0.25s ease-out;
+}
+.arrow.up {
+  transform: rotate(-180deg);
+}
+</style>

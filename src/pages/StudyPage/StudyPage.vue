@@ -15,10 +15,16 @@
       data-testid="question-window"
       class="py-4 m-4 text-white bg-gray-900 rounded-lg px-7"
     >
-      <p>{{ progress + 1 }}</p>
-      <p>{{ questions[progress].front }}</p>
-      <p>{{ questions[progress].back }}</p>
-      <div class="flex justify-center my-5">
+      <p class="mb-3 text-center">{{ progress + 1 }}</p>
+      <FlipCard
+        :front="questions[progress].front"
+        :back="questions[progress].back"
+        @flip="onFlip"
+      />
+      <div v-if="phase === 'question'" class="flex justify-center my-5">
+        カードをクリックすると答えが見れます
+      </div>
+      <div v-else-if="phase === 'answer'" class="flex justify-center my-5">
         <button
           class="mr-2 btn btn-black"
           @click="() => next(true)"
@@ -65,6 +71,7 @@ import axios from 'axios';
 import { ref, reactive, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import FlipCard from '../../components/FlipCard.vue';
 const range = (start: number, end: number) => {
   const list = [];
   for (let i = start; i <= end; i++) {
@@ -74,6 +81,9 @@ const range = (start: number, end: number) => {
 };
 export default {
   name: 'Study',
+  components: {
+    FlipCard,
+  },
   setup() {
     const {
       params: { sectionId },
@@ -88,6 +98,7 @@ export default {
     const progress = ref(0);
     const store = useStore();
     const router = useRouter();
+    const phase = ref('question');
     onMounted(async () => {
       if (!user.value) {
         router.push('/');
@@ -146,6 +157,13 @@ export default {
         });
       }
     };
+    const onFlip = () => {
+      if (phase.value === 'question') {
+        phase.value = 'answer';
+      } else {
+        phase.value = 'question';
+      }
+    };
     const next = (isCorrect: boolean) => {
       if (isCorrect) {
         const newRemains = remains.value.filter((el) => {
@@ -195,6 +213,8 @@ export default {
       fetchReview,
       onSubmit,
       user,
+      phase,
+      onFlip,
     };
   },
 };

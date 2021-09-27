@@ -18,11 +18,18 @@
         >
       </div>
     </div>
-    <ul v-if="fSections.length > 0">
+    <transition-group
+      v-if="fSections.length > 0"
+      tag="ul"
+      appear
+      @before-enter="beforeEnter"
+      @enter="enter"
+    >
       <li
         data-testid="section-card"
-        v-for="section in fSections"
+        v-for="(section, idx) in fSections"
         :key="section.id"
+        :data-idx="idx"
       >
         <div
           class="flex justify-between p-5 m-5 text-white bg-gray-900 rounded-lg"
@@ -40,11 +47,13 @@
           </div>
         </div>
       </li>
-    </ul>
+    </transition-group>
     <div v-else>No Sections Yet.</div>
   </div>
 </template>
 <script lang="ts">
+class ListElement extends HTMLElement {}
+import gsap from 'gsap';
 import { ref, watch, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
@@ -71,7 +80,23 @@ export default {
       sections.value = data.sections;
       fSections.value = data.sections;
     });
+    const beforeEnter = (el: HTMLElement) => {
+      el.style.transform = 'translateY(60px)';
+      el.style.opacity = '0';
+    };
+    const enter = (el: HTMLElement) => {
+      if (typeof el.dataset.idx === 'string') {
+        gsap.to(el, {
+          y: 0,
+          opacity: 1,
+          duration: 0.5,
+          delay: parseInt(el.dataset.idx) * 0.2,
+        });
+      }
+    };
     return {
+      beforeEnter,
+      enter,
       fSections,
       search,
       user,

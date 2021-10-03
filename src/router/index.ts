@@ -71,7 +71,7 @@ const routes: Array<RouteRecordRaw> = [
         component: QuestionSubmitPage,
       },
       {
-        path: '/question/:questionId/edit',
+        path: '/section/:sectionId/question/:questionId/edit',
         name: 'QuestionEditPage',
         component: QuestionEditPage,
       },

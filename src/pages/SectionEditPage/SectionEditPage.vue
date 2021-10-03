@@ -18,7 +18,9 @@
         <p>Front: {{ question.front.slice(0, 100) + '...' }}</p>
         <p>Back: {{ question.back.slice(0, 100) + '...' }}</p>
         <div class="flex justify-center mt-3">
-          <router-link :to="`/question/${question.id}/edit`">
+          <router-link
+            :to="`/section/${sectionId}/question/${question.id}/edit`"
+          >
             <button class="mr-2 btn btn-yellow">編集する</button>
           </router-link>
 

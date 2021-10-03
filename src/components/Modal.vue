@@ -4,19 +4,19 @@
     class="fixed z-10 flex items-center justify-center w-full h-full transition-opacity bg-black  bg-opacity-40"
   >
     <transition name="modalbox" appear>
-      <div class="flex flex-col p-5 bg-white border-gray-600 rounded-md">
+      <div class="flex flex-col px-5 bg-white border-gray-600 rounded-md py-7">
         <div class="flex justify-center mb-3">{{ modal.message }}</div>
         <div class="flex justify-center" v-if="modal.cb">
           <button
             v-if="modal.cb"
-            class="btn btn-yellow"
+            class="mr-1 btn btn-primary"
             data-testid="modal-button"
             @click="modal.cb.cb"
           >
             {{ modal.cb.name }}
           </button>
           <button
-            class="btn btn-blue"
+            class="btn btn-sub"
             data-testid="modal-button"
             @click="onClose"
           >
@@ -25,7 +25,7 @@
         </div>
         <div v-else class="flex justify-center">
           <button
-            class="btn btn-blue"
+            class="btn btn-primary"
             data-testid="modal-button"
             @click="onClose"
           >
@@ -60,7 +60,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .modalbox-enter-from {
   transform: translateY(-30px);
 }

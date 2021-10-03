@@ -4,19 +4,13 @@
 
 @layer base {
   .btn {
-    @apply px-4 py-2 border rounded cursor-pointer w-max;
+    @apply px-4 py-2 rounded;
   }
-  .btn-blue {
-    @apply text-blue-700 bg-transparent border-blue-500 hover:bg-blue-500 hover:text-white hover:border-transparent;
+  .btn-primary {
+    @apply font-bold text-white bg-blue-500 hover:bg-blue-700;
   }
-  .btn-black {
-    @apply text-white bg-transparent border-white hover:bg-gray-500;
-  }
-  .btn-yellow {
-    @apply text-yellow-700 bg-yellow-300 hover:bg-yellow-100;
-  }
-  .btn-red {
-    @apply text-red-700 bg-transparent border-red-500 hover:bg-red-500 hover:text-white hover:border-transparent;
+  .btn-sub {
+    @apply font-semibold text-blue-700 bg-transparent border border-blue-500 hover:bg-gray-500 hover:text-white hover:border-transparent;
   }
   .formWrapper {
     @apply flex items-center m-3;

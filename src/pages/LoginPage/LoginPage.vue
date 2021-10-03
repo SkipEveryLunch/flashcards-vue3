@@ -18,14 +18,14 @@
       <div class="flex justify-center">
         <button
           data-testid="login-button"
-          class="btn btn-yellow"
+          class="btn btn-primary"
           @click="onLogin"
           v-if="!isCalling"
           :disabled="disabled"
         >
           投稿
         </button>
-        <button data-testid="logingin-message" class="btn btn-yellow" v-else>
+        <button data-testid="logingin-message" class="btn btn-primary" v-else>
           投稿中…
         </button>
       </div>

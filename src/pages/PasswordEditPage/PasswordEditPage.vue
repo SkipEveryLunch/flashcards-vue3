@@ -19,7 +19,7 @@
         <button
           v-if="!isCalling"
           data-testid="update-button"
-          class="btn btn-yellow"
+          class="btn btn-primary"
           @click="onUpdate"
           :disabled="disabled"
         >
@@ -28,7 +28,7 @@
         <button
           v-else
           data-testid="updating-message"
-          class="btn btn-yellow"
+          class="btn btn-primary"
           disabled="true"
         >
           投稿中...

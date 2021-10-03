@@ -26,13 +26,15 @@
       </div>
       <div v-else-if="phase === 'answer'" class="flex justify-center my-5">
         <button
-          class="mr-2 btn btn-black"
+          class="mr-2 btn btn-primary"
           @click="() => next(true)"
           data-testid="correct-button"
         >
           正解！
         </button>
-        <button class="btn btn-red" @click="() => next(false)">もう一度</button>
+        <button class="btn btn-sub-white" @click="() => next(false)">
+          もう一度
+        </button>
       </div>
     </div>
     <div
@@ -44,14 +46,14 @@
       </div>
       <div data-testid="study-start-message" class="flex justify-center">
         <button
-          class="mr-2 btn btn-black"
+          class="mr-2 btn btn-sub-white"
           data-testid="study-button"
           @click="fetchNew"
         >
           <span class="whitespace-nowrap"> 新しい問題に挑む </span>
         </button>
         <button
-          class="btn btn-yellow"
+          class="btn btn-primary"
           data-testid="review-button"
           @click="fetchReview"
         >

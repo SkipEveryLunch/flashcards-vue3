@@ -12,7 +12,7 @@
         <div class="flex">
           <button
             data-testid="submit-button"
-            class="mr-2 btn btn-yellow"
+            class="mr-2 btn btn-primary"
             @click="onSubmit"
             v-if="!isCalling"
             :disabled="disabled"
@@ -21,7 +21,7 @@
           </button>
           <button
             data-testid="submiting-message"
-            class="mr-2 btn btn-yellow"
+            class="mr-2 btn btn-primary"
             v-else
           >
             投稿中…

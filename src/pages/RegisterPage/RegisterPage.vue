@@ -40,7 +40,7 @@
         <button
           v-if="!isCalling"
           data-testid="register-button"
-          class="btn btn-yellow"
+          class="btn btn-primary"
           @click="onRegister"
           :disabled="disabled"
         >
@@ -49,7 +49,7 @@
         <button
           v-else
           data-testid="registering-message"
-          class="btn btn-yellow"
+          class="btn btn-primary"
           disabled="true"
         >
           投稿中...

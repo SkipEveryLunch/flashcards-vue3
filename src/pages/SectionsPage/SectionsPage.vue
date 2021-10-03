@@ -3,7 +3,7 @@
     <div class="flex justify-around w-full p-5">
       <div class="flex w-2/5">
         <input v-model="search" class="formInput" type="text" />
-        <button class="btn btn-blue">
+        <button class="btn btn-sub">
           <span class="whitespace-nowrap">検索する</span>
         </button>
       </div>
@@ -39,10 +39,10 @@
           </div>
           <div class="flex">
             <router-link :to="`/section/${section.id}/study`">
-              <div class="mr-2 btn btn-yellow">学習する</div>
+              <div class="mr-2 btn btn-primary">学習する</div>
             </router-link>
             <router-link :to="`/section/${section.id}/edit`">
-              <div class="btn btn-black">編集する</div>
+              <div class="btn btn-sub-white">編集する</div>
             </router-link>
           </div>
         </div>

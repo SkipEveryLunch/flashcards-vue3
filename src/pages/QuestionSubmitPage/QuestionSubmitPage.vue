@@ -23,7 +23,7 @@
         <button
           v-if="!isCalling"
           data-testid="submit-button"
-          class="btn btn-yellow"
+          class="btn btn-primary"
           @click="onSubmit"
           :disabled="disabled"
         >
@@ -32,7 +32,7 @@
         <button
           v-else
           data-testid="submitting-message"
-          class="btn btn-yellow"
+          class="btn btn-primary"
           disabled="true"
         >
           投稿中...

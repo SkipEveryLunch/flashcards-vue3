@@ -21,7 +21,7 @@
           <router-link
             :to="`/section/${sectionId}/question/${question.id}/edit`"
           >
-            <button class="mr-2 btn btn-yellow">編集する</button>
+            <button class="mr-2 btn btn-primary">編集する</button>
           </router-link>
 
           <button
@@ -37,7 +37,7 @@
 
     <div class="fixed flex p-5 m-2 bg-black rounded bottom-1 right-1">
       <router-link to="/">
-        <button class="mr-2 btn btn-yellow">戻る</button>
+        <button class="mr-2 btn btn-sub">戻る</button>
       </router-link>
       <router-link :to="`/section/${sectionId}/submit`">
         <button class="bg-white btn btn-blue">問題を作る</button>

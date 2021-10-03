@@ -1,12 +1,19 @@
 <template>
   <div v-if="user && section">
     <h1>{{ section.title }}</h1>
-    <div class="h-full overflow-scroll">
-      <div
-        class="p-5 m-5 text-white bg-gray-600 rounded"
-        v-for="question in section.questions"
+    <transition-group
+      appear
+      @before-enter="beforeEnter"
+      @enter="enter"
+      tag="ul"
+      class="h-full overflow-scroll"
+    >
+      <li
+        class="block p-5 m-5 text-white bg-gray-600 rounded"
+        v-for="(question, idx) in section.questions"
         :key="question.id"
         data-testid="question-card"
+        :data-idx="idx"
       >
         <p>Front: {{ question.front.slice(0, 100) + '...' }}</p>
         <p>Back: {{ question.back.slice(0, 100) + '...' }}</p>
@@ -15,16 +22,16 @@
             <button class="mr-2 btn btn-yellow">編集する</button>
           </router-link>
 
-          <div
+          <button
             data-testid="question-delete-button"
             @click="() => onDelete(question.id)"
             class="btn btn-white"
           >
             削除する
-          </div>
+          </button>
         </div>
-      </div>
-    </div>
+      </li>
+    </transition-group>
 
     <div class="fixed flex p-5 m-2 bg-black rounded bottom-1 right-1">
       <router-link to="/">
@@ -39,6 +46,7 @@
 </template>
 <script lang="ts">
 import axios from 'axios';
+import gsap from 'gsap';
 import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -116,11 +124,27 @@ export default {
         },
       });
     };
+    const beforeEnter = (el: HTMLElement) => {
+      el.style.transform = 'translateX(60px)';
+      el.style.opacity = '0';
+    };
+    const enter = (el: HTMLElement) => {
+      if (typeof el.dataset.idx === 'string') {
+        gsap.to(el, {
+          x: 0,
+          opacity: 1,
+          duration: 0.5,
+          delay: parseInt(el.dataset.idx) * 0.2,
+        });
+      }
+    };
     return {
       section,
       user,
       sectionId,
       onDelete,
+      beforeEnter,
+      enter,
     };
   },
 };

@@ -42,7 +42,9 @@
       class="flex flex-col p-5 mx-auto bg-gray-900 rounded-lg"
     >
       <div class="mb-5 text-center text-white">
-        {{ section.title }}
+        <h1 class="mb-2 text-2xl">{{ section.title }}</h1>
+        <p>問題数：{{ section.questions.length }}</p>
+        <p>達成率：{{ section.complete_rate * 100 }}%</p>
       </div>
       <div data-testid="study-start-message" class="flex justify-center">
         <button
@@ -50,7 +52,7 @@
           data-testid="study-button"
           @click="fetchNew"
         >
-          <span class="whitespace-nowrap"> 新しい問題に挑む </span>
+          <span class="whitespace-nowrap"> 新問に挑む </span>
         </button>
         <button
           class="btn btn-primary"

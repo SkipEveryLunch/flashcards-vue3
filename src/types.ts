@@ -11,5 +11,6 @@ export interface Section {
   title: string;
   created_at: string;
   updated_at: string;
+  complete_rate: number;
   questions: Question[];
 }

@@ -31,9 +31,8 @@
     <div v-else class="relative flex items-center px-2 py-5">
       <div
         class="flex"
-        @click="toggleDropDown"
+        @click="() => toggleDropDown(!showDropDown)"
         data-testid="profile-menu"
-        @blur="toggleDropDown"
       >
         <span class="mr-2 cursor-pointer">
           {{ name }}
@@ -64,8 +63,8 @@ export default {
         ? `${store.state.user.first_name} ${store.state.user.last_name} `
         : '';
     });
-    const toggleDropDown = () => {
-      showDropDown.value = !showDropDown.value;
+    const toggleDropDown = (isOpen) => {
+      showDropDown.value = isOpen;
     };
 
     return {

@@ -2,7 +2,7 @@
   <div
     data-testid="profile-dropdown"
     class="absolute right-0 z-10 text-black bg-white border border-gray-400 rounded shadow-sm  top-full w-max"
-    v-click-away="toggleDropDown"
+    v-click-away="() => toggleDropDown(false)"
   >
     <ul>
       <li @click="goTo('/profile_show')" class="profileList">
@@ -31,7 +31,7 @@ export default {
     const router = useRouter();
     const store = useStore();
     const goTo = (path) => {
-      props.toggleDropDown();
+      props.toggleDropDown(false);
       router.push(path);
     };
     const onLogout = async () => {
@@ -43,8 +43,8 @@ export default {
             store.dispatch('discardModal');
             try {
               const { data } = await axios.delete('logout');
+              props.toggleDropDown(false);
               store.dispatch('discardUser', data);
-              props.toggleDropDown();
               router.push('/');
               store.dispatch('setModal', {
                 message: 'ログアウトしました',

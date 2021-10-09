@@ -7,7 +7,10 @@
     >
       本日の学習は終了しました。
       <div class="flex justify-center mt-5">
-        <button class="btn btn-blue" @click="onSubmit">同期する</button>
+        <button class="mr-2 btn btn-primary" @click="onSubmit">同期する</button>
+        <router-link to="/">
+          <button class="btn btn-sub-white">戻る</button>
+        </router-link>
       </div>
     </div>
     <div
@@ -15,10 +18,11 @@
       data-testid="question-window"
       class="py-4 m-4 text-white bg-gray-900 rounded-lg px-7"
     >
-      <p class="mb-3 text-center">{{ progress + 1 }}</p>
+      <p class="mb-3 text-center">{{ progress + 1 }}/{{ questions.length }}</p>
       <FlipCard
         :front="questions[progress].front"
         :back="questions[progress].back"
+        :phase="phase"
         @flip="onFlip"
       />
       <div v-if="phase === 'question'" class="flex justify-center my-5">
@@ -107,16 +111,19 @@ export default {
       if (!user.value) {
         router.push('/');
       } else {
-        try {
-          const { data } = await axios.get(`/sections/${sectionId}`);
-          section.value = data.section;
-        } catch (e) {
-          store.dispatch('setModal', {
-            message: '不明なエラーです',
-          });
-        }
+        await load();
       }
     });
+    const load = async () => {
+      try {
+        const { data } = await axios.get(`/sections/${sectionId}`);
+        section.value = data.section;
+      } catch (e) {
+        store.dispatch('setModal', {
+          message: '不明なエラーです',
+        });
+      }
+    };
     const fetchNew = async () => {
       try {
         const { status, data } = await axios.get(
@@ -188,6 +195,7 @@ export default {
           }
         } while (!remains.value.includes(progress.value));
       }
+      phase.value = 'question';
     };
     const onSubmit = async () => {
       const { status, data } = await axios.post(
@@ -202,6 +210,7 @@ export default {
         remains.value = [];
         progress.value = 0;
         form.question_ids = [];
+        await load();
       }
     };
     const user = computed(() => {

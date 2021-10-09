@@ -1,7 +1,7 @@
 <template>
   <div class="h-full">
     <transition name="flip" mode="out-in">
-      <div v-if="!fliped" class="card card-front" @click="flip">
+      <div v-if="phase === 'question'" class="card card-front" @click="flip">
         <div class="mb-5 text-lg text-center">質問</div>
         <div>{{ front }}</div>
       </div>
@@ -13,20 +13,16 @@
   </div>
 </template>
 <script>
-import { ref } from 'vue';
 export default {
   name: 'FlipCard',
-  props: ['front', 'back'],
+  props: ['front', 'back', 'phase'],
   emits: ['flip'],
   setup(_, { emit }) {
-    const fliped = ref(false);
     const flip = () => {
-      fliped.value = !fliped.value;
       emit('flip');
     };
     return {
       flip,
-      fliped,
     };
   },
 };

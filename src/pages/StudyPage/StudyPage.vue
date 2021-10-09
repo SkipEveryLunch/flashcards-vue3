@@ -48,7 +48,7 @@
       <div class="mb-5 text-center text-white">
         <h1 class="mb-2 text-2xl">{{ section.title }}</h1>
         <p>問題数：{{ section.questions.length }}</p>
-        <p>達成率：{{ section.complete_rate * 100 }}%</p>
+        <p>達成率：{{ Math.round(section.complete_rate * 100) }}%</p>
       </div>
       <div data-testid="study-start-message" class="flex justify-center">
         <button

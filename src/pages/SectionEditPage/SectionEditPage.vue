@@ -7,7 +7,9 @@
         </div>
         <div>
           <p class="text-lg">問題数：{{ section.questions.length }}</p>
-          <p class="text-lg">達成率：{{ section.complete_rate * 100 }}%</p>
+          <p class="text-lg">
+            達成率：{{ Math.round(section.complete_rate * 100) }}%
+          </p>
         </div>
       </div>
     </div>

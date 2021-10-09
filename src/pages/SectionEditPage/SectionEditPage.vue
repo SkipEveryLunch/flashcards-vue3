@@ -65,7 +65,9 @@
       </router-link>
     </div>
   </div>
-  <div v-else data-testid="not-found-message">section not found</div>
+  <div v-else class="h-full" data-testid="not-found-message">
+    <Spinner color="blue" />
+  </div>
 </template>
 <script lang="ts">
 import axios from 'axios';
@@ -74,8 +76,12 @@ import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { Section } from '../../types';
+import Spinner from '../../components/Spinner.vue';
 export default {
   name: 'SectionEditPage',
+  components: {
+    Spinner,
+  },
   setup() {
     const section = ref<Section | null>(null);
     const {

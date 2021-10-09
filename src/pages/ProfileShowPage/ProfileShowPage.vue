@@ -30,14 +30,20 @@
       </div>
     </div>
   </div>
-  <div v-else data-testid="profile-page">ログインしてください</div>
+  <div v-else data-testid="profile-page">
+    <Spinner color="blue" />
+  </div>
 </template>
 <script>
 import { onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import Spinner from '../../components/Spinner.vue';
 export default {
   name: 'ProfileShowPage',
+  components: {
+    Spinner,
+  },
   setup() {
     const store = useStore();
     const router = useRouter();

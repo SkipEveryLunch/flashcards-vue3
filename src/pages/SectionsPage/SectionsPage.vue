@@ -1,53 +1,56 @@
 <template>
   <div data-testid="section-page" class="h-full">
-    <div class="flex justify-around w-full p-5">
-      <div class="flex w-2/5">
-        <input v-model="search" class="formInput" type="text" />
-        <button class="btn btn-sub">
-          <span class="whitespace-nowrap">検索する</span>
-        </button>
-      </div>
-      <div>
-        <router-link
-          data-testid="section-submit-link"
-          v-if="user"
-          to="section_submit"
-          ><button class="btn btn-yellow">
-            新セクションを作る
-          </button></router-link
-        >
-      </div>
-    </div>
-    <transition-group
-      v-if="fSections.length > 0"
-      tag="ul"
-      class="flex justify-center"
-      appear
-      @before-enter="beforeEnter"
-      @enter="enter"
-    >
-      <li
-        data-testid="section-card"
-        v-for="(section, idx) in fSections"
-        :key="section.id"
-        :data-idx="idx"
-      >
-        <div class="sectionCard">
-          <div class="my-auto text-2xl">
-            {{ section.title }}
-          </div>
-          <div class="flex">
-            <router-link :to="`/section/${section.id}/study`">
-              <div class="mr-2 btn btn-primary">学習する</div>
-            </router-link>
-            <router-link :to="`/section/${section.id}/edit`">
-              <div class="btn btn-sub-white">問題一覧</div>
-            </router-link>
-          </div>
+    <div v-if="fSections.length > 0">
+      <div class="flex justify-around w-full p-5">
+        <div class="flex w-2/5">
+          <input v-model="search" class="formInput" type="text" />
+          <button class="btn btn-sub">
+            <span class="whitespace-nowrap">検索する</span>
+          </button>
         </div>
-      </li>
-    </transition-group>
-    <div v-else>No Sections Yet.</div>
+        <div>
+          <router-link
+            data-testid="section-submit-link"
+            v-if="user"
+            to="section_submit"
+            ><button class="btn btn-yellow">
+              新セクションを作る
+            </button></router-link
+          >
+        </div>
+      </div>
+      <transition-group
+        tag="ul"
+        class="flex justify-center"
+        appear
+        @before-enter="beforeEnter"
+        @enter="enter"
+      >
+        <li
+          data-testid="section-card"
+          v-for="(section, idx) in fSections"
+          :key="section.id"
+          :data-idx="idx"
+        >
+          <div class="sectionCard">
+            <div class="my-auto text-2xl">
+              {{ section.title }}
+            </div>
+            <div class="flex">
+              <router-link :to="`/section/${section.id}/study`">
+                <div class="mr-2 btn btn-primary">学習する</div>
+              </router-link>
+              <router-link :to="`/section/${section.id}/edit`">
+                <div class="btn btn-sub-white">問題一覧</div>
+              </router-link>
+            </div>
+          </div>
+        </li>
+      </transition-group>
+    </div>
+    <div v-else class="h-full">
+      <Spinner color="blue" />
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -57,8 +60,12 @@ import { ref, watch, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import { Section } from '../../types';
+import Spinner from '../../components/Spinner.vue';
 export default {
   name: 'SectionsPage',
+  components: {
+    Spinner,
+  },
   setup() {
     const sections = ref<Section[]>([]);
     const fSections = ref<Section[]>([]);

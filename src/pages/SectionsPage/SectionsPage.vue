@@ -21,6 +21,7 @@
     <transition-group
       v-if="fSections.length > 0"
       tag="ul"
+      class="flex justify-center"
       appear
       @before-enter="beforeEnter"
       @enter="enter"
@@ -31,10 +32,8 @@
         :key="section.id"
         :data-idx="idx"
       >
-        <div
-          class="flex justify-between p-5 m-5 text-white bg-gray-900 rounded-lg"
-        >
-          <div class="text-2xl">
+        <div class="sectionCard">
+          <div class="my-auto text-2xl">
             {{ section.title }}
           </div>
           <div class="flex">
@@ -42,7 +41,7 @@
               <div class="mr-2 btn btn-primary">学習する</div>
             </router-link>
             <router-link :to="`/section/${section.id}/edit`">
-              <div class="btn btn-sub-white">編集する</div>
+              <div class="btn btn-sub-white">問題一覧</div>
             </router-link>
           </div>
         </div>
@@ -107,5 +106,9 @@ export default {
 <style scoped>
 .formInput {
   @apply w-full px-2 py-1 mx-2 border-2 border-gray-200 rounded focus:outline-none focus:border-gray-400;
+}
+.sectionCard {
+  @apply flex flex-col justify-between items-center p-5 m-5 text-white bg-gray-900 rounded-lg;
+  height: 300px;
 }
 </style>

@@ -1,6 +1,9 @@
 <template>
-  <div class="flex flex-col mb-2">
-    <label class="mb-2" :for="id">{{ name }}:</label>
+  <div class="flex flex-col mb-3">
+    <label class="mb-2" :for="id"
+      >{{ name }}:
+      <span class="ml-5 text-red-600">{{ error.join(' ') }}</span></label
+    >
     <input
       :id="id"
       :type="type"
@@ -9,7 +12,6 @@
       :value="modelValue"
       :data-testid="testid"
     />
-    <span class="text-red-600">{{ error.join(' ') }}</span>
   </div>
 </template>
 <script>

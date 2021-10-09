@@ -5,6 +5,8 @@ export interface Question {
   section_id: string;
   created_at: string;
   updated_at: string;
+  next_period: string;
+  learning_stage: number;
 }
 export interface Section {
   id: number;

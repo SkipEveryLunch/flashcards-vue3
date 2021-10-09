@@ -1,6 +1,17 @@
 <template>
   <div v-if="user && section">
-    <h1>{{ section.title }}</h1>
+    <div class="flex justify-center mt-5 mb-2">
+      <div class="flex w-2/3 justify-evenly">
+        <div>
+          <h1 class="text-4xl text-center">{{ section.title }}</h1>
+        </div>
+        <div>
+          <p class="text-lg">問題数：{{ section.questions.length }}</p>
+          <p class="text-lg">達成率：{{ section.complete_rate * 100 }}%</p>
+        </div>
+      </div>
+    </div>
+
     <transition-group
       appear
       @before-enter="beforeEnter"
@@ -15,8 +26,16 @@
         data-testid="question-card"
         :data-idx="idx"
       >
-        <p>Front: {{ question.front.slice(0, 100) + '...' }}</p>
-        <p>Back: {{ question.back.slice(0, 100) + '...' }}</p>
+        <p>質問: {{ question.front.slice(0, 100) + '...' }}</p>
+        <p>解答: {{ question.back.slice(0, 100) + '...' }}</p>
+        <p>
+          習得レベル:
+          {{ question.learning_stage ? question.learning_stage : '未学習' }}
+        </p>
+        <p>
+          次の学習日:
+          {{ question.next_period ? question.next_period : '未学習' }}
+        </p>
         <div class="flex justify-center mt-3">
           <router-link
             :to="`/section/${sectionId}/question/${question.id}/edit`"
@@ -27,7 +46,7 @@
           <button
             data-testid="question-delete-button"
             @click="() => onDelete(question.id)"
-            class="btn btn-white"
+            class="btn btn-sub-white"
           >
             削除する
           </button>
@@ -37,10 +56,10 @@
 
     <div class="fixed flex p-5 m-2 bg-black rounded bottom-1 right-1">
       <router-link to="/">
-        <button class="mr-2 btn btn-sub">戻る</button>
+        <button class="mr-2 btn btn-sub-white">戻る</button>
       </router-link>
       <router-link :to="`/section/${sectionId}/submit`">
-        <button class="bg-white btn btn-blue">問題を作る</button>
+        <button class="btn btn-yellow">問題を作る</button>
       </router-link>
     </div>
   </div>
@@ -136,7 +155,8 @@ export default {
           x: 0,
           opacity: 1,
           duration: 0.5,
-          delay: parseInt(el.dataset.idx) * 0.2,
+          delay:
+            parseInt(el.dataset.idx) < 4 ? parseInt(el.dataset.idx) * 0.2 : 0,
         });
       }
     };

@@ -1,7 +1,7 @@
 <template>
   <div
     data-testid="modal"
-    class="fixed z-10 flex items-center justify-center w-full h-full transition-opacity bg-black  bg-opacity-40"
+    class="fixed z-20 flex items-center justify-center w-full h-full transition-opacity bg-black  bg-opacity-40"
   >
     <transition name="modalbox" appear>
       <div class="flex flex-col px-5 bg-white border-gray-600 rounded-md py-7">

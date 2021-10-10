@@ -15,7 +15,7 @@
       </div>
       <transition-group
         tag="ul"
-        class="flex justify-center"
+        class="flex flex-wrap justify-center"
         appear
         @before-enter="beforeEnter"
         @enter="enter"

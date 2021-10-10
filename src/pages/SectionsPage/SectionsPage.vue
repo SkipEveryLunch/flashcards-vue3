@@ -1,13 +1,7 @@
 <template>
   <div data-testid="section-page" class="h-full">
-    <div v-if="fSections.length > 0">
+    <div v-if="sections.length > 0">
       <div class="flex justify-around w-full p-5">
-        <div class="flex w-2/5">
-          <input v-model="search" class="formInput" type="text" />
-          <button class="btn btn-sub">
-            <span class="whitespace-nowrap">検索する</span>
-          </button>
-        </div>
         <div>
           <router-link
             data-testid="section-submit-link"
@@ -28,23 +22,11 @@
       >
         <li
           data-testid="section-card"
-          v-for="(section, idx) in fSections"
+          v-for="(section, idx) in sections"
           :key="section.id"
           :data-idx="idx"
         >
-          <div class="sectionCard">
-            <div class="my-auto text-2xl">
-              {{ section.title }}
-            </div>
-            <div class="flex">
-              <router-link :to="`/section/${section.id}/study`">
-                <div class="mr-2 btn btn-primary">学習する</div>
-              </router-link>
-              <router-link :to="`/section/${section.id}/edit`">
-                <div class="btn btn-sub-white">問題一覧</div>
-              </router-link>
-            </div>
-          </div>
+          <SectionCard :section="section" />
         </li>
       </transition-group>
     </div>
@@ -61,30 +43,21 @@ import { useStore } from 'vuex';
 import axios from 'axios';
 import { Section } from '../../types';
 import Spinner from '../../components/Spinner.vue';
+import SectionCard from '../../components/SectionCard.vue';
 export default {
   name: 'SectionsPage',
   components: {
     Spinner,
+    SectionCard,
   },
   setup() {
     const sections = ref<Section[]>([]);
-    const fSections = ref<Section[]>([]);
     const store = useStore();
     const search = ref('');
     const user = computed(() => store.state.user);
-    watch(search, () => {
-      if (sections.value.length > 0 && search.value.length > 0) {
-        fSections.value = sections.value.filter((el) => {
-          return ~el.title.indexOf(search.value);
-        });
-      } else {
-        fSections.value = sections.value;
-      }
-    });
     onMounted(async () => {
       const { data } = await axios.get('sections');
       sections.value = data.sections;
-      fSections.value = data.sections;
     });
     const beforeEnter = (el: HTMLElement) => {
       el.style.transform = 'translateY(60px)';
@@ -96,14 +69,15 @@ export default {
           y: 0,
           opacity: 1,
           duration: 0.5,
+          rotateY: 0,
           delay: parseInt(el.dataset.idx) * 0.2,
         });
       }
     };
     return {
+      sections,
       beforeEnter,
       enter,
-      fSections,
       search,
       user,
     };
@@ -113,9 +87,5 @@ export default {
 <style scoped>
 .formInput {
   @apply w-full px-2 py-1 mx-2 border-2 border-gray-200 rounded focus:outline-none focus:border-gray-400;
-}
-.sectionCard {
-  @apply flex flex-col justify-between items-center p-5 m-5 text-white bg-gray-900 rounded-lg;
-  height: 300px;
 }
 </style>

@@ -118,6 +118,9 @@ export default {
     };
     onMounted(async () => {
       if (!user.value) {
+        store.dispatch('setModal', {
+          message: 'ログインが必要です',
+        });
         router.push('/');
       } else {
         await load();

@@ -117,6 +117,9 @@ export default {
     const phase = ref('question');
     onMounted(async () => {
       if (!user.value) {
+        store.dispatch('setModal', {
+          message: 'ログインが必要です',
+        });
         router.push('/');
       } else {
         await load();

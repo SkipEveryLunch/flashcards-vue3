@@ -108,7 +108,10 @@ export default {
     });
     onMounted(() => {
       if (!user.value) {
-        router.push('/');
+        store.dispatch('setModal', {
+          message: '実行するにはログインしてください',
+        });
+        router.push('/login');
       }
     });
     const onSubmit = async () => {

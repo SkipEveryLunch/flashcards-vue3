@@ -56,7 +56,10 @@ export default {
     });
     onMounted(() => {
       if (!store.state.user) {
-        router.push('/login');
+        store.dispatch('setModal', {
+          message: 'ログインが必要です',
+        });
+        router.push('/');
       }
     });
     return {

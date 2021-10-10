@@ -42,7 +42,7 @@ export default {
 .card {
   @apply m-5 w-full p-5  text-white bg-gray-900 rounded-lg h-full;
   height: 350px;
-  width: 250px;
+  width: 280px;
   overflow: hidden;
 }
 .slide-enter-from {

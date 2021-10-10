@@ -146,6 +146,8 @@ export const sectionData = {
   title: 'cool section',
   created_at: '2021-09-20T10:16:39.000000Z',
   updated_at: '2021-09-20T10:16:39.000000Z',
+  count_questions: questionsData.length,
+  complete_rate: 0,
   questions: questionsData,
 };
 

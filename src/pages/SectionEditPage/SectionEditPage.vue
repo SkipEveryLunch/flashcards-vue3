@@ -15,6 +15,7 @@
     </div>
 
     <transition-group
+      v-if="section.count_questions > 0"
       appear
       @before-enter="beforeEnter"
       @enter="enter"
@@ -55,6 +56,9 @@
         </div>
       </li>
     </transition-group>
+    <div v-else class="mt-10 text-xl text-center">
+      <p>このセクションには問題がありません。</p>
+    </div>
 
     <div class="fixed flex p-5 m-2 bg-black rounded bottom-1 right-1">
       <router-link to="/">

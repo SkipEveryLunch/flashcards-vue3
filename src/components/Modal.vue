@@ -10,14 +10,14 @@
           <button
             v-if="modal.cb"
             class="mr-1 btn btn-primary"
-            data-testid="modal-button"
+            data-testid="modal-yes-button"
             @click="modal.cb.cb"
           >
             {{ modal.cb.name }}
           </button>
           <button
             class="btn btn-sub"
-            data-testid="modal-button"
+            data-testid="modal-no-button"
             @click="onClose"
           >
             いいえ

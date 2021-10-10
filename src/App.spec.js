@@ -44,7 +44,9 @@ describe('Authentication', () => {
       userEvent.click(profileMenu);
       const logoutButton = await screen.findByTestId('logout-button');
       userEvent.click(logoutButton);
-      await waitForElementToBeRemoved(logoutButton);
+      const modalButton = await screen.findByTestId('modal-yes-button');
+      userEvent.click(modalButton);
+      await waitForElementToBeRemoved(modalButton);
     } catch (e) {}
   });
   beforeEach(async () => {
@@ -176,7 +178,9 @@ describe('Authentication', () => {
     userEvent.click(profileMenu);
     const logoutButton = await screen.findByTestId('logout-button');
     userEvent.click(logoutButton);
-    await waitForElementToBeRemoved(logoutButton);
+    const modalButton = await screen.findByTestId('modal-yes-button');
+    userEvent.click(modalButton);
+    await screen.findByTestId('login-link');
     expect(profileMenu).not.toBeInTheDocument();
   });
 
@@ -192,7 +196,9 @@ describe('Authentication', () => {
     userEvent.click(profileMenu);
     const logoutButton = await screen.findByTestId('logout-button');
     userEvent.click(logoutButton);
-    await waitForElementToBeRemoved(logoutButton);
+    const modalButton = await screen.findByTestId('modal-yes-button');
+    userEvent.click(modalButton);
+    await waitForElementToBeRemoved(modalButton);
     const sectionPage = await screen.findByTestId('section-page');
     expect(sectionPage).toBeInTheDocument();
   });
@@ -209,15 +215,17 @@ describe('Authentication', () => {
     userEvent.click(profileMenu);
     const logoutButton = await screen.findByTestId('logout-button');
     userEvent.click(logoutButton);
-    await waitForElementToBeRemoved(logoutButton);
+    const modalButton = await screen.findByTestId('modal-yes-button');
+    userEvent.click(modalButton);
+    await waitForElementToBeRemoved(modalButton);
     const sectionPage = await screen.findByTestId('section-page');
     expect(sectionPage).toBeInTheDocument();
   });
 
   it('does not show profile show page before loging in', async () => {
     await setup('/profile_show');
-    const loginPage = await screen.findByTestId('login-page');
-    expect(loginPage).toBeInTheDocument();
+    const sectionPage = await screen.findByTestId('section-page');
+    expect(sectionPage).toBeInTheDocument();
   });
 
   it('does not show profile edit page before loging in', async () => {

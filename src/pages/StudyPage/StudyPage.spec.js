@@ -58,6 +58,8 @@ it('shows finish study message after answering all questions', async () => {
   setup();
   const studyButton = await screen.findByTestId('study-button');
   await userEvent.click(studyButton);
+  const flipCard = await screen.findByTestId('flipcard-front');
+  userEvent.click(flipCard);
   const correctButton = await screen.findByTestId('correct-button');
   await userEvent.click(correctButton);
   const studyFinishMessage = await screen.findByTestId('study-finish-message');

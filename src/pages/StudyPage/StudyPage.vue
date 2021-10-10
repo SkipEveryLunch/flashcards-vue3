@@ -69,7 +69,7 @@
           <span class="whitespace-nowrap"> 新問に挑む </span>
         </button>
         <router-link to="/">
-          <button class="btn btn-sub-white" data-testid="study-button">
+          <button class="btn btn-sub-white" data-testid="goback-link">
             <span class="whitespace-nowrap"> 戻る</span>
           </button>
         </router-link>

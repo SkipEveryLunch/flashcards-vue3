@@ -1,7 +1,12 @@
 <template>
   <div class="h-full">
     <transition name="flip" mode="out-in">
-      <div v-if="phase === 'question'" class="card card-front" @click="flip">
+      <div
+        v-if="phase === 'question'"
+        class="card card-front"
+        data-testid="flipcard-front"
+        @click="flip"
+      >
         <div class="mb-5 text-lg text-center">質問</div>
         <div>{{ front }}</div>
       </div>

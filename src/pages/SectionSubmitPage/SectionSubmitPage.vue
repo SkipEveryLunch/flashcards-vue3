@@ -8,6 +8,13 @@
         :modelValue="form.title"
         :error="errors.title"
       />
+      <Input
+        id="description"
+        name="説明文"
+        @custom-input="onChangeDescription"
+        :modelValue="form.description"
+        :error="errors.description"
+      />
       <div class="flex justify-center">
         <div class="flex">
           <button
@@ -48,13 +55,18 @@ export default {
     const store = useStore();
     const form = reactive({
       title: '',
+      description: '',
     });
     const errors = reactive({
       title: ['タイトルが未入力です'],
+      description: ['内容説明が未入力です'],
     });
     const isCalling = ref(false);
     const onChangeTitle = (payload) => {
       form.title = payload;
+    };
+    const onChangeDescription = (payload) => {
+      form.description = payload;
     };
     watch(form, () => {
       if (form.title.length === 0) {
@@ -66,6 +78,16 @@ export default {
         pushToArr(errors.title, 'タイトルは25字以内です');
       } else {
         deleteFromArr(errors.title, 'タイトルは25字以内です');
+      }
+      if (form.description.length === 0) {
+        pushToArr(errors.description, '説明文が未入力です');
+      } else {
+        deleteFromArr(errors.description, '説明文が未入力です');
+      }
+      if (form.description.length > 100) {
+        pushToArr(errors.description, '説明文は100字以内です');
+      } else {
+        deleteFromArr(errors.description, '説明文は100字以内です');
       }
     });
     const pushToArr = (arr, str) => {
@@ -124,6 +146,7 @@ export default {
     return {
       form,
       onChangeTitle,
+      onChangeDescription,
       onSubmit,
       disabled,
       errors,

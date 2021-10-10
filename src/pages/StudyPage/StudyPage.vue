@@ -47,10 +47,20 @@
     >
       <div class="mb-5 text-center text-white">
         <h1 class="mb-2 text-2xl">{{ section.title }}</h1>
+        <p>
+          {{ section.description }}
+        </p>
         <p>問題数：{{ section.questions.length }}</p>
         <p>達成率：{{ Math.round(section.complete_rate * 100) }}%</p>
       </div>
       <div data-testid="study-start-message" class="flex justify-center">
+        <button
+          class="mr-2 btn btn-primary"
+          data-testid="review-button"
+          @click="fetchReview"
+        >
+          <span class="whitespace-nowrap"> 復習する </span>
+        </button>
         <button
           class="mr-2 btn btn-sub-white"
           data-testid="study-button"
@@ -58,13 +68,11 @@
         >
           <span class="whitespace-nowrap"> 新問に挑む </span>
         </button>
-        <button
-          class="btn btn-primary"
-          data-testid="review-button"
-          @click="fetchReview"
-        >
-          <span class="whitespace-nowrap"> 復習する </span>
-        </button>
+        <router-link to="/">
+          <button class="btn btn-sub-white" data-testid="study-button">
+            <span class="whitespace-nowrap"> 戻る</span>
+          </button>
+        </router-link>
       </div>
     </div>
     <div v-else data-testid="not-found-message"></div>

@@ -3,15 +3,17 @@
     <div class="w-2/3 p-5 my-5 text-xl text-white bg-gray-900 rounded">
       <div class="my-5">
         <p class="mb-3">
-          <span data-testid="user-firstname">
-            名前：{{ user.first_name }}
+          名前：<span data-testid="user-firstname">
+            {{ user.first_name }}
           </span>
           <span class="ml-3" data-testid="user-lastname">
             {{ user.last_name }}
           </span>
         </p>
-        <p class="mb-3" data-testid="user-email">
-          メールアドレス：{{ user.email }}
+        <p class="mb-3">
+          メールアドレス：<span data-testid="user-email">
+            {{ user.email }}
+          </span>
         </p>
         <p class="mb-3" data-testid="user-created-at">
           登録日：{{ user.created_at }}

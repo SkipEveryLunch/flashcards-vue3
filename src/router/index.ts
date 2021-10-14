@@ -11,6 +11,7 @@ import SectionEditPage from '../pages/SectionEditPage/SectionEditPage.vue';
 import QuestionSubmitPage from '../pages/QuestionSubmitPage/QuestionSubmitPage.vue';
 import QuestionEditPage from '../pages/QuestionEditPage/QuestionEditPage.vue';
 import StudyPage from '../pages/StudyPage/StudyPage.vue';
+import NotFoundPage from '../pages/NotFoundPage/NotFoundPage.vue';
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:8000/api/';
 axios.defaults.withCredentials = true;
@@ -21,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Wrapper,
     children: [
       {
-        path: '',
+        path: '/',
         name: 'SectionsPage',
         component: SectionsPage,
       },
@@ -74,6 +75,10 @@ const routes: Array<RouteRecordRaw> = [
         path: '/section/:sectionId/question/:questionId/edit',
         name: 'QuestionEditPage',
         component: QuestionEditPage,
+      },
+      {
+        path: '/:pathMatch(.*)*',
+        component: NotFoundPage,
       },
     ],
   },

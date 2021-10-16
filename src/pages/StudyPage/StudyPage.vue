@@ -7,7 +7,7 @@
     >
       本日の学習は終了しました。
       <div class="flex justify-center mt-5">
-        <button class="mr-2 btn btn-primary" @click="onSubmit">同期する</button>
+        <button class="mr-2 btn btn-primary" @click="onSubmit">同期</button>
         <router-link to="/">
           <button class="btn btn-sub-white">戻る</button>
         </router-link>
@@ -25,20 +25,25 @@
         :phase="phase"
         @flip="onFlip"
       />
-      <div v-if="phase === 'question'" class="flex justify-center my-5">
-        カードをクリックすると答えが見れます
-      </div>
-      <div v-else-if="phase === 'answer'" class="flex justify-center my-5">
-        <button
-          class="mr-2 btn btn-primary"
-          @click="() => next(true)"
-          data-testid="correct-button"
+      <div class="buttonContainer">
+        <div
+          class="flex flex-col justify-center h-full"
+          v-if="phase === 'question'"
         >
-          正解！
-        </button>
-        <button class="btn btn-sub-white" @click="() => next(false)">
-          もう一度
-        </button>
+          <div class="text-center">カードをクリックすると答えが見れます</div>
+        </div>
+        <div v-else-if="phase === 'answer'" class="flex justify-center">
+          <button
+            class="mr-2 btn btn-primary"
+            @click="() => next(true)"
+            data-testid="correct-button"
+          >
+            正解！
+          </button>
+          <button class="btn btn-sub-white" @click="() => next(false)">
+            もう一度
+          </button>
+        </div>
       </div>
     </div>
     <div
@@ -59,14 +64,14 @@
           data-testid="review-button"
           @click="fetchReview"
         >
-          <span class="whitespace-nowrap"> 復習する </span>
+          <span class="whitespace-nowrap"> 復習 </span>
         </button>
         <button
           class="mr-2 btn btn-sub-white"
           data-testid="study-button"
           @click="fetchNew"
         >
-          <span class="whitespace-nowrap"> 新問に挑む </span>
+          <span class="whitespace-nowrap"> 新問 </span>
         </button>
         <router-link to="/">
           <button class="btn btn-sub-white" data-testid="goback-link">
@@ -216,10 +221,10 @@ export default {
       phase.value = 'question';
     };
     const onSubmit = async () => {
-      const { status, data } = await axios.post(
-        `answer_${isReviewMode.value ? 'reviews' : 'questions'}`,
-        form
-      );
+      const url = isReviewMode.value
+        ? 'answer_reviews'
+        : `sections/${sectionId}/answer_questions`;
+      const { status, data } = await axios.post(url, form);
       if (status === 200) {
         store.dispatch('setModal', {
           type: 'notification',
@@ -251,3 +256,9 @@ export default {
   },
 };
 </script>
+<style>
+.buttonContainer {
+  height: 45px;
+  @apply:flex justify-center items-center;
+}
+</style>

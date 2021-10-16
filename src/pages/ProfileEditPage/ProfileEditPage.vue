@@ -40,6 +40,13 @@
         >
           投稿中...
         </button>
+        <button
+          data-testid="goback-button"
+          class="ml-2 btn btn-sub"
+          @click="goBack"
+        >
+          戻る
+        </button>
       </div>
     </div>
   </div>
@@ -145,6 +152,27 @@ export default {
         console.log(e);
       }
     };
+    const goBack = () => {
+      if (
+        form.first_name.length > 0 ||
+        form.last_name.length > 0 ||
+        form.email.length > 0
+      ) {
+        store.dispatch('setModal', {
+          type: 'caution',
+          message: '戻ると編集内容は破棄されます。破棄して戻りますか？',
+          cb: {
+            name: '戻る',
+            cb: () => {
+              router.push('/');
+              store.dispatch('discardModal');
+            },
+          },
+        });
+      } else {
+        router.push('/');
+      }
+    };
     const disabled = computed(() => {
       return !(
         errors.first_name.length === 0 &&
@@ -161,6 +189,7 @@ export default {
       disabled,
       isCalling,
       onUpdate,
+      goBack,
     };
   },
 };

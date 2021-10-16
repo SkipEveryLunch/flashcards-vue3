@@ -33,6 +33,13 @@
         >
           投稿中...
         </button>
+        <button
+          data-testid="goback-button"
+          class="ml-2 btn btn-sub"
+          @click="goBack"
+        >
+          戻る
+        </button>
       </div>
     </div>
   </div>
@@ -110,6 +117,23 @@ export default {
         errors.password.length === 0 && errors.password_confirm.length === 0
       );
     });
+    const goBack = () => {
+      if (form.password.length > 0 || form.password_confirm.length > 0) {
+        store.dispatch('setModal', {
+          type: 'caution',
+          message: '戻ると編集内容は破棄されます。破棄して戻りますか？',
+          cb: {
+            name: '戻る',
+            cb: () => {
+              router.push('/');
+              store.dispatch('discardModal');
+            },
+          },
+        });
+      } else {
+        router.push('/');
+      }
+    };
     return {
       form,
       onChangePassword,
@@ -118,6 +142,7 @@ export default {
       disabled,
       isCalling,
       onUpdate,
+      goBack,
     };
   },
 };

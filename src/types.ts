@@ -18,3 +18,11 @@ export interface Section {
   count_questions: number;
   questions: Question[];
 }
+export interface Modal {
+  type: 'notification' | 'caution' | 'error';
+  message: string;
+  cb: {
+    name: string;
+    cb: any;
+  };
+}

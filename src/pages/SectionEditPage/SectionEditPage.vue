@@ -103,15 +103,18 @@ export default {
           section.value = data.section;
         } else if (status === 404) {
           store.dispatch('setModal', {
+            type: 'error',
             message: 'セクションが見つかりません',
           });
         } else {
           store.dispatch('setModal', {
+            type: 'error',
             message: '不明なエラーです',
           });
         }
       } catch (e) {
         store.dispatch('setModal', {
+          type: 'error',
           message: '不明なエラーです',
         });
       }
@@ -119,6 +122,7 @@ export default {
     onMounted(async () => {
       if (!user.value) {
         store.dispatch('setModal', {
+          type: 'error',
           message: 'ログインが必要です',
         });
         router.push('/');
@@ -128,6 +132,7 @@ export default {
     });
     const onDelete = (id: number) => {
       store.dispatch('setModal', {
+        type: 'caution',
         message: '本当に削除しますか?',
         cb: {
           name: '削除します',
@@ -137,21 +142,25 @@ export default {
               if (status === 204) {
                 await store.dispatch('discardModal');
                 store.dispatch('setModal', {
+                  type: 'notification',
                   message: '削除しました',
                 });
                 await load();
               } else {
                 store.dispatch('setModal', {
+                  type: 'error',
                   message: '不明なエラーです',
                 });
               }
             } catch (e) {
               if (e.response.status === 404) {
                 store.dispatch('setModal', {
+                  type: 'error',
                   message: '質問が見つかりません',
                 });
               } else {
                 store.dispatch('setModal', {
+                  type: 'error',
                   message: '不明なエラーです',
                 });
               }

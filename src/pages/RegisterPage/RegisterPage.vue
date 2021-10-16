@@ -169,16 +169,19 @@ export default {
         if (user && status === 201) {
           router.push('/login');
           store.dispatch('setModal', {
+            type: 'notification',
             message: '登録が完了しました',
           });
         }
       } catch (e) {
         if (e.response.status === 409) {
           store.dispatch('setModal', {
+            type: 'error',
             message: 'そのメールアドレスは既に使われています',
           });
         } else {
           store.dispatch('setModal', {
+            type: 'error',
             message: '不明なエラーです',
           });
         }

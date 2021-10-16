@@ -59,6 +59,7 @@ export default {
     onMounted(() => {
       if (!store.state.user) {
         store.dispatch('setModal', {
+          type: 'error',
           message: 'ログインが必要です',
         });
         router.push('/');

@@ -36,6 +36,7 @@ export default {
     };
     const onLogout = async () => {
       store.dispatch('setModal', {
+        type: 'caution',
         message: 'ログアウトしますか？',
         cb: {
           name: 'はい',
@@ -47,6 +48,7 @@ export default {
               store.dispatch('discardUser', data);
               router.push('/');
               store.dispatch('setModal', {
+                type: 'notification',
                 message: 'ログアウトしました',
               });
             } catch (e) {

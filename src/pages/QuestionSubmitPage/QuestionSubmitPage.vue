@@ -129,15 +129,18 @@ export default {
           form.front = '';
           form.back = '';
           store.dispatch('setModal', {
+            type: 'notification',
             message: '新しい問題を作成しました',
           });
         } else {
           store.dispatch('setModal', {
+            type: 'error',
             message: '不明なエラーです',
           });
         }
       } catch (e) {
         store.dispatch('setModal', {
+          type: 'error',
           message: '不明なエラーです',
         });
       }
@@ -148,6 +151,7 @@ export default {
     const goBack = () => {
       if (form.front.length > 0 || form.back.length > 0) {
         store.dispatch('setModal', {
+          type: 'caution',
           message: '戻ると編集内容は破棄されます',
           cb: {
             name: '破棄して戻る',

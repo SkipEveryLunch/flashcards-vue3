@@ -109,6 +109,7 @@ export default {
     onMounted(() => {
       if (!user.value) {
         store.dispatch('setModal', {
+          type: 'error',
           message: '実行するにはログインしてください',
         });
         router.push('/login');
@@ -126,20 +127,24 @@ export default {
           store.dispatch('setUser', section);
           router.push('/');
           store.dispatch('setModal', {
+            type: 'notification',
             message: 'セクションを作成しました',
           });
         }
       } catch (e) {
         if (e.response.status === 401) {
           store.dispatch('setModal', {
+            type: 'error',
             message: '投稿はログインしないとできません',
           });
         } else if (e.response.status === 409) {
           store.dispatch('setModal', {
+            type: 'error',
             message: '既に登録されているタイトルです',
           });
         } else {
           store.dispatch('setModal', {
+            type: 'error',
             message: '不明なエラーです',
           });
         }

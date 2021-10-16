@@ -97,15 +97,18 @@ export default {
             form.back = question.back;
           } else if (status === 404) {
             store.dispatch('setModal', {
+              type: 'error',
               message: '質問が見つかりません',
             });
           } else {
             store.dispatch('setModal', {
+              type: 'error',
               message: '不明なエラーです',
             });
           }
         } catch (e) {
           store.dispatch('setModal', {
+            type: 'error',
             message: '不明なエラーです',
           });
         }
@@ -155,15 +158,18 @@ export default {
           form.front = data.question.front;
           form.back = data.question.back;
           store.dispatch('setModal', {
+            type: 'notification',
             message: '問題を編集しました',
           });
         } else {
           store.dispatch('setModal', {
+            type: 'error',
             message: '不明なエラーです',
           });
         }
       } catch (e) {
         store.dispatch('setModal', {
+          type: 'error',
           message: '不明なエラーです',
         });
       }
@@ -174,6 +180,7 @@ export default {
     const goBack = () => {
       if (form.front.length > 0 || form.back.length > 0) {
         store.dispatch('setModal', {
+          type: 'caution',
           message: '戻ると編集内容は破棄されます',
           cb: {
             name: '破棄して戻る',

@@ -103,16 +103,19 @@ export default {
           store.dispatch('setUser', user);
           router.push('/');
           store.dispatch('setModal', {
+            type: 'notification',
             message: 'ログインしました',
           });
         }
       } catch (e) {
         if (e.response.status === 401) {
           store.dispatch('setModal', {
+            type: 'error',
             message: 'メールアドレスかパスワードが違います',
           });
         } else {
           store.dispatch('setModal', {
+            type: 'error',
             message: '不明なエラーです',
           });
         }

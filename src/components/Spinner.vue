@@ -40,7 +40,7 @@ C22.32,8.481,24.301,9.057,26.013,10.047z"
         </path>
       </svg>
     </div>
-    <p class="text-center text-blue-400">Loading...</p>
+    <p class="text-center text-blue-400 flicker">Loading...</p>
   </div>
 </template>
 <script>
@@ -56,3 +56,19 @@ export default {
   },
 };
 </script>
+<style>
+.flicker {
+  animation: flicker 2000ms infinite;
+}
+@keyframes flicker {
+  0% {
+    opacity: 100;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100;
+  }
+}
+</style>

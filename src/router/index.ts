@@ -22,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Wrapper,
     children: [
       {
-        path: '/',
+        path: '',
         name: 'SectionsPage',
         component: SectionsPage,
       },

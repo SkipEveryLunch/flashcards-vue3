@@ -39,7 +39,7 @@
         </button>
         <button
           data-testid="goback-button"
-          class="ml-2 btn btn-blue"
+          class="ml-2 btn btn-sub"
           @click="goBack"
         >
           戻る

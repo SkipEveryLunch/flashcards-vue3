@@ -34,7 +34,7 @@
             投稿中…
           </button>
           <router-link to="/">
-            <button class="btn btn-blue">戻る</button>
+            <button class="btn btn-sub">戻る</button>
           </router-link>
         </div>
       </div>

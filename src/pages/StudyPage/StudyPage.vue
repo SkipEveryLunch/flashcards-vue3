@@ -48,7 +48,7 @@
     </div>
     <div
       v-else-if="section"
-      class="flex flex-col p-5 mx-auto bg-gray-900 rounded-lg"
+      class="flex flex-col w-2/3 p-5 mx-auto bg-gray-900 rounded-lg"
     >
       <div class="mb-5 text-center text-white">
         <h1 class="mb-2 text-2xl">{{ section.title }}</h1>

@@ -5,7 +5,7 @@
   >
     <transition name="modalbox" appear>
       <div class="modal">
-        <div class="py-2 pl-5 text-white bg-blue-600">{{ typeName }}</div>
+        <div class="py-2 pl-5 text-white bg-blue-700">{{ typeName }}</div>
         <div class="flex justify-center p-3">{{ modal.message }}</div>
         <div class="flex justify-center" v-if="modal.cb">
           <button

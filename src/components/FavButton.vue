@@ -1,12 +1,15 @@
 <template>
   <div class="relative cursor-pointer" @click="onFav" :class="colorClass">
     <div>
-      <font-awesome-icon
-        v-if="type === 'like'"
-        :icon="faThumbsUp"
-        class="fa-lg"
-        :class="{ thumbsup: isAnimating }"
-      />
+      <span v-if="type === 'like'">
+        <font-awesome-icon
+          :icon="faThumbsUp"
+          class="z-10 fa-lg"
+          :class="{ thumbsup: isAnimating }"
+        />
+        <span class="circle" :class="{ pulse: isAnimating }"></span>
+      </span>
+
       <font-awesome-icon v-else :icon="faThumbsDown" class="fa-lg" />
     </div>
     <span class="count">{{ count }}</span>
@@ -60,6 +63,19 @@ export default {
 .thumbsup {
   animation: thumbs-up 0.3s infinite;
 }
+.circle {
+  position: absolute;
+  top: -85%;
+  left: -120%;
+  background-color: white;
+  height: 75px;
+  width: 75px;
+  border-radius: 50%;
+  opacity: 0;
+}
+.pulse {
+  animation: pulse 0.3s infinite;
+}
 @keyframes thumbs-up {
   0% {
     transform: scale(0.9);
@@ -69,6 +85,19 @@ export default {
   }
   100% {
     transform: scale(1);
+  }
+}
+@keyframes pulse {
+  0% {
+    transform: scale(0.1);
+    opacity: 0.5;
+  }
+  70% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
   }
 }
 </style>

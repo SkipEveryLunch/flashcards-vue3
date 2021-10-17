@@ -1,10 +1,11 @@
 <template>
-  <div class="relative cursor-pointer" :class="colorClass" @click="fav">
+  <div class="relative cursor-pointer" @click="onFav" :class="colorClass">
     <div>
       <font-awesome-icon
         v-if="type === 'like'"
         :icon="faThumbsUp"
         class="fa-lg"
+        :class="{ thumbsup: isAnimating }"
       />
       <font-awesome-icon v-else :icon="faThumbsDown" class="fa-lg" />
     </div>
@@ -19,19 +20,30 @@ import { ref, computed } from 'vue';
 export default {
   name: 'FavButton',
   props: ['type', 'count', 'isFaved'],
+  emits: ['fav'],
   components: {
     FontAwesomeIcon,
   },
-  setup(props) {
-    const isFaved = ref(false);
+  setup(props, { emit }) {
+    const isAnimating = ref(false);
     const colorClass = computed(() => {
-      return isFaved.value ? 'text-white' : 'text-gray-400';
+      return props.isFaved ? 'text-white' : 'text-gray-400';
     });
+    const onFav = () => {
+      emit('fav');
+      if (!props.isFaved) {
+        isAnimating.value = true;
+        setTimeout(() => {
+          isAnimating.value = false;
+        }, 300);
+      }
+    };
     return {
       colorClass,
       faThumbsUp,
       faThumbsDown,
-      fav,
+      onFav,
+      isAnimating,
     };
   },
 };
@@ -44,5 +56,19 @@ export default {
   position: absolute;
   left: 20px;
   top: 8px;
+}
+.thumbsup {
+  animation: thumbs-up 0.3s infinite;
+}
+@keyframes thumbs-up {
+  0% {
+    transform: scale(0.9);
+  }
+  65% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>

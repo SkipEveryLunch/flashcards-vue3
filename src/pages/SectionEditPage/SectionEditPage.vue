@@ -22,39 +22,13 @@
       tag="ul"
       class="h-full overflow-scroll"
     >
-      <li
-        class="block p-5 m-5 text-white bg-gray-600 rounded"
+      <QuestionCard
         v-for="(question, idx) in section.questions"
-        :key="question.id"
-        data-testid="question-card"
+        :question="question"
+        :key="idx"
         :data-idx="idx"
-      >
-        <p>質問: {{ question.front.slice(0, 100) + '...' }}</p>
-        <p>解答: {{ question.back.slice(0, 100) + '...' }}</p>
-        <p>
-          習得レベル:
-          {{ question.learning_stage ? question.learning_stage : '未学習' }}
-        </p>
-        <p>
-          次の学習日:
-          {{ question.next_period ? question.next_period : '未学習' }}
-        </p>
-        <div class="flex justify-center mt-3">
-          <router-link
-            :to="`/section/${sectionId}/question/${question.id}/edit`"
-          >
-            <button class="mr-2 btn btn-primary">編集する</button>
-          </router-link>
-
-          <button
-            data-testid="question-delete-button"
-            @click="() => onDelete(question.id)"
-            class="btn btn-sub-white"
-          >
-            削除する
-          </button>
-        </div>
-      </li>
+        @load="load"
+      />
     </transition-group>
     <div v-else class="mt-10 text-xl text-center">
       <p>このセクションには問題がありません。</p>
@@ -76,6 +50,7 @@
 <script lang="ts">
 import axios from 'axios';
 import gsap from 'gsap';
+import QuestionCard from '../../components/QuestionCard.vue';
 import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -85,6 +60,7 @@ export default {
   name: 'SectionEditPage',
   components: {
     Spinner,
+    QuestionCard,
   },
   setup() {
     const section = ref<Section | null>(null);
@@ -130,45 +106,6 @@ export default {
         await load();
       }
     });
-    const onDelete = (id: number) => {
-      store.dispatch('setModal', {
-        type: 'caution',
-        message: '本当に削除しますか?',
-        cb: {
-          name: '削除します',
-          cb: async () => {
-            try {
-              const { status } = await axios.delete(`questions/${id}`);
-              if (status === 204) {
-                await store.dispatch('discardModal');
-                store.dispatch('setModal', {
-                  type: 'notification',
-                  message: '削除しました',
-                });
-                await load();
-              } else {
-                store.dispatch('setModal', {
-                  type: 'error',
-                  message: '不明なエラーです',
-                });
-              }
-            } catch (e) {
-              if (e.response.status === 404) {
-                store.dispatch('setModal', {
-                  type: 'error',
-                  message: '質問が見つかりません',
-                });
-              } else {
-                store.dispatch('setModal', {
-                  type: 'error',
-                  message: '不明なエラーです',
-                });
-              }
-            }
-          },
-        },
-      });
-    };
     const beforeEnter = (el: HTMLElement) => {
       el.style.transform = 'translateX(60px)';
       el.style.opacity = '0';
@@ -188,9 +125,9 @@ export default {
       section,
       user,
       sectionId,
-      onDelete,
       beforeEnter,
       enter,
+      load,
     };
   },
 };

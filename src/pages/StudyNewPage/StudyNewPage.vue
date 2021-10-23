@@ -1,18 +1,11 @@
 <template>
   <div class="flex items-center justify-center h-full">
-    <div
+    <FinishedTemplate
       v-if="questions.length > 0 && isFinished"
-      data-testid="study-finish-message"
-      class="py-4 m-4 text-white bg-gray-900 rounded-lg px-7"
-    >
-      本日の学習は終了しました。
-      <div class="flex justify-center mt-5">
-        <button class="mr-2 btn btn-primary" @click="onSubmit">同期</button>
-        <router-link to="/">
-          <button class="btn btn-sub-white">戻る</button>
-        </router-link>
-      </div>
-    </div>
+      @submit="onSubmit"
+      :questions="questions"
+      :answeredQuestions="answeredQuestions"
+    />
     <StudyTemplate
       v-else-if="questions.length > 0"
       :questions="questions"
@@ -28,10 +21,12 @@ import { ref, reactive, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import StudyTemplate from '../../components/StudyTemplate.vue';
+import FinishedTemplate from '../../components/FinishedTemplated.vue';
 export default {
   name: 'StudyNewPage',
   components: {
     StudyTemplate,
+    FinishedTemplate,
   },
   setup() {
     const {
@@ -42,12 +37,7 @@ export default {
       isFinished.value = true;
     };
     const questions = ref<Question[]>([]);
-    interface FormState {
-      question_ids: number[];
-    }
-    const form = reactive<FormState>({
-      question_ids: [],
-    });
+    const answeredQuestions = ref<number[]>([]);
     const section = ref<null | Section>(null);
     const store = useStore();
     const router = useRouter();
@@ -63,7 +53,7 @@ export default {
       }
     });
     const AddToAnswer = (answerId: number) => {
-      form.question_ids = [...form.question_ids, answerId];
+      answeredQuestions.value = [...answeredQuestions.value, answerId];
     };
     const load = async () => {
       try {
@@ -94,7 +84,9 @@ export default {
     const onSubmit = async () => {
       const { status, data } = await axios.post(
         `sections/${sectionId}/answer_questions`,
-        form
+        {
+          question_ids: answeredQuestions.value,
+        }
       );
       if (status === 200) {
         store.dispatch('setModal', {
@@ -102,7 +94,7 @@ export default {
           message: '同期しました',
         });
         questions.value = [];
-        form.question_ids = [];
+        answeredQuestions.value = [];
         router.push(`/section/${sectionId}/study`);
       }
     };
@@ -117,6 +109,7 @@ export default {
       isFinished,
       finish,
       AddToAnswer,
+      answeredQuestions,
     };
   },
 };

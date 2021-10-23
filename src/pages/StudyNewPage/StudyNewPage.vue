@@ -4,7 +4,7 @@
       v-if="questions.length > 0 && isFinished"
       @submit="onSubmit"
       :questions="questions"
-      :answeredQuestions="answeredQuestions"
+      :answeredIds="answeredIds"
     />
     <StudyTemplate
       v-else-if="questions.length > 0"
@@ -37,7 +37,7 @@ export default {
       isFinished.value = true;
     };
     const questions = ref<Question[]>([]);
-    const answeredQuestions = ref<number[]>([]);
+    const answeredIds = ref<number[]>([]);
     const section = ref<null | Section>(null);
     const store = useStore();
     const router = useRouter();
@@ -53,7 +53,8 @@ export default {
       }
     });
     const AddToAnswer = (answerId: number) => {
-      answeredQuestions.value = [...answeredQuestions.value, answerId];
+      answeredIds.value = [...answeredIds.value, answerId];
+      console.log(answeredIds.value);
     };
     const load = async () => {
       try {
@@ -85,7 +86,7 @@ export default {
       const { status, data } = await axios.post(
         `sections/${sectionId}/answer_questions`,
         {
-          question_ids: answeredQuestions.value,
+          question_ids: answeredIds.value,
         }
       );
       if (status === 200) {
@@ -94,7 +95,7 @@ export default {
           message: '同期しました',
         });
         questions.value = [];
-        answeredQuestions.value = [];
+        answeredIds.value = [];
         router.push(`/section/${sectionId}/study`);
       }
     };
@@ -109,7 +110,7 @@ export default {
       isFinished,
       finish,
       AddToAnswer,
-      answeredQuestions,
+      answeredIds,
     };
   },
 };

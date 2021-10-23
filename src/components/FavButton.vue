@@ -4,13 +4,19 @@
       <span v-if="type === 'like'">
         <font-awesome-icon
           :icon="faThumbsUp"
-          class="z-10 fa-lg"
+          class="fa-lg"
           :class="{ thumbsup: isAnimating }"
         />
         <span class="circle" :class="{ pulse: isAnimating }"></span>
       </span>
-
-      <font-awesome-icon v-else :icon="faThumbsDown" class="fa-lg" />
+      <span v-else>
+        <font-awesome-icon
+          :icon="faThumbsDown"
+          class="fa-lg"
+          :class="{ thumbsup: isAnimating }"
+        />
+        <span class="circle" :class="{ pulse: isAnimating }"></span>
+      </span>
     </div>
     <span class="count">{{ count }}</span>
   </div>
@@ -20,25 +26,34 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
 export default {
   name: 'FavButton',
-  props: ['type', 'count', 'isFaved'],
+  props: ['type', 'count', 'isFaved', 'isLocked'],
   emits: ['fav'],
   components: {
     FontAwesomeIcon,
   },
   setup(props, { emit }) {
+    const store = useStore();
     const isAnimating = ref(false);
     const colorClass = computed(() => {
       return props.isFaved ? 'text-white' : 'text-gray-400';
     });
     const onFav = () => {
-      emit('fav');
-      if (!props.isFaved) {
-        isAnimating.value = true;
-        setTimeout(() => {
-          isAnimating.value = false;
-        }, 300);
+      if (!props.isLocked) {
+        emit('fav');
+        if (!props.isFaved) {
+          isAnimating.value = true;
+          setTimeout(() => {
+            isAnimating.value = false;
+          }, 300);
+        }
+      } else {
+        store.dispatch('setModal', {
+          type: 'caution',
+          message: 'likeとdislikeは同時にできません',
+        });
       }
     };
     return {
@@ -58,18 +73,18 @@ export default {
     2px 0 0 black;
   position: absolute;
   left: 20px;
-  top: 8px;
+  top: 5px;
 }
 .thumbsup {
   animation: thumbs-up 0.3s infinite;
 }
 .circle {
   position: absolute;
-  top: -85%;
-  left: -120%;
+  top: -65%;
+  left: -80%;
   background-color: white;
-  height: 75px;
-  width: 75px;
+  height: 60px;
+  width: 60px;
   border-radius: 50%;
   opacity: 0;
 }

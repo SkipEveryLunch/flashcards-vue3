@@ -35,12 +35,17 @@
 <script lang="ts">
 import gsap from 'gsap';
 import QuestionCard from '../components/QuestionCard.vue';
-import { computed } from 'vue';
+import { computed, defineComponent, SetupContext } from 'vue';
 import { Question } from '../types';
-export default {
-  props: ['submit', 'questions', 'answeredIds'],
+interface FinishedTemplateProps {
+  questions: Question[];
+  answeredIds: number[];
+}
+export default defineComponent({
+  props: ['questions', 'answeredIds'],
+  emits: ['submit'],
   components: { QuestionCard },
-  setup(props, { emit }) {
+  setup(props: FinishedTemplateProps, { emit }: SetupContext) {
     const onSubmit = () => {
       emit('submit');
     };
@@ -75,5 +80,5 @@ export default {
       enter,
     };
   },
-};
+});
 </script>

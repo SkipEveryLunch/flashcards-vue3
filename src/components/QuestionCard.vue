@@ -5,23 +5,7 @@
     data-testid="question-card"
   >
     <div class="flex justify-end">
-      <div class="flex mr-5">
-        <FavButton
-          type="like"
-          :count="like"
-          :isFaved="isLikedByUser"
-          :isLocked="isDislikedByUser"
-          class="mr-10"
-          @fav="onLike"
-        />
-        <FavButton
-          type="dislike"
-          :count="dislike"
-          :isFaved="isDislikedByUser"
-          :isLocked="isLikedByUser"
-          @fav="onDislike"
-        />
-      </div>
+      <div class="flex mr-5"></div>
     </div>
     <p>質問: {{ question.front.slice(0, 100) + '...' }}</p>
     <p>解答: {{ question.back.slice(0, 100) + '...' }}</p>
@@ -64,112 +48,11 @@ interface QuestionCardProps {
 export default defineComponent({
   props: ['question'],
   emits: ['load'],
-  components: {
-    FavButton,
-  },
   setup(props: QuestionCardProps, { emit }: SetupContext) {
     const store = useStore();
     const user = computed(() => {
       return store.state.user;
     });
-    const like = ref(0);
-    const dislike = ref(0);
-    const isLikedByUser = ref(false);
-    const isDislikedByUser = ref(false);
-    onMounted(() => {
-      like.value = props.question.likedBy.length;
-      dislike.value = props.question.dislikedBy.length;
-      isLikedByUser.value = props.question.likedBy.includes(user.value.id);
-      isDislikedByUser.value = props.question.dislikedBy.includes(
-        user.value.id
-      );
-    });
-    const onLike = async () => {
-      if (!isDislikedByUser.value) {
-        if (!isLikedByUser.value) {
-          like.value = like.value + 1;
-          isLikedByUser.value = true;
-          try {
-            const { status } = await axios.post(
-              `/favorites/${props.question.id}`,
-              {
-                type: 'like',
-              }
-            );
-            if (status !== 200) {
-              like.value = like.value - 1;
-              isLikedByUser.value = false;
-              onFavError();
-            }
-          } catch (e) {
-            like.value = like.value - 1;
-            isLikedByUser.value = false;
-            onFavError();
-          }
-        } else {
-          like.value = like.value - 1;
-          isLikedByUser.value = false;
-          try {
-            const { status } = await axios.delete(
-              `/favorites/${props.question.id}`
-            );
-            if (status !== 204) {
-              like.value = like.value + 1;
-              isLikedByUser.value = true;
-              onFavError();
-            }
-          } catch (e) {
-            like.value = like.value + 1;
-            isLikedByUser.value = true;
-            onFavError();
-          }
-        }
-      }
-    };
-    const onDislike = async () => {
-      if (!isLikedByUser.value) {
-        if (!isDislikedByUser.value) {
-          dislike.value = dislike.value + 1;
-          isDislikedByUser.value = true;
-          try {
-            const { status } = await axios.post(
-              `/favorites/${props.question.id}`,
-              {
-                type: 'dislike',
-              }
-            );
-            if (status !== 200) {
-              dislike.value = dislike.value - 1;
-              isDislikedByUser.value = false;
-            }
-          } catch {
-            dislike.value = dislike.value - 1;
-            isDislikedByUser.value = false;
-          }
-        } else {
-          dislike.value = dislike.value - 1;
-          isDislikedByUser.value = false;
-          try {
-            const { status } = await axios.delete(
-              `/favorites/${props.question.id}`
-            );
-            if (status !== 204) {
-              dislike.value = dislike.value + 1;
-              isDislikedByUser.value = true;
-            }
-          } catch (e) {
-            dislike.value = dislike.value + 1;
-            isDislikedByUser.value = true;
-          }
-        }
-      }
-    };
-    const onFavError = () => {
-      store.dispatch('setModal', {
-        type: 'error',
-        message: 'エラーによりアクションが取り消されました',
-      });
-    };
     const onDelete = () => {
       store.dispatch('setModal', {
         type: 'caution',
@@ -214,12 +97,6 @@ export default defineComponent({
     return {
       onDelete,
       user,
-      like,
-      dislike,
-      isLikedByUser,
-      isDislikedByUser,
-      onLike,
-      onDislike,
     };
   },
 });

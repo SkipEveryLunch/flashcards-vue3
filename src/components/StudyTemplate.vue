@@ -40,13 +40,17 @@ const range = (start: number, end: number) => {
   }
   return list;
 };
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineComponent, SetupContext } from 'vue';
+import { Question } from '../types';
 import FlipCard from '../components/FlipCard.vue';
-export default {
+interface StudyTemplateProps {
+  questions: Question[];
+}
+export default defineComponent({
   props: ['questions'],
   emits: ['finish', 'add-to-answer'],
   components: { FlipCard },
-  setup(props, { emit }) {
+  setup(props: StudyTemplateProps, { emit }: SetupContext) {
     const phase = ref('question');
     const remains = ref<number[]>([]);
     const progress = ref(0);
@@ -89,5 +93,5 @@ export default {
       progress,
     };
   },
-};
+});
 </script>

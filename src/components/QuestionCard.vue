@@ -53,17 +53,21 @@
   </li>
 </template>
 <script lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, defineComponent, SetupContext } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import FavButton from './FavButton.vue';
-export default {
+import { Question } from '../types';
+interface QuestionCardProps {
+  question: Question;
+}
+export default defineComponent({
   props: ['question'],
   emits: ['load'],
   components: {
     FavButton,
   },
-  setup(props, { emit }) {
+  setup(props: QuestionCardProps, { emit }: SetupContext) {
     const store = useStore();
     const user = computed(() => {
       return store.state.user;
@@ -218,5 +222,5 @@ export default {
       onDislike,
     };
   },
-};
+});
 </script>

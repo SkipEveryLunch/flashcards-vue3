@@ -28,19 +28,25 @@
         <button
           data-testid="question-delete-button"
           @click="onDelete"
-          class="btn btn-sub-white"
+          class="mr-2 btn btn-sub-white"
         >
           削除する
+        </button>
+        <button
+          data-testid="question-comment-button"
+          class="btn btn-sub-white"
+          @click="showModal"
+        >
+          改善要望
         </button>
       </div>
     </div>
   </li>
 </template>
 <script lang="ts">
-import { ref, onMounted, computed, defineComponent, SetupContext } from 'vue';
+import { computed, defineComponent, SetupContext } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
-import FavButton from './FavButton.vue';
 import { Question } from '../types';
 interface QuestionCardProps {
   question: Question;
@@ -53,6 +59,11 @@ export default defineComponent({
     const user = computed(() => {
       return store.state.user;
     });
+    const showModal = () => {
+      store.dispatch('setCommentModal', {
+        questionId: props.question.id,
+      });
+    };
     const onDelete = () => {
       store.dispatch('setModal', {
         type: 'caution',
@@ -97,6 +108,7 @@ export default defineComponent({
     return {
       onDelete,
       user,
+      showModal,
     };
   },
 });

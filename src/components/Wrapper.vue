@@ -3,6 +3,9 @@
     <transition name="modal" appear>
       <Modal v-if="modal" :modal="modal" />
     </transition>
+    <transition name="modal" appear>
+      <CommentModal v-if="commentModal" :questionId="commentModal" />
+    </transition>
     <Header />
     <div class="h-full overflow-y-scroll">
       <router-view />
@@ -12,22 +15,29 @@
 <script>
 import Header from './Header/Header.vue';
 import Modal from './Modal.vue';
+import CommentModal from './CommentModal.vue';
 import axios from 'axios';
 import { onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
 export default {
   name: 'Wrapper',
   components: {
     Header,
     Modal,
+    CommentModal,
   },
   setup() {
     const store = useStore();
-    const router = useRouter();
     const modal = computed(() => {
       if (store.state.modal) {
         return store.state.modal;
+      } else {
+        return null;
+      }
+    });
+    const commentModal = computed(() => {
+      if (store.state.commentModal) {
+        return store.state.commentModal;
       } else {
         return null;
       }
@@ -45,6 +55,7 @@ export default {
     });
     return {
       modal,
+      commentModal,
     };
   },
 };

@@ -4,6 +4,7 @@ export default createStore({
   state: {
     user: null,
     modal: null,
+    commentModal: null,
   },
   mutations: {
     SET_USER: (state, user) => {
@@ -18,6 +19,12 @@ export default createStore({
     DISCARD_MODAL: (state) => {
       state.modal = null;
     },
+    SET_COMMENT_MODAL: (state, commentModal) => {
+      state.commentModal = commentModal;
+    },
+    DISCARD_COMMENT_MODAL: (state) => {
+      state.commentModal = null;
+    },
   },
   actions: {
     setUser: ({ commit }, user) => {
@@ -31,6 +38,12 @@ export default createStore({
     },
     discardModal: ({ commit }) => {
       commit('DISCARD_MODAL');
+    },
+    setCommentModal: ({ commit }, commentModal) => {
+      commit('SET_COMMENT_MODAL', commentModal);
+    },
+    discardCommentModal: ({ commit }) => {
+      commit('DISCARD_COMMENT_MODAL');
     },
   },
 });

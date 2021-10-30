@@ -133,7 +133,6 @@ export default {
       form,
       isDisabled,
       onSubmit,
-      modalContainer,
     };
   },
 };

@@ -4,7 +4,7 @@
       <Modal v-if="modal" :modal="modal" />
     </transition>
     <transition name="modal" appear>
-      <CommentModal v-if="commentModal" :questionId="commentModal" />
+      <CommentModal v-if="commentModal" :questionId="commentModal.questionId" />
     </transition>
     <Header />
     <div class="h-full overflow-y-scroll">

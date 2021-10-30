@@ -107,13 +107,18 @@ export default {
       return form.commentType === '';
     });
     const onSubmit = async () => {
+      console.log('submit');
       try {
-        const { status } = await axios.post(`comments/${props.questionId}`, {
-          commentType: form.commentType,
-          commentDetail:
-            form.commentDetail === '' ? 'no detail' : form.commentDetail,
-        });
+        const { status } = await axios.post(
+          `questions/${props.questionId}/comments`,
+          {
+            comment_type: form.commentType,
+            comment_detail:
+              form.commentDetail === '' ? 'no detail' : form.commentDetail,
+          }
+        );
         if (status === 200) {
+          console.log('succeed');
           onClose();
           store.dispatch('setModal', {
             type: 'notification',
@@ -121,6 +126,7 @@ export default {
           });
         }
       } catch (e) {
+        console.log('failed');
         onClose();
         store.dispatch('setModal', {
           type: 'caution',

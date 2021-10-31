@@ -18,7 +18,7 @@
       {{ question.next_period ? question.next_period : '未学習' }}
     </p>
     <div class="flex justify-center mt-3">
-      <div class="flex">
+      <div v-if="isPostedByMe" class="flex">
         <router-link
           :to="`/section/${question.section_id}/question/${question.id}/edit`"
         >
@@ -32,14 +32,15 @@
         >
           削除する
         </button>
-        <button
-          data-testid="question-comment-button"
-          class="btn btn-sub-white"
-          @click="showModal"
-        >
-          改善要望
-        </button>
       </div>
+      <button
+        v-else
+        data-testid="question-comment-button"
+        class="btn btn-sub-white"
+        @click="showModal"
+      >
+        改善要望
+      </button>
     </div>
   </li>
 </template>
@@ -58,6 +59,12 @@ export default defineComponent({
     const store = useStore();
     const user = computed(() => {
       return store.state.user;
+    });
+    const isPostedByMe = computed(() => {
+      return props.question.posted_by === user.value.id;
+    });
+    const isCommentedByMe = computed(() => {
+      return props.question.commented_by.includes(user.value.id);
     });
     const showModal = () => {
       store.dispatch('setCommentModal', {
@@ -109,6 +116,8 @@ export default defineComponent({
       onDelete,
       user,
       showModal,
+      isPostedByMe,
+      isCommentedByMe,
     };
   },
 });

@@ -3,8 +3,8 @@ export interface Question {
   front: string;
   back: string;
   section_id: string;
-  likedBy: number[];
-  dislikedBy: number[];
+  posted_by: number;
+  commented_by: number[];
   created_at: string;
   updated_at: string;
   next_period: string;

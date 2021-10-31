@@ -71,6 +71,7 @@ export default defineComponent({
     const showModal = () => {
       store.dispatch('setCommentModal', {
         questionId: props.question.id,
+        modalMode: isCommentedByMe.value ? 'edit' : 'new',
       });
     };
     const onDelete = () => {

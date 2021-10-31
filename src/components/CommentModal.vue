@@ -7,7 +7,8 @@
       <div class="modal">
         <div class="py-2 pl-5 text-white bg-blue-700">通知</div>
         <div class="flex justify-center p-3">
-          改善要望を以下から選んでください
+          <span v-if="mode === 'new'"> 改善要望を以下から選んでください </span>
+          <span v-else> 以前に投稿した要望を編集・削除しますか？ </span>
         </div>
         <div class="flex justify-center mt-5">
           <div class="flex flex-col">
@@ -16,7 +17,7 @@
                 type="radio"
                 id="too-long"
                 value="複雑・長すぎる"
-                v-model="form.commentType"
+                v-model="form.comment_type"
               />
               <label for="too-long">複雑・長すぎる</label>
             </div>
@@ -25,7 +26,7 @@
                 type="radio"
                 id="not-suitable"
                 value="セクションにそぐわない"
-                v-model="form.commentType"
+                v-model="form.comment_type"
               />
               <label for="not-suitable">セクションにそぐわない</label>
             </div>
@@ -34,7 +35,7 @@
                 type="radio"
                 id="pejorative"
                 value="内容が攻撃的"
-                v-model="form.commentType"
+                v-model="form.comment_type"
               />
               <label for="pejorative">内容が攻撃的</label>
             </div>
@@ -43,24 +44,24 @@
                 type="radio"
                 id="not-proper"
                 value="文法的に不自然"
-                v-model="form.commentType"
+                v-model="form.comment_type"
               />
               <label for="not-proper">文法的に不自然</label>
             </div>
           </div>
         </div>
         <transition name="detailinput" appear>
-          <div class="mx-5 my-2" v-if="form.commentType === '文法的に不自然'">
+          <div class="mx-5 my-2" v-if="form.comment_type === '文法的に不自然'">
             <label for="not-proper-detail">詳細：</label>
             <input
               class="w-full border-2 border-gray-200"
               id="not-proper-detail"
-              v-model="form.commentDetail"
+              v-model="form.comment_detail"
               type="text"
             />
           </div>
         </transition>
-        <div class="flex justify-center mt-4">
+        <div v-if="mode === 'new'" class="flex justify-center mt-4">
           <button
             class="mr-1 btn btn-primary"
             data-testid="modal-yes-button"
@@ -77,60 +78,141 @@
             戻る
           </button>
         </div>
+        <div v-else class="flex justify-center mt-4">
+          <button
+            class="mr-1 btn btn-primary"
+            data-testid="modal-yes-button"
+            @click="onEdit"
+            :disabled="isDisabled"
+          >
+            編集
+          </button>
+          <button
+            class="mr-1 btn btn-primary"
+            data-testid="modal-yes-button"
+            @click="onDelete"
+          >
+            削除
+          </button>
+          <button
+            class="btn btn-sub"
+            data-testid="modal-no-button"
+            @click="onClose"
+          >
+            戻る
+          </button>
+        </div>
       </div>
     </transition>
   </div>
 </template>
 <script>
-import { reactive, computed, watch, ref } from 'vue';
+import { reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 export default {
   name: 'CommentModal',
-  props: ['questionId'],
+  props: ['questionId', 'mode'],
   setup(props) {
     const store = useStore();
-    const originalHeight = useStore(0);
     const onClose = () => {
       store.dispatch('discardCommentModal');
     };
     const form = reactive({
-      commentType: '',
-      commentDetail: '',
+      comment_type: '',
+      comment_detail: '',
     });
-    watch(form.commentType, () => {
-      if (form.commentType !== '文法的に不自然') {
-        form.commentDetail = '';
+    onMounted(async () => {
+      if (props.mode === 'edit') {
+        const { status, data } = await axios(
+          `questions_comments/${props.questionId}`
+        );
+        form.comment_type = data.comment.comment_type;
+        form.comment_detail = data.comment.comment_detail;
+      }
+    });
+    watch(form.comment_type, () => {
+      if (form.comment_type !== '文法的に不自然') {
+        form.comment_detail = '';
       }
     });
     const isDisabled = computed(() => {
-      return form.commentType === '';
+      return form.comment_type === '';
     });
     const onSubmit = async () => {
-      console.log('submit');
       try {
-        const { status } = await axios.post(
-          `questions/${props.questionId}/comments`,
-          {
-            comment_type: form.commentType,
-            comment_detail:
-              form.commentDetail === '' ? 'no detail' : form.commentDetail,
+        if (props.mode === 'new') {
+          const { status } = await axios.post(
+            `questions_comments/${props.questionId}`,
+            {
+              comment_type: form.comment_type,
+              comment_detail:
+                form.comment_detail === '' ? 'no detail' : form.comment_detail,
+            }
+          );
+          if (status === 200) {
+            console.log('succeed');
+            onClose();
+            store.dispatch('setModal', {
+              type: 'notification',
+              message: 'コメントを投稿しました',
+            });
           }
-        );
-        if (status === 200) {
-          console.log('succeed');
-          onClose();
-          store.dispatch('setModal', {
-            type: 'notification',
-            message: 'コメントを投稿しました',
-          });
         }
       } catch (e) {
-        console.log('failed');
         onClose();
         store.dispatch('setModal', {
           type: 'caution',
-          message: 'すでに投稿済です',
+          message: '投稿されておりません',
+        });
+      }
+    };
+    const onEdit = async () => {
+      try {
+        if (props.mode === 'edit') {
+          const { status } = await axios.put(
+            `questions_comments/${props.questionId}`,
+            {
+              comment_type: form.comment_type,
+              comment_detail:
+                form.comment_detail === '' ? 'no detail' : form.comment_detail,
+            }
+          );
+          if (status === 200) {
+            onClose();
+            store.dispatch('setModal', {
+              type: 'notification',
+              message: 'コメントを編集しました',
+            });
+          }
+        }
+      } catch (e) {
+        onClose();
+        store.dispatch('setModal', {
+          type: 'caution',
+          message: '投稿されておりません',
+        });
+      }
+    };
+    const onDelete = async () => {
+      try {
+        if (props.mode === 'edit') {
+          const { status } = await axios.delete(
+            `questions_comments/${props.questionId}`
+          );
+          if (status === 204) {
+            onClose();
+            store.dispatch('setModal', {
+              type: 'notification',
+              message: 'コメントを削除しました',
+            });
+          }
+        }
+      } catch (e) {
+        onClose();
+        store.dispatch('setModal', {
+          type: 'caution',
+          message: '投稿されておりません',
         });
       }
     };
@@ -139,6 +221,8 @@ export default {
       form,
       isDisabled,
       onSubmit,
+      onEdit,
+      onDelete,
     };
   },
 };

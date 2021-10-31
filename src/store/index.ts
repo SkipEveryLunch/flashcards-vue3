@@ -5,6 +5,7 @@ export default createStore({
     user: null,
     modal: null,
     commentModal: null,
+    sectionReloader: false,
   },
   mutations: {
     SET_USER: (state, user) => {
@@ -25,6 +26,9 @@ export default createStore({
     DISCARD_COMMENT_MODAL: (state) => {
       state.commentModal = null;
     },
+    RELOAD_SECTION: (state) => {
+      state.sectionReloader = !state.sectionReloader;
+    },
   },
   actions: {
     setUser: ({ commit }, user) => {
@@ -44,6 +48,9 @@ export default createStore({
     },
     discardCommentModal: ({ commit }) => {
       commit('DISCARD_COMMENT_MODAL');
+    },
+    reloadSection: ({ commit }) => {
+      commit('RELOAD_SECTION');
     },
   },
 });

@@ -51,7 +51,7 @@
 import axios from 'axios';
 import gsap from 'gsap';
 import QuestionCard from '../../components/QuestionCard.vue';
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { Section } from '../../types';
@@ -106,6 +106,12 @@ export default {
         await load();
       }
     });
+    store.watch(
+      (state) => {
+        return state.sectionReloader;
+      },
+      async () => await load()
+    );
     const beforeEnter = (el: HTMLElement) => {
       el.style.transform = 'translateX(60px)';
       el.style.opacity = '0';

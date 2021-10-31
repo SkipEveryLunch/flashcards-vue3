@@ -151,7 +151,7 @@ export default {
             }
           );
           if (status === 200) {
-            console.log('succeed');
+            store.dispatch('reloadSection');
             onClose();
             store.dispatch('setModal', {
               type: 'notification',
@@ -201,6 +201,7 @@ export default {
             `questions_comments/${props.questionId}`
           );
           if (status === 204) {
+            store.dispatch('reloadSection');
             onClose();
             store.dispatch('setModal', {
               type: 'notification',

@@ -5,7 +5,13 @@
     data-testid="question-card"
   >
     <div class="flex justify-end">
-      <div class="flex mr-5"></div>
+      <div class="flex mr-5">
+        <CommentIcon
+          :isCommented="isCommentedByMe"
+          :count="question.commented_by.length"
+          @comment="showModal"
+        />
+      </div>
     </div>
     <p>質問: {{ question.front.slice(0, 100) + '...' }}</p>
     <p>解答: {{ question.back.slice(0, 100) + '...' }}</p>
@@ -33,14 +39,6 @@
           削除する
         </button>
       </div>
-      <button
-        v-else
-        data-testid="question-comment-button"
-        class="btn btn-sub-white"
-        @click="showModal"
-      >
-        改善要望
-      </button>
     </div>
   </li>
 </template>
@@ -49,12 +47,16 @@ import { computed, defineComponent, SetupContext } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import { Question } from '../types';
+import CommentIcon from './CommentIcon.vue';
 interface QuestionCardProps {
   question: Question;
 }
 export default defineComponent({
   props: ['question'],
   emits: ['load'],
+  components: {
+    CommentIcon,
+  },
   setup(props: QuestionCardProps, { emit }: SetupContext) {
     const store = useStore();
     const user = computed(() => {

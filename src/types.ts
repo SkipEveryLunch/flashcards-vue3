@@ -20,6 +20,15 @@ export interface Section {
   count_questions: number;
   questions: Question[];
 }
+export interface Comment {
+  id: number;
+  comment_type: string;
+  comment_detail: string;
+  user_id: number;
+  question_id: number;
+  created_at: string;
+  updated_at: string;
+}
 export interface Modal {
   type: 'notification' | 'caution' | 'error';
   message: string;

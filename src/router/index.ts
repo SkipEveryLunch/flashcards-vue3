@@ -13,6 +13,7 @@ import QuestionEditPage from '../pages/QuestionEditPage/QuestionEditPage.vue';
 import CommentShowPage from '../pages/CommentShowPage/CommentShowPage.vue';
 import StudySelectPage from '../pages/StudySelectPage/StudySelectPage.vue';
 import StudyNewPage from '../pages/StudyNewPage/StudyNewPage.vue';
+import MessageShowPage from '../pages/MessageShowPage/MessageShowPage.vue';
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage.vue';
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:8000/api/';
@@ -37,6 +38,11 @@ const routes: Array<RouteRecordRaw> = [
         path: '/register',
         name: 'RegisterPage',
         component: RegisterPage,
+      },
+      {
+        path: '/message_show',
+        name: 'MessageShowPage',
+        component: MessageShowPage,
       },
       {
         path: '/profile_show',

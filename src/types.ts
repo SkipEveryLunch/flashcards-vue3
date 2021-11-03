@@ -29,6 +29,16 @@ export interface Comment {
   created_at: string;
   updated_at: string;
 }
+
+export interface Message {
+  id: number;
+  title: string;
+  body: string;
+  user_id: number;
+  created_at: string;
+  updated_at: string;
+  is_read: number;
+}
 export interface Modal {
   type: 'notification' | 'caution' | 'error';
   message: string;

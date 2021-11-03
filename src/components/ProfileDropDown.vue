@@ -5,6 +5,9 @@
     v-click-away="() => toggleDropDown(false)"
   >
     <ul>
+      <li @click="goTo('/message_show')" class="profileList">
+        <span data-testid="message-link"> メッセージを見る </span>
+      </li>
       <li @click="goTo('/profile_show')" class="profileList">
         <span data-testid="profile-link"> プロフィールを見る </span>
       </li>

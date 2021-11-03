@@ -10,6 +10,7 @@ import SectionSubmitPage from '../pages/SectionSubmitPage/SectionSubmitPage.vue'
 import SectionEditPage from '../pages/SectionEditPage/SectionEditPage.vue';
 import QuestionSubmitPage from '../pages/QuestionSubmitPage/QuestionSubmitPage.vue';
 import QuestionEditPage from '../pages/QuestionEditPage/QuestionEditPage.vue';
+import CommentShowPage from '../pages/CommentShowPage/CommentShowPage.vue';
 import StudySelectPage from '../pages/StudySelectPage/StudySelectPage.vue';
 import StudyNewPage from '../pages/StudyNewPage/StudyNewPage.vue';
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage.vue';
@@ -81,6 +82,11 @@ const routes: Array<RouteRecordRaw> = [
         path: '/section/:sectionId/question/:questionId/edit',
         name: 'QuestionEditPage',
         component: QuestionEditPage,
+      },
+      {
+        path: '/section/:sectionId/question/:questionId/comment',
+        name: 'CommentShowPage',
+        component: CommentShowPage,
       },
       {
         path: '/:pathMatch(.*)*',

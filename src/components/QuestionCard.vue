@@ -45,6 +45,7 @@
 <script lang="ts">
 import { computed, defineComponent, SetupContext } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { Question } from '../types';
 import CommentIcon from './CommentIcon.vue';
@@ -59,6 +60,7 @@ export default defineComponent({
   },
   setup(props: QuestionCardProps, { emit }: SetupContext) {
     const store = useStore();
+    const router = useRouter();
     const user = computed(() => {
       return store.state.user;
     });
@@ -69,10 +71,16 @@ export default defineComponent({
       return props.question.commented_by.includes(user.value.id);
     });
     const showModal = () => {
-      store.dispatch('setCommentModal', {
-        questionId: props.question.id,
-        modalMode: isCommentedByMe.value ? 'edit' : 'new',
-      });
+      if (isPostedByMe.value) {
+        router.push(
+          `/section/${props.question.section_id}/question/${props.question.id}/comment`
+        );
+      } else {
+        store.dispatch('setCommentModal', {
+          questionId: props.question.id,
+          modalMode: isCommentedByMe.value ? 'edit' : 'new',
+        });
+      }
     };
     const onDelete = () => {
       store.dispatch('setModal', {

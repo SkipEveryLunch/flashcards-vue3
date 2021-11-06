@@ -102,10 +102,18 @@ export default {
         if (status === 200 && user) {
           store.dispatch('setUser', user);
           router.push('/');
-          store.dispatch('setModal', {
-            type: 'notification',
-            message: 'ログインしました',
-          });
+          alert(user.unconfirmed_messages);
+          if (user.unconfirmed_messages > 0) {
+            store.dispatch('setModal', {
+              type: 'notification',
+              message: `おかえりなさい、${user.first_name}さん。${user.unconfirmed_messages}個の未読メッセージがあります`,
+            });
+          } else {
+            store.dispatch('setModal', {
+              type: 'notification',
+              message: 'ログインしました',
+            });
+          }
         }
       } catch (e) {
         if (e.response.status === 401) {

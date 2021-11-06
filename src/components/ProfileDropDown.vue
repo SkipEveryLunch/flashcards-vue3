@@ -38,7 +38,7 @@ export default {
     const router = useRouter();
     const store = useStore();
     const unconfirmedMessages = computed(() => {
-      return store.state.user.unconfirmed_messages;
+      return store.state.unconfirmed;
     });
     const goTo = (path) => {
       props.toggleDropDown(false);

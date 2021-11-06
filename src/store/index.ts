@@ -3,6 +3,7 @@ import { createStore } from 'vuex';
 export default createStore({
   state: {
     user: null,
+    unconfirmed: 0,
     modal: null,
     commentModal: null,
     sectionReloader: false,
@@ -10,6 +11,10 @@ export default createStore({
   mutations: {
     SET_USER: (state, user) => {
       state.user = user;
+      state.unconfirmed = user.unconfirmed_messages;
+    },
+    DECREASE_UNCONFIRMED: (state) => {
+      state.unconfirmed = state.unconfirmed - 1;
     },
     DISCARD_USER: (state) => {
       state.user = null;
@@ -33,6 +38,9 @@ export default createStore({
   actions: {
     setUser: ({ commit }, user) => {
       commit('SET_USER', user);
+    },
+    decreaseUnconfirmed: ({ commit }) => {
+      commit('DECREASE_UNCONFIRMED');
     },
     discardUser: ({ commit }) => {
       commit('DISCARD_USER');

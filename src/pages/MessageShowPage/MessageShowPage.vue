@@ -79,6 +79,8 @@ export default defineComponent({
             type: 'error',
             message: '不明なエラーが発生しました',
           });
+        } else {
+          store.dispatch('decreaseUnconfirmed');
         }
       }
     };

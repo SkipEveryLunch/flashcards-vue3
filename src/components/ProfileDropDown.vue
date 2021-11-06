@@ -7,6 +7,9 @@
     <ul>
       <li @click="goTo('/message_show')" class="profileList">
         <span data-testid="message-link"> メッセージを見る </span>
+        <span class="unconfirmedNotion" v-if="unconfirmedMessages > 0">
+          {{ unconfirmedMessages }}
+        </span>
       </li>
       <li @click="goTo('/profile_show')" class="profileList">
         <span data-testid="profile-link"> プロフィールを見る </span>
@@ -25,6 +28,7 @@
 </template>
 <script>
 import axios from 'axios';
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 export default {
@@ -33,6 +37,9 @@ export default {
   setup(props) {
     const router = useRouter();
     const store = useStore();
+    const unconfirmedMessages = computed(() => {
+      return store.state.user.unconfirmed_messages;
+    });
     const goTo = (path) => {
       props.toggleDropDown(false);
       router.push(path);
@@ -62,6 +69,7 @@ export default {
       });
     };
     return {
+      unconfirmedMessages,
       onLogout,
       goTo,
     };
@@ -72,5 +80,9 @@ export default {
 .profileList {
   @apply w-full border-b pl-2 mr-4 py-2 text-gray-800
     text-lg hover:bg-gray-100 cursor-pointer;
+}
+.unconfirmedNotion {
+  @apply text-yellow-700 bg-yellow-300 px-2 text-right;
+  border-radius: 50%;
 }
 </style>

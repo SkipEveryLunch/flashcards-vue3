@@ -6,6 +6,14 @@
         <div class="p-5 mx-5 my-3 text-white bg-gray-700 rounded">
           <p>{{ message.title }}<span v-if="!message.is_read"> new!</span></p>
           <p>詳細：{{ message.body }}</p>
+          <div class="flex justify-center mt-5">
+            <button
+              @click="() => onConfirm(message)"
+              class="mr-2 btn btn-primary"
+            >
+              確認する
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -19,10 +27,12 @@
 <script lang="ts">
 import { ref, onMounted, defineComponent } from 'vue';
 import { Message } from '../../types';
+import { useRouter } from 'vue-router';
 import axios from 'axios';
 export default defineComponent({
   name: 'MessageShowPage',
   setup() {
+    const router = useRouter();
     const messages = ref<Message[]>([]);
     onMounted(async () => {
       try {
@@ -32,8 +42,18 @@ export default defineComponent({
         console.log(e);
       }
     });
+    const onConfirm = (message: Message) => {
+      let linkTo = '';
+      const { link_type, link_data } = message;
+      if (link_type === 'comment') {
+        const { section_id, question_id } = JSON.parse(link_data);
+        linkTo = `/section/${section_id}/question/${question_id}/comment`;
+      }
+      router.push(linkTo);
+    };
     return {
       messages,
+      onConfirm,
     };
   },
 });

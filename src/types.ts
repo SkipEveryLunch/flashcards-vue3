@@ -38,6 +38,8 @@ export interface Message {
   created_at: string;
   updated_at: string;
   is_read: number;
+  link_type: string;
+  link_data: string;
 }
 export interface Modal {
   type: 'notification' | 'caution' | 'error';

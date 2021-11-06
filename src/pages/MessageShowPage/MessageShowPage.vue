@@ -18,16 +18,12 @@
 </template>
 <script lang="ts">
 import { ref, onMounted, defineComponent } from 'vue';
-import { Comment } from '../../types';
-import { useRoute } from 'vue-router';
+import { Message } from '../../types';
 import axios from 'axios';
 export default defineComponent({
-  name: 'CommentShowPage',
+  name: 'MessageShowPage',
   setup() {
-    const {
-      params: { questionId, sectionId },
-    } = useRoute();
-    const messages = ref<Comment[]>([]);
+    const messages = ref<Message[]>([]);
     onMounted(async () => {
       try {
         const { data } = await axios.get('/messages');

@@ -28,10 +28,12 @@
 import { ref, onMounted, defineComponent } from 'vue';
 import { Message } from '../../types';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import axios from 'axios';
 export default defineComponent({
   name: 'MessageShowPage',
   setup() {
+    const store = useStore();
     const router = useRouter();
     const messages = ref<Message[]>([]);
     onMounted(async () => {
@@ -42,7 +44,7 @@ export default defineComponent({
         console.log(e);
       }
     });
-    const onConfirm = (message: Message) => {
+    const onConfirm = async (message: Message) => {
       let linkTo = '';
       const { link_type, link_data } = message;
       if (link_type === 'comment') {
@@ -50,6 +52,15 @@ export default defineComponent({
         linkTo = `/section/${section_id}/question/${question_id}/comment`;
       }
       router.push(linkTo);
+      if (!message.is_read) {
+        const { status } = await axios.put(`/messages/${message.id}`);
+        if (status !== 200) {
+          store.dispatch('setModal', {
+            type: 'error',
+            message: '不明なエラーが発生しました',
+          });
+        }
+      }
     };
     return {
       messages,

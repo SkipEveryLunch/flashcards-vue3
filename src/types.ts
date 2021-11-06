@@ -37,7 +37,7 @@ export interface Message {
   user_id: number;
   created_at: string;
   updated_at: string;
-  is_read: number;
+  is_confirmed: number;
   link_type: string;
   link_data: string;
 }

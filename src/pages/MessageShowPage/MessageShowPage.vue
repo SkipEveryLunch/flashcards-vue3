@@ -1,10 +1,22 @@
 <template>
   <div class="h-full">
-    <h1 class="text-2xl text-center">届いているメッセージは以下の通りです</h1>
+    <h1 class="my-3 text-2xl text-center">
+      {{ unconfirmed }}件の未読のメッセージがあります。
+    </h1>
     <div class="flex flex-col">
       <div v-for="message in messages" :key="message.id">
         <div class="p-5 mx-5 my-3 text-white bg-gray-700 rounded">
-          <p>{{ message.title }}<span v-if="!message.is_read"> new!</span></p>
+          <p class="mb-2">
+            <span
+              v-if="!message.is_confirmed"
+              class="px-1 mr-1 text-yellow-700 bg-yellow-300 rounded-sm"
+            >
+              new!</span
+            >
+            <span class="text-xl">
+              {{ message.title }}
+            </span>
+          </p>
           <p>詳細：{{ message.body }}</p>
           <div class="flex justify-center mt-5">
             <button
@@ -25,7 +37,7 @@
   </div>
 </template>
 <script lang="ts">
-import { ref, onMounted, defineComponent } from 'vue';
+import { ref, computed, onMounted, defineComponent } from 'vue';
 import { Message } from '../../types';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -35,11 +47,19 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
+    const unconfirmed = ref(0);
     const messages = ref<Message[]>([]);
     onMounted(async () => {
       try {
         const { data } = await axios.get('/messages');
         messages.value = data.messages;
+        let result = 0;
+        messages.value.forEach((el) => {
+          if (!el.is_confirmed) {
+            result += 1;
+          }
+        });
+        unconfirmed.value = result;
       } catch (e) {
         console.log(e);
       }
@@ -52,7 +72,7 @@ export default defineComponent({
         linkTo = `/section/${section_id}/question/${question_id}/comment`;
       }
       router.push(linkTo);
-      if (!message.is_read) {
+      if (!message.is_confirmed) {
         const { status } = await axios.put(`/messages/${message.id}`);
         if (status !== 200) {
           store.dispatch('setModal', {
@@ -65,6 +85,7 @@ export default defineComponent({
     return {
       messages,
       onConfirm,
+      unconfirmed,
     };
   },
 });

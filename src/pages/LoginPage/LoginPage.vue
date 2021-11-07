@@ -102,7 +102,6 @@ export default {
         if (status === 200 && user) {
           store.dispatch('setUser', user);
           router.push('/');
-          alert(user.unconfirmed_messages);
           if (user.unconfirmed_messages > 0) {
             store.dispatch('setModal', {
               type: 'notification',

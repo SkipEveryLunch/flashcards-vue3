@@ -69,9 +69,17 @@ export const server = setupServer(
   rest.put(`${baseUrl}questions/*`, (req, res, ctx) => {
     reqBody = req.body;
     return res(ctx.status(202), ctx.json({ question: questionsData[0] }));
+  }),
+  rest.get(`${baseUrl}questions_several_comments/*`, (req, res, ctx) => {
+    reqBody = req.body;
+    return res(
+      ctx.status(200),
+      ctx.json({ comments: commentsData, commented_to: userData.id })
+    );
   })
 );
 export const userData = {
+  id: 1,
   first_name: 'John',
   last_name: 'Smith',
   email: 'js@test.io',
@@ -150,6 +158,38 @@ export const sectionData = {
   complete_rate: 0,
   questions: questionsData,
 };
+export const commentsData = [
+  {
+    id: '1',
+    comment_type: 'qui',
+    comment_detail:
+      'Commodi voluptas animi debitis porro quas et aut. Et expedita esse aut enim. Iste rerum ipsam ducimus.',
+    user_id: 1,
+    question_id: 6,
+    created_at: '2021-11-06T09:02:48.000000Z',
+    updated_at: '2021-11-06T09:02:48.000000Z',
+  },
+  {
+    id: '2',
+    comment_type: 'qui',
+    comment_detail:
+      'Commodi voluptas animi debitis porro quas et aut. Et expedita esse aut enim. Iste rerum ipsam ducimus.',
+    user_id: 1,
+    question_id: 6,
+    created_at: '2021-11-06T09:02:48.000000Z',
+    updated_at: '2021-11-06T09:02:48.000000Z',
+  },
+  {
+    id: '3',
+    comment_type: 'qui',
+    comment_detail:
+      'Commodi voluptas animi debitis porro quas et aut. Et expedita esse aut enim. Iste rerum ipsam ducimus.',
+    user_id: 1,
+    question_id: 6,
+    created_at: '2021-11-06T09:02:48.000000Z',
+    updated_at: '2021-11-06T09:02:48.000000Z',
+  },
+];
 
 const deepCopy = (obj) => {
   return [obj].map((ob) => ({ ...ob }))[0];

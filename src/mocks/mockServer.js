@@ -76,6 +76,10 @@ export const server = setupServer(
       ctx.status(200),
       ctx.json({ comments: commentsData, commented_to: userData.id })
     );
+  }),
+  rest.get(`${baseUrl}messages`, (req, res, ctx) => {
+    reqBody = req.body;
+    return res(ctx.status(200), ctx.json({ messages: messagesData }));
   })
 );
 export const userData = {
@@ -188,6 +192,52 @@ export const commentsData = [
     question_id: 6,
     created_at: '2021-11-06T09:02:48.000000Z',
     updated_at: '2021-11-06T09:02:48.000000Z',
+  },
+];
+export const messagesData = [
+  {
+    id: 1,
+    title: 'voluptate',
+    body: 'Non id dolores rem voluptatem quae aliquid quidem. Deserunt atque dolore veritatis quia ex perspiciatis voluptatibus. Ut totam voluptatum accusantium et natus quis.',
+    user_id: 1,
+    is_confirmed: 1,
+    link_type: 'comment',
+    link_data: '{"section_id": 2, "question_id": 54}',
+    created_at: '2021-11-06T09:02:49.000000Z',
+    updated_at: '2021-11-06T09:07:54.000000Z',
+  },
+  {
+    id: 2,
+    title: 'consequuntur',
+    body: 'Dolor asperiores et incidunt quibusdam. Ut iure enim voluptatem quidem voluptatem.',
+    user_id: 1,
+    is_confirmed: 1,
+    link_type: 'comment',
+    link_data: '{"section_id": 3, "question_id": 73}',
+    created_at: '2021-11-06T09:02:49.000000Z',
+    updated_at: '2021-11-06T09:22:05.000000Z',
+  },
+  {
+    id: 3,
+    title: 'voluptate',
+    body: 'Non id dolores rem voluptatem quae aliquid quidem. Deserunt atque dolore veritatis quia ex perspiciatis voluptatibus. Ut totam voluptatum accusantium et natus quis.',
+    user_id: 1,
+    is_confirmed: 1,
+    link_type: 'comment',
+    link_data: '{"section_id": 2, "question_id": 54}',
+    created_at: '2021-11-06T09:02:49.000000Z',
+    updated_at: '2021-11-06T09:07:54.000000Z',
+  },
+  {
+    id: 4,
+    title: 'consequuntur',
+    body: 'Dolor asperiores et incidunt quibusdam. Ut iure enim voluptatem quidem voluptatem.',
+    user_id: 1,
+    is_confirmed: 1,
+    link_type: 'comment',
+    link_data: '{"section_id": 3, "question_id": 73}',
+    created_at: '2021-11-06T09:02:49.000000Z',
+    updated_at: '2021-11-06T09:22:05.000000Z',
   },
 ];
 

@@ -1,11 +1,15 @@
 <template>
-  <div class="h-full">
+  <div class="h-full" v-if="user">
     <h1 class="my-3 text-2xl text-center">
-      {{ unconfirmed }}件の未読のメッセージがあります。
+      <span data-testId="unconfirmed">{{ unconfirmed }}</span>
+      件の未読のメッセージがあります。
     </h1>
     <div class="flex flex-col">
       <div v-for="message in messages" :key="message.id">
-        <div class="p-5 mx-5 my-3 text-white bg-gray-700 rounded">
+        <div
+          class="p-5 mx-5 my-3 text-white bg-gray-700 rounded"
+          data-testId="message-card"
+        >
           <p class="mb-2">
             <span
               v-if="!message.is_confirmed"
@@ -35,21 +39,36 @@
       </router-link>
     </div>
   </div>
+  <div
+    v-else
+    class="flex items-center justify-center h-screen"
+    data-testId="cannot-display"
+  >
+    <Spinner />
+  </div>
 </template>
 <script lang="ts">
 import { ref, computed, onMounted, defineComponent } from 'vue';
 import { Message } from '../../types';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import Spinner from '../../components/Spinner.vue';
 import axios from 'axios';
 export default defineComponent({
   name: 'MessageShowPage',
+  components: { Spinner },
   setup() {
     const store = useStore();
     const router = useRouter();
     const unconfirmed = ref(0);
     const messages = ref<Message[]>([]);
+    const user = computed(() => {
+      return store.state.user;
+    });
     onMounted(async () => {
+      if (!user.value) {
+        router.push('/');
+      }
       try {
         const { data } = await axios.get('/messages');
         messages.value = data.messages;
@@ -88,6 +107,7 @@ export default defineComponent({
       messages,
       onConfirm,
       unconfirmed,
+      user,
     };
   },
 });

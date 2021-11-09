@@ -1,18 +1,7 @@
 <template>
   <div data-testid="section-page" class="h-full">
     <div v-if="sections.length > 0">
-      <div class="flex justify-around w-full p-5">
-        <div>
-          <router-link
-            data-testid="section-submit-link"
-            v-if="user"
-            to="section_submit"
-            ><button class="btn btn-yellow">
-              新セクションを作る
-            </button></router-link
-          >
-        </div>
-      </div>
+      <div class="flex justify-around w-full p-5"></div>
       <transition-group
         tag="ul"
         class="flex flex-wrap justify-center"
@@ -29,6 +18,14 @@
           <SectionCard :section="section" />
         </li>
       </transition-group>
+      <div class="fixed flex p-5 m-2 bg-black rounded bottom-1 right-1">
+        <router-link
+          data-testid="section-submit-link"
+          v-if="user"
+          to="section_submit"
+          ><button class="btn btn-yellow">新規作成</button></router-link
+        >
+      </div>
     </div>
     <div v-else class="h-full">
       <Spinner color="blue" />

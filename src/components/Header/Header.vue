@@ -10,10 +10,6 @@
           <span>Fla$hApp</span>
         </router-link>
       </div>
-      <div class="flex items-center px-2 py-5">
-        <a class="px-2">セクション</a>
-        <a class="px-2">今日の宿題</a>
-      </div>
     </div>
     <div v-if="name.length === 0">
       <div class="flex items-center px-2 py-5">
@@ -22,7 +18,7 @@
         >
         <router-link
           to="/register"
-          class="px-2 py-2 text-yellow-700 bg-yellow-300 rounded-md"
+          class="px-2 py-1 text-yellow-700 bg-yellow-300 rounded-md"
           >新規登録</router-link
         >
       </div>
@@ -34,7 +30,7 @@
         @click="() => toggleDropDown(!showDropDown)"
         data-testid="profile-menu"
       >
-        <span class="mr-2 cursor-pointer">
+        <span class="py-1 mr-2 cursor-pointer">
           {{ name }}
         </span>
         <span class="mt-1 ml-1 text-sm arrow" :class="{ up: showDropDown }">
@@ -104,8 +100,9 @@ export default {
 }
 .arrow {
   transition: all 0.25s ease-out;
+  transform: translateY(0.4rem);
 }
 .arrow.up {
-  transform: rotate(-180deg);
+  transform: translateY(-0.4rem) rotate(-180deg);
 }
 </style>

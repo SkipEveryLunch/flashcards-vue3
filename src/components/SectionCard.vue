@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <div class="flex flex-col justify-center text-2xl text-center h-1/5">
+    <div class="flex flex-col justify-center text-3xl text-center h-1/5">
       <div>
         <p>{{ section.title }}</p>
       </div>
@@ -40,7 +40,7 @@ export default {
 </script>
 <style scoped>
 .card {
-  @apply m-5 w-full p-5  text-white bg-gray-900 rounded-lg h-full;
+  @apply m-5 w-full p-5  text-white bg-gray-700 rounded-lg h-full;
   height: 350px;
   width: 280px;
   overflow: hidden;

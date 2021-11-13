@@ -1,7 +1,9 @@
 <template>
   <div class="flex h-full">
     <div class="flex flex-col w-1/3 px-4 py-3">
-      <div class="pt-2 pb-3 text-5xl font-bold text-gray-700">Sections</div>
+      <div class="pt-2 pb-3 text-4xl font-bold text-gray-700">
+        セクション一覧
+      </div>
       <div class="flex pr-1 mt-1 mb-2">
         <input type="text" class="pl-1 formInput" />
         <button class="bg-gray-700">

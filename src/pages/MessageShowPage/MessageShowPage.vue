@@ -7,7 +7,7 @@
     <div class="flex flex-col">
       <div v-for="message in messages" :key="message.id">
         <div
-          class="p-5 mx-5 my-3 text-white bg-gray-700 rounded"
+          class="p-5 mx-5 my-3 text-gray-100 bg-gray-700 rounded"
           data-testId="message-card"
         >
           <p class="mb-2">

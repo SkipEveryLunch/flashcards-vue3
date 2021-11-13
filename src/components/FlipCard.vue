@@ -42,7 +42,7 @@ export default {
   @apply p-3 m-3 rounded;
 }
 .card-front {
-  @apply bg-green-300;
+  @apply bg-blue-300;
 }
 .card-back {
   @apply bg-yellow-300;

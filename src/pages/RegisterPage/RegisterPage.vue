@@ -1,9 +1,9 @@
 <template>
   <div data-testid="register-page" class="flex flex-col items-center mb-5">
     <div>
-      <h1 class="my-5 text-5xl font-bold text-white">Signin</h1>
+      <h1 class="mt-5 text-5xl font-bold text-gray-700 mb-7">Signin</h1>
     </div>
-    <div class="w-1/3 p-5 bg-white rounded pr-7">
+    <div class="w-1/3 p-5 bg-gray-700 rounded pr-7">
       <Input
         id="first-name"
         name="名字"

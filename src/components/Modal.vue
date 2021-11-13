@@ -1,11 +1,21 @@
 <template>
   <div
     data-testid="modal"
-    class="fixed z-20 flex items-center justify-center w-full h-full transition-opacity bg-black  bg-opacity-40"
+    class="
+      fixed
+      z-20
+      flex
+      items-center
+      justify-center
+      w-full
+      h-full
+      transition-opacity
+      bg-black bg-opacity-40
+    "
   >
     <transition name="modalbox" appear>
       <div class="modal">
-        <div class="py-2 pl-5 text-white bg-blue-700">{{ typeName }}</div>
+        <div class="py-2 pl-5 text-gray-100 bg-blue-700">{{ typeName }}</div>
         <div class="flex justify-center p-3">{{ modal.message }}</div>
         <div class="flex justify-center" v-if="modal.cb">
           <button
@@ -85,7 +95,7 @@ export default {
   transition: all 0.25s ease;
 }
 .modal {
-  @apply flex flex-col pb-5 bg-white border-gray-600 rounded-md;
+  @apply flex flex-col pb-5 bg-gray-100 border-gray-600 rounded-md;
   width: 250px;
   overflow: hidden;
 }

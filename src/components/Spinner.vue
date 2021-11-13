@@ -24,7 +24,7 @@ s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.
 c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"
         />
         <path
-          fill="rgba(96, 165, 250)"
+          fill="rgba(165, 243, 252)"
           d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
 C22.32,8.481,24.301,9.057,26.013,10.047z"
         >
@@ -40,7 +40,7 @@ C22.32,8.481,24.301,9.057,26.013,10.047z"
         </path>
       </svg>
     </div>
-    <p class="text-center text-blue-400 flicker">Loading...</p>
+    <p class="text-center text-blue-200 flicker">Loading...</p>
   </div>
 </template>
 <script>
@@ -50,7 +50,7 @@ export default {
   props: ['color'],
   setup(props) {
     const colorClass = computed(() => {
-      return props.color === 'white' ? 'text-white' : 'text-blue-400';
+      return props.color === 'white' ? 'text-gray-100' : 'text-blue-200';
     });
     return { colorClass };
   },

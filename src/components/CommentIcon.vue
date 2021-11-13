@@ -22,7 +22,7 @@ export default {
       emit('comment');
     };
     const colorClass = computed(() => {
-      return props.isCommented ? 'text-white' : 'text-gray-400';
+      return props.isCommented ? 'text-gray-100' : 'text-gray-400';
     });
     return {
       faCommentDots,

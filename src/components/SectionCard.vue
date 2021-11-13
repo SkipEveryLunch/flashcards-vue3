@@ -42,7 +42,7 @@ export default {
 </script>
 <style scoped>
 .card {
-  @apply flex flex-row p-3 mb-2 text-gray-800 bg-white rounded-sm justify-around;
+  @apply flex flex-row p-3 mb-2 text-gray-100 bg-gray-700 rounded justify-around;
   height: 100px;
 }
 .slide-enter-from {

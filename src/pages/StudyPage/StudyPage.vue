@@ -3,7 +3,7 @@
     <div
       v-if="questions.length > 0 && remains.length === 0"
       data-testid="study-finish-message"
-      class="py-4 m-4 text-white bg-gray-900 rounded-lg px-7"
+      class="py-4 m-4 text-gray-100 bg-gray-900 rounded-lg px-7"
     >
       本日の学習は終了しました。
       <div class="flex justify-center mt-5">
@@ -16,7 +16,7 @@
     <div
       v-else-if="questions.length > 0"
       data-testid="question-window"
-      class="py-4 m-4 text-white bg-gray-900 rounded-lg px-7"
+      class="py-4 m-4 text-gray-100 bg-gray-900 rounded-lg px-7"
     >
       <p class="mb-3 text-center">{{ progress + 1 }}/{{ questions.length }}</p>
       <FlipCard
@@ -50,7 +50,7 @@
       v-else-if="section"
       class="flex flex-col w-2/3 p-5 mx-auto bg-gray-900 rounded-lg"
     >
-      <div class="mb-5 text-center text-white">
+      <div class="mb-5 text-center text-gray-100">
         <h1 class="mb-2 text-2xl">{{ section.title }}</h1>
         <p>
           {{ section.description }}

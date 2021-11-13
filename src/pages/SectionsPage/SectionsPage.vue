@@ -1,14 +1,14 @@
 <template>
   <div class="flex h-full">
     <div class="flex flex-col w-1/3 px-4 py-3">
-      <div class="pt-2 pb-3 text-5xl font-bold text-white">Sections</div>
+      <div class="pt-2 pb-3 text-5xl font-bold text-gray-700">Sections</div>
       <div class="flex pr-1 mt-1 mb-2">
         <input type="text" class="pl-1 formInput" />
-        <button class="bg-gray-500">
+        <button class="bg-gray-700">
           <font-awesome-icon class="formButton fa-lg" :icon="faSearch" />
         </button>
       </div>
-      <div class="flex flex-col pl-3">
+      <div class="flex flex-col ml-2">
         <div class="py-2 cursor-pointer">
           <router-link
             data-testid="section-submit-link"
@@ -118,7 +118,7 @@ export default {
   border-bottom-left-radius: 0.15em;
 }
 .formButton {
-  @apply text-white;
+  @apply text-gray-100;
   padding: 3px 3px 3px 3px;
   border-top-right-radius: 0.15em;
   border-bottom-right-radius: 0.15em;

@@ -1,6 +1,6 @@
 <template>
   <li
-    class="block p-5 m-5 text-white bg-gray-600 rounded"
+    class="block p-5 m-5 text-gray-100 bg-gray-600 rounded"
     :key="question.id"
     data-testid="question-card"
   >

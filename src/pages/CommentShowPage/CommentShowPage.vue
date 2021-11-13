@@ -19,7 +19,7 @@
           v-for="(comment, idx) in comments"
           :key="idx"
           :data-idx="idx"
-          class="p-5 mx-5 my-3 text-white bg-gray-700 rounded"
+          class="p-5 mx-5 my-3 text-gray-100 bg-gray-700 rounded"
           data-testId="comment-card"
         >
           <p>{{ comment.comment_type }}</p>

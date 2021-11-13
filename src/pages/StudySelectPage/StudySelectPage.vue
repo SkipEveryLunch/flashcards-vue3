@@ -4,7 +4,7 @@
       v-if="section"
       class="flex flex-col p-5 mx-auto bg-gray-900 rounded-lg"
     >
-      <div class="mb-5 text-center text-white">
+      <div class="mb-5 text-center text-gray-100">
         <h1 class="mb-2 text-2xl">{{ section.title }}</h1>
         <p class="descriptionContainer">
           {{ section.description }}

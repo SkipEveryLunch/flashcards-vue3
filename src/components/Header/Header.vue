@@ -34,7 +34,7 @@
           {{ name }}
         </span>
         <span class="mt-1 ml-1 text-sm arrow" :class="{ up: showDropDown }">
-          <Arrow />
+          <font-awesome-icon class="fa-lg" :icon="faChevronDown" />
         </span>
       </div>
       <transition name="dropdown" appear>
@@ -47,10 +47,11 @@
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import ProfileDropDown from '../ProfileDropDown.vue';
-import Arrow from '../../assets/Arrow.vue';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 export default {
   name: 'Header',
-  components: { ProfileDropDown, Arrow },
+  components: { ProfileDropDown, FontAwesomeIcon },
   setup() {
     const store = useStore();
     const showDropDown = ref(false);
@@ -67,6 +68,7 @@ export default {
       name,
       showDropDown,
       toggleDropDown,
+      faChevronDown,
     };
   },
 };
@@ -100,9 +102,9 @@ export default {
 }
 .arrow {
   transition: all 0.25s ease-out;
-  transform: translateY(0.4rem);
+  transform: translateY(0.3rem);
 }
 .arrow.up {
-  transform: translateY(-0.4rem) rotate(-180deg);
+  transform: translateY(-0.3rem) rotate(-180deg);
 }
 </style>

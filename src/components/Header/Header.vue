@@ -1,7 +1,7 @@
 <template>
   <nav
     data-testid="header"
-    class="flex justify-between px-3 text-xl text-white bg-gray-900"
+    class="flex justify-between px-3 text-xl text-gray-800 bg-white"
   >
     <div class="flex space-x-1">
       <div class="flex items-center px-2 py-5">

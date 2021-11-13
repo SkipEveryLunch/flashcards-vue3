@@ -1,10 +1,44 @@
 <template>
-  <div data-testid="section-page" class="h-full">
-    <div v-if="sections.length > 0">
-      <div class="flex justify-around w-full p-5"></div>
+  <div class="flex h-full">
+    <div class="flex flex-col w-1/3 px-4 py-3">
+      <div class="pt-2 pb-3 text-5xl font-bold text-white">Sections</div>
+      <div class="flex pr-1 mt-1 mb-2">
+        <input type="text" class="pl-1 formInput" />
+        <button class="bg-gray-500">
+          <font-awesome-icon class="formButton fa-lg" :icon="faSearch" />
+        </button>
+      </div>
+      <div class="flex flex-col pl-3">
+        <div class="py-2 cursor-pointer">
+          <router-link
+            data-testid="section-submit-link"
+            v-if="user"
+            to="section_submit"
+            ><p>新規セクション作成</p></router-link
+          >
+        </div>
+
+        <div class="py-2" v-if="user">
+          <p>投稿したセクション</p>
+        </div>
+        <div class="py-2">
+          <p>前置詞・名詞</p>
+        </div>
+        <div class="py-2">
+          <p>単位・度合</p>
+        </div>
+        <div class="py-2">
+          <p>時・条件</p>
+        </div>
+        <div class="py-2">
+          <p>仮定法</p>
+        </div>
+      </div>
+    </div>
+    <div v-if="sections.length > 0" data-testid="section-page">
       <transition-group
         tag="ul"
-        class="flex flex-wrap justify-center"
+        class="flex flex-col p-3"
         appear
         @before-enter="beforeEnter"
         @enter="enter"
@@ -18,14 +52,6 @@
           <SectionCard :section="section" />
         </li>
       </transition-group>
-      <div class="fixed flex p-5 m-2 bg-black rounded bottom-1 right-1">
-        <router-link
-          data-testid="section-submit-link"
-          v-if="user"
-          to="section_submit"
-          ><button class="btn btn-yellow">新規作成</button></router-link
-        >
-      </div>
     </div>
     <div v-else class="h-full">
       <Spinner color="blue" />
@@ -41,11 +67,14 @@ import axios from 'axios';
 import { Section } from '../../types';
 import Spinner from '../../components/Spinner.vue';
 import SectionCard from '../../components/SectionCard.vue';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 export default {
   name: 'SectionsPage',
   components: {
     Spinner,
     SectionCard,
+    FontAwesomeIcon,
   },
   setup() {
     const sections = ref<Section[]>([]);
@@ -77,12 +106,21 @@ export default {
       enter,
       search,
       user,
+      faSearch,
     };
   },
 };
 </script>
 <style scoped>
 .formInput {
-  @apply w-full px-2 py-1 mx-2 border-2 border-gray-200 rounded focus:outline-none focus:border-gray-400;
+  @apply w-full focus:outline-none;
+  border-top-left-radius: 0.15em;
+  border-bottom-left-radius: 0.15em;
+}
+.formButton {
+  @apply text-white;
+  padding: 3px 3px 3px 3px;
+  border-top-right-radius: 0.15em;
+  border-bottom-right-radius: 0.15em;
 }
 </style>

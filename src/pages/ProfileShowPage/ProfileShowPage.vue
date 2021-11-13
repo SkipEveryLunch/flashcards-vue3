@@ -33,7 +33,7 @@
     </div>
   </div>
   <div v-else data-testid="profile-page">
-    <Spinner color="blue" />
+    <Spinner />
   </div>
 </template>
 <script>

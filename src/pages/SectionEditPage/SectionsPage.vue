@@ -54,7 +54,7 @@
       </transition-group>
     </div>
     <div v-else class="w-full h-full">
-      <Spinner />
+      <bg-gray-100 />
     </div>
   </div>
 </template>
@@ -65,14 +65,14 @@ import { ref, watch, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import { Section } from '../../types';
-import Spinner from '../../components/Spinner.vue';
+import bg-gray-100 from '../../components/bg-gray-100.vue';
 import SectionCard from '../../components/SectionCard.vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 export default {
   name: 'SectionsPage',
   components: {
-    Spinner,
+    bg-gray-100,
     SectionCard,
     FontAwesomeIcon,
   },

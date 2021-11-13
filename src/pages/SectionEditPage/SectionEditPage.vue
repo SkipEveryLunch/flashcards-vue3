@@ -44,7 +44,7 @@
     </div>
   </div>
   <div v-else class="h-full" data-testid="not-found-message">
-    <Spinner color="blue" />
+    <Spinner />
   </div>
 </template>
 <script lang="ts">

@@ -8,7 +8,7 @@
     padding: 0.4rem 0.6rem 0.4rem 0.6rem;
   }
   .btn-primary {
-    @apply text-white bg-blue-500 hover:bg-blue-700;
+    @apply text-blue-700 bg-transparent border border-blue-500 hover:bg-gray-200;
   }
   .btn-sub {
     @apply text-blue-700 bg-transparent border border-blue-500 hover:bg-gray-200;

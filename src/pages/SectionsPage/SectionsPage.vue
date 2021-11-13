@@ -53,7 +53,7 @@
         </li>
       </transition-group>
     </div>
-    <div v-else class="h-full">
+    <div v-else class="w-full h-full">
       <Spinner color="blue" />
     </div>
   </div>

@@ -1,10 +1,10 @@
 <template>
   <nav
     data-testid="header"
-    class="flex justify-between px-3 text-xl text-gray-800 bg-white"
+    class="flex justify-between px-3 text-lg text-gray-800 bg-white"
   >
     <div class="flex space-x-1">
-      <div class="flex items-center px-2 py-5">
+      <div class="flex items-center px-2 py-3">
         <router-link to="/">
           <span>💡</span>
           <span>Fla$hApp</span>
@@ -12,8 +12,8 @@
       </div>
     </div>
     <div v-if="name.length === 0">
-      <div class="flex items-center px-2 py-5">
-        <router-link data-testid="login-link" to="/login" class="px-2 pr-4"
+      <div class="flex items-center px-2 py-3">
+        <router-link data-testid="login-link" to="/login" class="px-2 mr-3"
           >ログイン</router-link
         >
         <router-link
@@ -24,7 +24,7 @@
       </div>
     </div>
     <!-- <div v-else class="flex items-center"> -->
-    <div v-else class="relative flex items-center px-2 py-5">
+    <div v-else class="relative flex items-center px-2 py-3">
       <div
         class="flex"
         @click="() => toggleDropDown(!showDropDown)"

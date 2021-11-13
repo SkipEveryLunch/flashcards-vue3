@@ -1,8 +1,10 @@
 <template>
   <div class="flex flex-col mb-3">
-    <label class="mb-2" :for="id"
+    <label class="mb-2 text-md" :for="id"
       >{{ name }}:
-      <span class="ml-5 text-red-600">{{ error.join(' ') }}</span></label
+      <span class="ml-1 text-sm text-red-600">{{
+        error.join(' ')
+      }}</span></label
     >
     <input
       :id="id"
@@ -37,6 +39,6 @@ export default {
 </script>
 <style scoped>
 .formInput {
-  @apply w-full px-2 py-1 mx-2 border-2 border-gray-200 rounded focus:outline-none focus:border-gray-400;
+  @apply w-full px-2 py-1 mx-2 border border-gray-300 rounded focus:outline-none focus:border-blue-400;
 }
 </style>

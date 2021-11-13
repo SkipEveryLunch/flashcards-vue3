@@ -1,6 +1,9 @@
 <template>
-  <div data-testid="register-page" class="flex justify-center">
-    <div class="w-2/3 p-5 m-5">
+  <div data-testid="register-page" class="flex flex-col items-center mb-5">
+    <div>
+      <h1 class="my-5 text-5xl font-bold text-white">Signin</h1>
+    </div>
+    <div class="w-1/3 p-5 bg-white rounded pr-7">
       <Input
         id="first-name"
         name="名字"
@@ -36,24 +39,27 @@
         :modelValue="form.password_confirm"
         :error="errors.password_confirm"
       />
-      <div class="flex justify-center">
+      <div class="flex justify-center mt-5">
         <button
           v-if="!isCalling"
           data-testid="register-button"
-          class="btn btn-primary"
+          class="mr-2 btn btn-primary"
           @click="onRegister"
           :disabled="disabled"
         >
-          投稿
+          投稿する
         </button>
         <button
           v-else
           data-testid="registering-message"
-          class="btn btn-primary"
+          class="mr-2 btn btn-primary"
           disabled="true"
         >
           投稿中...
         </button>
+        <router-link to="login"
+          ><button class="btn btn-sub-white">ログイン</button></router-link
+        >
       </div>
     </div>
   </div>

@@ -1,6 +1,9 @@
 <template>
-  <div data-testid="login-page" class="flex justify-center">
-    <div class="w-2/3 p-5 m-5">
+  <div data-testid="login-page" class="flex flex-col items-center h-full">
+    <div>
+      <h1 class="my-5 text-5xl font-bold text-white">Login</h1>
+    </div>
+    <div class="w-1/3 p-5 bg-white rounded pr-7">
       <Input
         id="email"
         name="メールアドレス"
@@ -15,19 +18,26 @@
         :modelValue="form.password"
         :error="errors.password"
       />
-      <div class="flex justify-center">
+      <div class="flex justify-center mt-5">
         <button
           data-testid="login-button"
-          class="btn btn-primary"
+          class="mr-2 btn btn-primary"
           @click="onLogin"
           v-if="!isCalling"
           :disabled="disabled"
         >
-          投稿
+          投稿する
         </button>
-        <button data-testid="logingin-message" class="btn btn-primary" v-else>
+        <button
+          data-testid="logingin-message"
+          class="mr-2 btn btn-primary"
+          v-else
+        >
           投稿中…
         </button>
+        <router-link to="register"
+          ><button class="btn btn-sub-white">新規登録</button></router-link
+        >
       </div>
     </div>
   </div>

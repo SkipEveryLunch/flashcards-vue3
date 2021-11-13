@@ -1,23 +1,15 @@
 <template>
   <div
     data-testid="modal"
-    class="
-      fixed
-      z-20
-      flex
-      items-center
-      justify-center
-      w-full
-      h-full
-      transition-opacity
-      bg-black bg-opacity-40
-    "
+    class="fixed z-20 flex items-center justify-center w-full h-full transition-opacity bg-gray-900  bg-opacity-40"
   >
     <transition name="modalbox" appear>
       <div class="modal">
         <div class="py-2 pl-5 text-gray-100 bg-blue-700">{{ typeName }}</div>
-        <div class="flex justify-center p-3">{{ modal.message }}</div>
-        <div class="flex justify-center" v-if="modal.cb">
+        <div class="flex justify-center py-5 text-gray-700">
+          {{ modal.message }}
+        </div>
+        <div class="flex justify-end mr-3" v-if="modal.cb">
           <button
             v-if="modal.cb"
             class="mr-1 btn btn-primary"
@@ -27,14 +19,14 @@
             {{ modal.cb.name }}
           </button>
           <button
-            class="btn btn-sub"
+            class="btn btn-sub-white"
             data-testid="modal-no-button"
             @click="onClose"
           >
             いいえ
           </button>
         </div>
-        <div v-else class="flex justify-center">
+        <div v-else class="flex justify-end mr-3">
           <button
             class="btn btn-primary"
             data-testid="modal-button"
@@ -95,8 +87,7 @@ export default {
   transition: all 0.25s ease;
 }
 .modal {
-  @apply flex flex-col pb-5 bg-gray-100 border-gray-600 rounded-md;
-  width: 250px;
+  @apply flex flex-col pb-3 bg-gray-100 border-gray-600 rounded-md w-1/4;
   overflow: hidden;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="h-1/6"></div>
   <div class="flex items-center justify-center h-1/3">
-    <div class="text-5xl text-center text-gray-800 text-bold glitch">
+    <div class="text-5xl text-center text-gray-100 text-bold glitch">
       <span area-hidden="true">404</span>
       <span area-hidden="true">404</span>
       <span area-hidden="true">404</span>
@@ -102,10 +102,12 @@ export default {
     opacity: 0;
   }
   98% {
+    @apply text-gray-800;
     opacity: 0.3;
     transform: scaleX(3) translateX(-0.25em);
   }
   100% {
+    @apply text-gray-700;
     opacity: 0.3;
     transform: scaleX(3) translateX(-0.25em);
   }

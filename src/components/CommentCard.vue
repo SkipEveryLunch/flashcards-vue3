@@ -21,9 +21,6 @@ interface CommentCardProps {
 export default defineComponent({
   name: 'CommentCard',
   props: ['comment'],
-  setup(props) {
-    onMounted(() => console.log(props.comment));
-  },
 });
 </script>
 <style>

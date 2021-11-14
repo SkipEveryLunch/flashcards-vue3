@@ -54,7 +54,6 @@ export default {
     });
     const AddToAnswer = (answerId: number) => {
       answeredIds.value = [...answeredIds.value, answerId];
-      console.log(answeredIds.value);
     };
     const load = async () => {
       try {

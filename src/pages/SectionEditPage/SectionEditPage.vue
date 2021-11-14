@@ -1,49 +1,64 @@
 <template>
-  <div v-if="user && section">
-    <div class="flex justify-center mt-5 mb-2">
-      <div class="flex w-2/3 justify-evenly">
-        <div>
-          <h1 class="text-4xl text-center">{{ section.title }}</h1>
+  <div v-if="section" class="flex h-full">
+    <div class="flex flex-col w-1/3 px-4 py-3">
+      <div class="pt-2 pb-3 text-4xl font-bold text-gray-700">
+        {{ section.title }}
+        <p class="text-lg">
+          <span class="mr-3">問題数：{{ section.questions.length }}</span>
+          <span>達成率：{{ Math.round(section.complete_rate * 100) }}%</span>
+        </p>
+      </div>
+      <div class="flex pr-1 mt-1 mb-2">
+        <input type="text" class="pl-1 formInput" />
+        <button class="bg-gray-700">
+          <font-awesome-icon class="formButton fa-lg" :icon="faSearch" />
+        </button>
+      </div>
+      <div class="flex flex-col ml-2">
+        <div class="py-2 cursor-pointer" v-if="user">
+          <p>投稿した問題</p>
         </div>
-        <div>
-          <p class="text-lg">問題数：{{ section.questions.length }}</p>
-          <p class="text-lg">
-            達成率：{{ Math.round(section.complete_rate * 100) }}%
-          </p>
+        <div class="py-2 cursor-pointer">
+          <router-link v-if="user" :to="`/section/${sectionId}/submit`"
+            ><p>新しい問題を投稿</p></router-link
+          >
+        </div>
+        <div class="py-2 cursor-pointer" v-if="user">
+          <router-link data-testid="section-submit-link" to="/"
+            ><p>戻る</p></router-link
+          >
         </div>
       </div>
     </div>
-
-    <transition-group
-      v-if="section.count_questions > 0"
-      appear
-      @before-enter="beforeEnter"
-      @enter="enter"
-      tag="ul"
-      class="h-full overflow-scroll"
+    <div
+      v-if="section.questions.length > 0"
+      class="w-full"
+      data-testid="question-page"
     >
-      <QuestionCard
-        v-for="(question, idx) in section.questions"
-        :question="question"
-        :key="idx"
-        :data-idx="idx"
-        @load="load"
-      />
-    </transition-group>
-    <div v-else class="mt-10 text-xl text-center">
-      <p>このセクションには問題がありません。</p>
+      <transition-group
+        tag="ul"
+        class="flex flex-col p-3"
+        appear
+        @before-enter="beforeEnter"
+        @enter="enter"
+      >
+        <li
+          data-testid="question-card"
+          v-for="(question, idx) in section.questions"
+          :key="question.id"
+          :data-idx="idx"
+        >
+          <QuestionCard :question="question" />
+        </li>
+      </transition-group>
     </div>
-
-    <div class="fixed flex p-5 m-2 bg-black rounded bottom-1 right-1">
-      <router-link to="/">
-        <button class="mr-2 btn btn-sub-white">戻る</button>
-      </router-link>
-      <router-link :to="`/section/${sectionId}/submit`">
-        <button class="btn btn-yellow">問題を作る</button>
-      </router-link>
+    <div v-else class="flex items-center justify-center w-full h-full">
+      <div class="text-lg">
+        <p>まだ問題がありません</p>
+      </div>
     </div>
   </div>
-  <div v-else class="h-full" data-testid="not-found-message">
+  <div v-else class="w-full h-full">
     <Spinner />
   </div>
 </template>
@@ -51,16 +66,19 @@
 import axios from 'axios';
 import gsap from 'gsap';
 import QuestionCard from '../../components/QuestionCard.vue';
-import { ref, onMounted, watch, computed } from 'vue';
+import { ref, onMounted, watch, computed, defineComponent } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { Section } from '../../types';
 import Spinner from '../../components/Spinner.vue';
-export default {
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+export default defineComponent({
   name: 'SectionEditPage',
   components: {
     Spinner,
     QuestionCard,
+    FontAwesomeIcon,
   },
   setup() {
     const section = ref<Section | null>(null);
@@ -76,6 +94,7 @@ export default {
       try {
         const { data, status } = await axios.get(`sections/${sectionId}`);
         if (status === 200) {
+          console.log(data.section);
           section.value = data.section;
         } else if (status === 404) {
           store.dispatch('setModal', {
@@ -113,17 +132,17 @@ export default {
       async () => await load()
     );
     const beforeEnter = (el: HTMLElement) => {
-      el.style.transform = 'translateX(60px)';
+      el.style.transform = 'translateY(60px)';
       el.style.opacity = '0';
     };
     const enter = (el: HTMLElement) => {
       if (typeof el.dataset.idx === 'string') {
         gsap.to(el, {
-          x: 0,
+          y: 0,
           opacity: 1,
           duration: 0.5,
-          delay:
-            parseInt(el.dataset.idx) < 4 ? parseInt(el.dataset.idx) * 0.2 : 0,
+          rotateY: 0,
+          delay: parseInt(el.dataset.idx) * 0.2,
         });
       }
     };
@@ -134,7 +153,8 @@ export default {
       beforeEnter,
       enter,
       load,
+      faSearch,
     };
   },
-};
+});
 </script>

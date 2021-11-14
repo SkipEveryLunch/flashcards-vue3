@@ -1,46 +1,53 @@
 <template>
-  <li
-    class="block p-5 m-5 text-gray-100 bg-gray-600 rounded"
-    :key="question.id"
-    data-testid="question-card"
-  >
-    <div class="flex justify-end">
-      <div class="flex mr-5">
-        <CommentIcon
-          :isCommented="isCommentedByMe"
-          :count="question.commented_by.length"
-          @comment="showModal"
-        />
+  <div class="flex card">
+    <div class="flex flex-col justify-center w-full m-3">
+      <div class="pb-2 border-u">
+        <p>{{ question.front }}</p>
+      </div>
+      <div class="mt-2">
+        <p>{{ question.back }}</p>
       </div>
     </div>
-    <p>質問: {{ question.front.slice(0, 100) + '...' }}</p>
-    <p>解答: {{ question.back.slice(0, 100) + '...' }}</p>
-    <p>
-      習得レベル:
-      {{ question.learning_stage ? question.learning_stage : '未学習' }}
-    </p>
-    <p>
-      次の学習日:
-      {{ question.next_period ? question.next_period : '未学習' }}
-    </p>
-    <div class="flex justify-center mt-3">
-      <div v-if="isPostedByMe" class="flex">
+    <div class="flex flex-col w-1/4">
+      <div class="flex">
+        <div
+          class="flex flex-col justify-start w-2/3 p-2 text-sm  whitespace-nowrap"
+        >
+          <p>
+            レベル:
+            {{ question.learning_stage ? question.learning_stage : '未学習' }}
+          </p>
+          <p>
+            次回:
+            {{ question.next_period ? question.next_period : '未学習' }}
+          </p>
+        </div>
+        <div class="flex justify-end w-full pr-2">
+          <CommentIcon
+            :isCommented="isCommentedByMe"
+            :count="question.commented_by.length"
+            @comment="showModal"
+          />
+        </div>
+      </div>
+      <div v-if="isPostedByMe" class="flex items-end justify-end h-full">
         <router-link
           :to="`/section/${question.section_id}/question/${question.id}/edit`"
         >
-          <button class="mr-2 btn btn-primary">編集する</button>
+          <button class="mr-2 whitespace-nowrap btn btn-primary">
+            編集する
+          </button>
         </router-link>
-
         <button
           data-testid="question-delete-button"
           @click="onDelete"
-          class="mr-2 btn btn-sub-white"
+          class="mr-2 btn btn-sub-white whitespace-nowrap"
         >
           削除する
         </button>
       </div>
     </div>
-  </li>
+  </div>
 </template>
 <script lang="ts">
 import { computed, defineComponent, SetupContext } from 'vue';
@@ -133,3 +140,12 @@ export default defineComponent({
   },
 });
 </script>
+<style>
+.card {
+  @apply p-3 mb-2 bg-gray-700 rounded flex;
+  height: 140px;
+}
+.border-u {
+  border-bottom: 2px solid rgba(115, 115, 115);
+}
+</style>

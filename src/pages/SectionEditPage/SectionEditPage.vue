@@ -94,7 +94,6 @@ export default defineComponent({
       try {
         const { data, status } = await axios.get(`sections/${sectionId}`);
         if (status === 200) {
-          console.log(data.section);
           section.value = data.section;
         } else if (status === 404) {
           store.dispatch('setModal', {

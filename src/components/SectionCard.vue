@@ -30,7 +30,6 @@ export default {
   setup() {
     const isFliped = ref(false);
     const flip = (value) => {
-      console.log(value);
       isFliped.value = value;
     };
     return {

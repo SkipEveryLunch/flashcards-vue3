@@ -19,6 +19,7 @@ export interface Section {
   complete_rate: number;
   count_questions: number;
   questions: Question[];
+  posted_by: number;
 }
 export interface Comment {
   id: number;
@@ -48,4 +49,13 @@ export interface Modal {
     name: string;
     cb: any;
   };
+}
+export interface User {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  unconfirmed_messages: number;
+  created_at: string;
+  updated_at: string;
 }

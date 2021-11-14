@@ -20,7 +20,10 @@
           >
         </div>
 
-        <div class="py-2" v-if="user">
+        <div @click="showAllSections" class="py-2 cursor-pointer" v-if="user">
+          <p>すべてのセクションを見る</p>
+        </div>
+        <div @click="findMySections" class="py-2 cursor-pointer" v-if="user">
           <p>投稿したセクション</p>
         </div>
         <div class="py-2">
@@ -37,7 +40,7 @@
         </div>
       </div>
     </div>
-    <div v-if="sections.length > 0" data-testid="section-page">
+    <div v-if="fSections.length > 0" data-testid="section-page">
       <transition-group
         tag="ul"
         class="flex flex-col p-3"
@@ -47,7 +50,7 @@
       >
         <li
           data-testid="section-card"
-          v-for="(section, idx) in sections"
+          v-for="(section, idx) in fSections"
           :key="section.id"
           :data-idx="idx"
         >
@@ -63,7 +66,7 @@
 <script lang="ts">
 class ListElement extends HTMLElement {}
 import gsap from 'gsap';
-import { ref, watch, onMounted, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import { Section } from '../../types';
@@ -80,13 +83,23 @@ export default {
   },
   setup() {
     const sections = ref<Section[]>([]);
+    const fSections = ref<Section[]>([]);
     const store = useStore();
     const search = ref('');
     const user = computed(() => store.state.user);
     onMounted(async () => {
       const { data } = await axios.get('sections');
       sections.value = data.sections;
+      fSections.value = data.sections;
     });
+    const showAllSections = () => {
+      fSections.value = sections.value;
+    };
+    const findMySections = () => {
+      fSections.value = sections.value.filter((el) => {
+        return el.posted_by === user.value.id;
+      });
+    };
     const beforeEnter = (el: HTMLElement) => {
       el.style.transform = 'translateY(60px)';
       el.style.opacity = '0';
@@ -103,12 +116,14 @@ export default {
       }
     };
     return {
-      sections,
+      fSections,
       beforeEnter,
       enter,
       search,
       user,
       faSearch,
+      findMySections,
+      showAllSections,
     };
   },
 };

@@ -1,6 +1,15 @@
 <template>
-  <div class="flex justify-center">
-    <div data-testid="section-submit-page" v-if="user" class="w-2/3 p-5 m-5">
+  <div class="flex flex-col items-center">
+    <div>
+      <h1 class="mt-5 text-3xl font-bold text-gray-700 mb-7">
+        セクションの投稿
+      </h1>
+    </div>
+    <div
+      data-testid="section-submit-page"
+      v-if="user"
+      class="w-1/3 p-5 bg-gray-700 rounded pr-7"
+    >
       <Input
         id="title"
         name="タイトル"
@@ -15,7 +24,7 @@
         :modelValue="form.description"
         :error="errors.description"
       />
-      <div class="flex justify-center">
+      <div class="flex justify-center mt-5">
         <div class="flex">
           <button
             data-testid="submit-button"
@@ -34,7 +43,7 @@
             投稿中…
           </button>
           <router-link to="/">
-            <button class="btn btn-sub">戻る</button>
+            <button class="btn btn-sub-white">戻る</button>
           </router-link>
         </div>
       </div>

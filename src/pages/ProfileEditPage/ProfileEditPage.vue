@@ -1,6 +1,11 @@
 <template>
-  <div data-testid="register-page" class="flex justify-center">
-    <div class="w-2/3 p-5 m-5">
+  <div data-testid="register-page" class="flex flex-col items-center">
+    <div>
+      <h1 class="mt-5 text-3xl font-bold text-gray-700 mb-7">
+        プロフィール編集
+      </h1>
+    </div>
+    <div class="w-1/3 p-5 bg-gray-700 rounded pr-7">
       <Input
         id="first-name"
         name="名字"
@@ -22,7 +27,7 @@
         :modelValue="form.email"
         :error="errors.email"
       />
-      <div class="flex justify-center">
+      <div class="flex justify-center mt-5">
         <button
           v-if="!isCalling"
           data-testid="update-button"
@@ -42,7 +47,7 @@
         </button>
         <button
           data-testid="goback-button"
-          class="ml-2 btn btn-sub"
+          class="ml-2 btn btn-sub-white"
           @click="goBack"
         >
           戻る

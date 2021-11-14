@@ -1,62 +1,67 @@
 <template>
-  <div class="h-full" v-if="user">
-    <h1 class="my-3 text-2xl text-center">
-      <span data-testId="unconfirmed">{{ unconfirmed }}</span>
-      件の未読のメッセージがあります。
-    </h1>
-    <div class="flex flex-col">
-      <div v-for="message in messages" :key="message.id">
-        <div
-          class="p-5 mx-5 my-3 text-gray-100 bg-gray-700 rounded"
-          data-testId="message-card"
-        >
-          <p class="mb-2">
-            <span
-              v-if="!message.is_confirmed"
-              class="px-1 mr-1 text-yellow-700 bg-yellow-300 rounded-sm"
-            >
-              new!</span
-            >
-            <span class="text-xl">
-              {{ message.title }}
-            </span>
-          </p>
-          <p>詳細：{{ message.body }}</p>
-          <div class="flex justify-center mt-5">
-            <button
-              @click="() => onConfirm(message)"
-              class="mr-2 btn btn-primary"
-            >
-              確認する
-            </button>
-          </div>
+  <div class="flex h-full">
+    <div class="flex flex-col w-1/3 px-4 py-3">
+      <div class="pt-2 pb-3 text-4xl font-bold text-gray-700">
+        メッセージ一覧
+        <p class="text-lg">
+          <span class="mr-3">全{{ messages.length }}件</span>
+          <span>うち{{ unconfirmed }}件未読</span>
+        </p>
+      </div>
+      <div class="flex pr-1 mt-1 mb-2">
+        <input type="text" class="pl-1 formInput" />
+        <button class="bg-gray-700">
+          <font-awesome-icon class="formButton fa-lg" :icon="faSearch" />
+        </button>
+      </div>
+      <div class="flex flex-col ml-2">
+        <div class="py-2 cursor-pointer">
+          <p>未読のメッセージ</p>
+        </div>
+        <div class="py-2 cursor-pointer">
+          <router-link data-testid="section-submit-link" to="/"
+            ><p>戻る</p></router-link
+          >
         </div>
       </div>
     </div>
-    <div class="fixed flex p-5 m-2 bg-black rounded bottom-1 right-1">
-      <router-link to="/">
-        <button class="mr-2 btn btn-sub-white">戻る</button>
-      </router-link>
+    <div v-if="messages.length > 0">
+      <transition-group
+        tag="ul"
+        class="flex flex-col p-3"
+        appear
+        @before-enter="beforeEnter"
+        @enter="enter"
+      >
+        <li
+          data-testid="question-card"
+          v-for="(message, idx) in messages"
+          :key="message.id"
+          :data-idx="idx"
+        >
+          <MessageCard @confirm="() => onConfirm(message)" :message="message" />
+        </li>
+      </transition-group>
     </div>
-  </div>
-  <div
-    v-else
-    class="flex items-center justify-center h-screen"
-    data-testId="cannot-display"
-  >
-    <Spinner />
+    <div v-else class="w-full h-full">
+      <Spinner />
+    </div>
   </div>
 </template>
 <script lang="ts">
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { ref, computed, onMounted, defineComponent } from 'vue';
 import { Message } from '../../types';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import Spinner from '../../components/Spinner.vue';
 import axios from 'axios';
+import gsap from 'gsap';
+import MessageCard from '../../components/MessageCard.vue';
 export default defineComponent({
   name: 'MessageShowPage',
-  components: { Spinner },
+  components: { Spinner, FontAwesomeIcon, MessageCard },
   setup() {
     const store = useStore();
     const router = useRouter();
@@ -103,11 +108,29 @@ export default defineComponent({
         }
       }
     };
+    const beforeEnter = (el: HTMLElement) => {
+      el.style.transform = 'translateY(60px)';
+      el.style.opacity = '0';
+    };
+    const enter = (el: HTMLElement) => {
+      if (typeof el.dataset.idx === 'string') {
+        gsap.to(el, {
+          y: 0,
+          opacity: 1,
+          duration: 0.5,
+          rotateY: 0,
+          delay: parseInt(el.dataset.idx) * 0.2,
+        });
+      }
+    };
     return {
+      beforeEnter,
+      enter,
       messages,
       onConfirm,
       unconfirmed,
       user,
+      faSearch,
     };
   },
 });

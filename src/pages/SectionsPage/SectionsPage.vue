@@ -1,11 +1,11 @@
 <template>
-  <div class="flex h-full">
+  <div v-if="!isLoading" class="flex h-full">
     <div class="flex flex-col w-1/3 px-4 py-3">
       <div class="pt-2 pb-3 text-4xl font-bold text-gray-700">
         セクション一覧
       </div>
       <div class="flex pr-1 mt-1 mb-2">
-        <input type="text" class="pl-1 formInput" />
+        <input type="text text-gray-800" class="pl-1 formInput" />
         <button class="bg-gray-700">
           <font-awesome-icon class="formButton fa-lg" :icon="faSearch" />
         </button>
@@ -26,17 +26,8 @@
         <div @click="findMySections" class="py-2 cursor-pointer" v-if="user">
           <p>投稿したセクション</p>
         </div>
-        <div class="py-2">
-          <p>前置詞・名詞</p>
-        </div>
-        <div class="py-2">
-          <p>単位・度合</p>
-        </div>
-        <div class="py-2">
-          <p>時・条件</p>
-        </div>
-        <div class="py-2">
-          <p>仮定法</p>
+        <div v-for="(aSeries, idx) in series" :key="idx" class="py-2">
+          <p>{{ aSeries }}</p>
         </div>
       </div>
     </div>
@@ -58,9 +49,12 @@
         </li>
       </transition-group>
     </div>
-    <div v-else class="w-full h-full">
-      <Spinner />
+    <div v-else class="flex items-center justify-center">
+      <div class="text-gray-100">セクションがありません</div>
     </div>
+  </div>
+  <div v-else class="w-full h-full">
+    <Spinner />
   </div>
 </template>
 <script lang="ts">
@@ -84,13 +78,21 @@ export default {
   setup() {
     const sections = ref<Section[]>([]);
     const fSections = ref<Section[]>([]);
+    const series = ref<string[]>([]);
+    const isLoading = ref(false);
     const store = useStore();
     const search = ref('');
     const user = computed(() => store.state.user);
     onMounted(async () => {
-      const { data } = await axios.get('sections');
-      sections.value = data.sections;
-      fSections.value = data.sections;
+      isLoading.value = true;
+      const sectionData = await axios.get('sections');
+      const seriesData = await axios.get('series');
+      if (sectionData.status === 200 && seriesData.status === 200) {
+        isLoading.value = false;
+        sections.value = sectionData.data.sections;
+        fSections.value = sectionData.data.sections;
+        series.value = seriesData.data.series;
+      }
     });
     const showAllSections = () => {
       fSections.value = sections.value;
@@ -117,6 +119,7 @@ export default {
     };
     return {
       fSections,
+      series,
       beforeEnter,
       enter,
       search,
@@ -124,6 +127,7 @@ export default {
       faSearch,
       findMySections,
       showAllSections,
+      isLoading,
     };
   },
 };

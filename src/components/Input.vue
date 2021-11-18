@@ -39,6 +39,7 @@ export default {
 </script>
 <style scoped>
 .formInput {
-  @apply w-full px-2 py-1 mx-2 border border-gray-700 rounded focus:outline-none focus:border-blue-400;
+  @apply w-full px-2 py-1 mx-2 border 
+  text-gray-700 border-gray-700 rounded focus:outline-none focus:border-blue-400;
 }
 </style>

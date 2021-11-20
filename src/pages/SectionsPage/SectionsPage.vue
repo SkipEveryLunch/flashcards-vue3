@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isLoading" class="flex h-full">
+  <div v-if="!isLoading" class="flex w-screen h-full">
     <div class="flex flex-col w-1/3 px-4 py-3">
       <div
         class="pt-2 pb-3 text-4xl font-bold text-gray-700 cursor-pointer"
@@ -8,14 +8,11 @@
         セクション一覧
       </div>
       <div class="flex pr-1 mt-1 mb-2">
-        <input
-          type="text text-gray-700"
-          v-model="search"
-          class="pl-1 formInput"
+        <SearchBox
+          @on-input="onChangeSearch"
+          @on-submit="filterSections"
+          :modelValue="search"
         />
-        <button class="bg-gray-700" @click="filterSections">
-          <font-awesome-icon class="formButton fa-lg" :icon="faSearch" />
-        </button>
       </div>
       <div class="flex flex-col ml-2">
         <div class="py-2 cursor-pointer">
@@ -35,11 +32,15 @@
         </div>
       </div>
     </div>
-    <div v-if="fSections.length > 0" data-testid="section-page">
+    <div
+      v-if="fSections.length > 0"
+      data-testid="section-page"
+      class="w-full mr-2"
+    >
       <transition-group
         tag="ul"
-        class="flex flex-col p-3"
         appear
+        class="flex flex-col p-3"
         @before-enter="beforeEnter"
         @enter="enter"
       >
@@ -70,14 +71,13 @@ import axios from 'axios';
 import { Section } from '../../types';
 import Spinner from '../../components/Spinner.vue';
 import SectionCard from '../../components/SectionCard.vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import SearchBox from '../../components/SearchBox.vue';
 export default {
   name: 'SectionsPage',
   components: {
     Spinner,
     SectionCard,
-    FontAwesomeIcon,
+    SearchBox,
   },
   setup() {
     const sections = ref<Section[]>([]);
@@ -107,10 +107,12 @@ export default {
       });
     };
     const filterSections = () => {
-      console.log(search.value);
       fSections.value = sections.value.filter((el) => {
         return el.title.includes(search.value);
       });
+    };
+    const onChangeSearch = (payload: string) => {
+      search.value = payload;
     };
     const beforeEnter = (el: HTMLElement) => {
       el.style.transform = 'translateY(60px)';
@@ -134,16 +136,19 @@ export default {
       enter,
       search,
       user,
-      faSearch,
       findMySections,
       showAllSections,
       isLoading,
       filterSections,
+      onChangeSearch,
     };
   },
 };
 </script>
 <style scoped>
+.column {
+  width: 20rem;
+}
 .formInput {
   @apply w-full focus:outline-none;
   border-top-left-radius: 0.15em;

@@ -1,7 +1,10 @@
 <template>
   <div v-if="section" class="flex h-full">
     <div class="flex flex-col w-1/3 px-4 py-3">
-      <div class="pt-2 pb-3 text-4xl font-bold text-gray-700">
+      <div
+        class="pt-2 pb-3 text-4xl font-bold text-gray-700 cursor-pointer"
+        @click="showAllQuestions"
+      >
         {{ section.title }}
         <p class="text-lg">
           <span class="mr-3">問題数：{{ section.questions.length }}</span>
@@ -9,12 +12,13 @@
         </p>
       </div>
       <div class="flex pr-1 mt-1 mb-2">
-        <input type="text" class="pl-1 formInput" />
-        <button class="bg-gray-700">
-          <font-awesome-icon class="formButton fa-lg" :icon="faSearch" />
-        </button>
+        <SearchBox
+          @on-input="onChangeSearch"
+          @on-submit="filterQuestions"
+          :modelValue="search"
+        />
       </div>
-      <div class="flex flex-col ml-2">
+      <div class="flex flex-col ml-2" @click="findMyQuestions">
         <div class="py-2 cursor-pointer" v-if="user">
           <p>投稿した問題</p>
         </div>
@@ -31,7 +35,7 @@
       </div>
     </div>
     <div
-      v-if="section.questions.length > 0"
+      v-if="fQuestions.length > 0"
       class="w-full"
       data-testid="question-page"
     >
@@ -44,7 +48,7 @@
       >
         <li
           data-testid="question-card"
-          v-for="(question, idx) in section.questions"
+          v-for="(question, idx) in fQuestions"
           :key="question.id"
           :data-idx="idx"
         >
@@ -69,19 +73,19 @@ import QuestionCard from '../../components/QuestionCard.vue';
 import { ref, onMounted, watch, computed, defineComponent } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { Section } from '../../types';
+import { Section, Question } from '../../types';
 import Spinner from '../../components/Spinner.vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import SearchBox from '../../components/SearchBox.vue';
 export default defineComponent({
   name: 'SectionEditPage',
   components: {
     Spinner,
     QuestionCard,
-    FontAwesomeIcon,
+    SearchBox,
   },
   setup() {
     const section = ref<Section | null>(null);
+    const fQuestions = ref<Question[]>([]);
     const {
       params: { sectionId },
     } = useRoute();
@@ -90,11 +94,37 @@ export default defineComponent({
     const user = computed(() => {
       return store.state.user;
     });
+    const search = ref('');
+    const filterQuestions = () => {
+      if (section.value) {
+        fQuestions.value = section.value.questions.filter((el) => {
+          return (
+            el.front.includes(search.value) || el.back.includes(search.value)
+          );
+        });
+      }
+    };
+    const findMyQuestions = () => {
+      if (section.value) {
+        fQuestions.value = section.value.questions.filter((el) => {
+          return el.posted_by === user.value.id;
+        });
+      }
+    };
+    const onChangeSearch = (payload: string) => {
+      search.value = payload;
+    };
+    const showAllQuestions = () => {
+      if (section.value) {
+        fQuestions.value = section.value.questions;
+      }
+    };
     const load = async () => {
       try {
         const { data, status } = await axios.get(`sections/${sectionId}`);
         if (status === 200) {
           section.value = data.section;
+          fQuestions.value = data.section.questions;
         } else if (status === 404) {
           store.dispatch('setModal', {
             type: 'error',
@@ -152,7 +182,12 @@ export default defineComponent({
       beforeEnter,
       enter,
       load,
-      faSearch,
+      search,
+      filterQuestions,
+      onChangeSearch,
+      showAllQuestions,
+      findMyQuestions,
+      fQuestions,
     };
   },
 });

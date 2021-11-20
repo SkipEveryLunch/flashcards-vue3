@@ -27,7 +27,12 @@
         <div @click="findMySections" class="py-2 cursor-pointer" v-if="user">
           <p>投稿したセクション</p>
         </div>
-        <div v-for="(aSeries, idx) in series" :key="idx" class="py-2">
+        <div
+          v-for="(aSeries, idx) in series"
+          :key="idx"
+          class="py-2 cursor-pointer"
+          @click="() => filterBySeries(aSeries)"
+        >
           <p>{{ aSeries }}</p>
         </div>
       </div>
@@ -101,6 +106,11 @@ export default {
     const showAllSections = () => {
       fSections.value = sections.value;
     };
+    const filterBySeries = (series: string) => {
+      fSections.value = sections.value.filter((el) => {
+        return el.series === series;
+      });
+    };
     const findMySections = () => {
       fSections.value = sections.value.filter((el) => {
         return el.posted_by === user.value.id;
@@ -141,6 +151,7 @@ export default {
       isLoading,
       filterSections,
       onChangeSearch,
+      filterBySeries,
     };
   },
 };

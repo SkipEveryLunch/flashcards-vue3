@@ -20,6 +20,7 @@ export interface Section {
   count_questions: number;
   questions: Question[];
   posted_by: number;
+  series: string;
 }
 export interface Comment {
   id: number;

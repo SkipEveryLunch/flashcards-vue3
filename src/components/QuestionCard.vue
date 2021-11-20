@@ -140,9 +140,9 @@ export default defineComponent({
   },
 });
 </script>
-<style>
+<style scoped>
 .card {
-  @apply p-3 mb-2 bg-gray-700 rounded flex;
+  @apply p-3 mb-2 bg-gray-700 rounded flex w-full;
   height: 140px;
 }
 .border-u {

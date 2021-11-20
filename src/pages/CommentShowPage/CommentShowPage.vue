@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <div v-if="comments.length > 0">
+    <div v-if="comments.length > 0" class="w-full">
       <transition-group
         tag="ul"
         class="flex flex-col p-3"

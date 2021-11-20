@@ -1,7 +1,10 @@
 <template>
   <div class="flex h-full">
     <div class="flex flex-col w-1/3 px-4 py-3">
-      <div class="pt-2 pb-3 text-4xl font-bold text-gray-700">
+      <div
+        class="pt-2 pb-3 text-4xl font-bold text-gray-700 cursor-pointer"
+        @click="showAllMessages"
+      >
         メッセージ一覧
         <p class="text-lg">
           <span class="mr-3">全{{ messages.length }}件</span>
@@ -9,13 +12,14 @@
         </p>
       </div>
       <div class="flex pr-1 mt-1 mb-2">
-        <input type="text" class="pl-1 formInput" />
-        <button class="bg-gray-700">
-          <font-awesome-icon class="formButton fa-lg" :icon="faSearch" />
-        </button>
+        <SearchBox
+          @on-submit="filterNewMessages"
+          @on-input="onChangeSearch"
+          :modelValue="search"
+        />
       </div>
       <div class="flex flex-col ml-2">
-        <div class="py-2 cursor-pointer">
+        <div class="py-2 cursor-pointer" @click="filterNewMessages">
           <p>未読のメッセージ</p>
         </div>
         <div class="py-2 cursor-pointer">
@@ -25,7 +29,7 @@
         </div>
       </div>
     </div>
-    <div v-if="messages.length > 0" class="w-full">
+    <div v-if="fMessages.length > 0" class="w-full">
       <transition-group
         tag="ul"
         class="flex flex-col p-3"
@@ -35,7 +39,7 @@
       >
         <li
           data-testid="question-card"
-          v-for="(message, idx) in messages"
+          v-for="(message, idx) in fMessages"
           :key="message.id"
           :data-idx="idx"
         >
@@ -49,8 +53,6 @@
   </div>
 </template>
 <script lang="ts">
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { ref, computed, onMounted, defineComponent } from 'vue';
 import { Message } from '../../types';
 import { useRouter } from 'vue-router';
@@ -59,17 +61,36 @@ import Spinner from '../../components/Spinner.vue';
 import axios from 'axios';
 import gsap from 'gsap';
 import MessageCard from '../../components/MessageCard.vue';
+import SearchBox from '../../components/SearchBox.vue';
 export default defineComponent({
   name: 'MessageShowPage',
-  components: { Spinner, FontAwesomeIcon, MessageCard },
+  components: { Spinner, SearchBox, MessageCard },
   setup() {
     const store = useStore();
     const router = useRouter();
     const unconfirmed = ref(0);
+    const search = ref('');
     const messages = ref<Message[]>([]);
+    const fMessages = ref<Message[]>([]);
     const user = computed(() => {
       return store.state.user;
     });
+    const showAllMessages = () => {
+      fMessages.value = messages.value;
+    };
+    const onChangeSearch = (payload: string) => {
+      search.value = payload;
+    };
+    const filterNewMessages = () => {
+      fMessages.value = messages.value.filter((el) => {
+        return el.is_confirmed === 0;
+      });
+    };
+    const filterMessages = () => {
+      fMessages.value = messages.value.filter((el) => {
+        return el.title.includes(search.value);
+      });
+    };
     onMounted(async () => {
       if (!user.value) {
         router.push('/');
@@ -77,6 +98,7 @@ export default defineComponent({
       try {
         const { data } = await axios.get('/messages');
         messages.value = data.messages;
+        fMessages.value = data.messages;
         let result = 0;
         messages.value.forEach((el) => {
           if (!el.is_confirmed) {
@@ -124,13 +146,18 @@ export default defineComponent({
       }
     };
     return {
+      messages,
       beforeEnter,
       enter,
-      messages,
+      fMessages,
       onConfirm,
       unconfirmed,
       user,
-      faSearch,
+      search,
+      showAllMessages,
+      onChangeSearch,
+      filterNewMessages,
+      filterMessages,
     };
   },
 });

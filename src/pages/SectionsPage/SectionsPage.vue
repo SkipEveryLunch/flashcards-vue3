@@ -1,12 +1,19 @@
 <template>
   <div v-if="!isLoading" class="flex h-full">
     <div class="flex flex-col w-1/3 px-4 py-3">
-      <div class="pt-2 pb-3 text-4xl font-bold text-gray-700">
+      <div
+        class="pt-2 pb-3 text-4xl font-bold text-gray-700 cursor-pointer"
+        @click="showAllSections"
+      >
         セクション一覧
       </div>
       <div class="flex pr-1 mt-1 mb-2">
-        <input type="text text-gray-800" class="pl-1 formInput" />
-        <button class="bg-gray-700">
+        <input
+          type="text text-gray-700"
+          v-model="search"
+          class="pl-1 formInput"
+        />
+        <button class="bg-gray-700" @click="filterSections">
           <font-awesome-icon class="formButton fa-lg" :icon="faSearch" />
         </button>
       </div>
@@ -20,9 +27,6 @@
           >
         </div>
 
-        <div @click="showAllSections" class="py-2 cursor-pointer" v-if="user">
-          <p>すべてのセクションを見る</p>
-        </div>
         <div @click="findMySections" class="py-2 cursor-pointer" v-if="user">
           <p>投稿したセクション</p>
         </div>
@@ -49,8 +53,8 @@
         </li>
       </transition-group>
     </div>
-    <div v-else class="flex items-center justify-center">
-      <div class="text-gray-100">セクションがありません</div>
+    <div v-else class="flex items-center justify-center w-full">
+      <div class="text-xl text-gray-200">セクションがありません</div>
     </div>
   </div>
   <div v-else class="w-full h-full">
@@ -102,6 +106,12 @@ export default {
         return el.posted_by === user.value.id;
       });
     };
+    const filterSections = () => {
+      console.log(search.value);
+      fSections.value = sections.value.filter((el) => {
+        return el.title.includes(search.value);
+      });
+    };
     const beforeEnter = (el: HTMLElement) => {
       el.style.transform = 'translateY(60px)';
       el.style.opacity = '0';
@@ -128,6 +138,7 @@ export default {
       findMySections,
       showAllSections,
       isLoading,
+      filterSections,
     };
   },
 };

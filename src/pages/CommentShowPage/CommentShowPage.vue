@@ -6,10 +6,11 @@
         <p class="text-lg">{{ comments.length }}件の改善要望が届いています</p>
       </div>
       <div class="flex pr-1 mt-1 mb-2">
-        <input type="text" class="pl-1 formInput" />
-        <button class="bg-gray-700">
-          <font-awesome-icon class="formButton fa-lg" :icon="faSearch" />
-        </button>
+        <SearchBox
+          :modelValue="search"
+          @on-input="onChangeSearch"
+          @on-submit="filterComments"
+        />
       </div>
       <div class="flex flex-col ml-2">
         <div class="py-2 cursor-pointer">
@@ -48,8 +49,7 @@
   </div>
 </template>
 <script lang="ts">
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import SearchBox from '../../components/SearchBox.vue';
 import { ref, computed, onMounted, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 import { Comment } from '../../types';
@@ -62,7 +62,7 @@ export default defineComponent({
   name: 'CommentShowPage',
   components: {
     Spinner,
-    FontAwesomeIcon,
+    SearchBox,
     CommentCard,
   },
   setup() {
@@ -75,7 +75,20 @@ export default defineComponent({
     const {
       params: { questionId, sectionId },
     } = useRoute();
+    const search = ref('');
     const comments = ref<Comment[]>([]);
+    const fComments = ref<Comment[]>([]);
+    const showAllComments = () => {
+      fComments.value = comments.value;
+    };
+    const filterComments = () => {
+      fComments.value = comments.value.filter((el) => {
+        return el.comment_type.includes(search.value);
+      });
+    };
+    const onChangeSearch = (payload: string) => {
+      search.value = payload;
+    };
     onMounted(async () => {
       if (!user.value) {
         router.push(`/section/${sectionId}/edit`);
@@ -118,7 +131,10 @@ export default defineComponent({
       isPostedByUser,
       beforeEnter,
       enter,
-      faSearch,
+      showAllComments,
+      filterComments,
+      search,
+      onChangeSearch,
     };
   },
 });

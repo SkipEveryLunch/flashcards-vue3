@@ -1,31 +1,38 @@
 <template>
-  <div class="flex h-full">
+  <div v-if="!isLoading" class="flex h-full">
     <div class="flex flex-col w-1/3 px-4 py-3">
       <div class="pt-2 pb-3 text-4xl font-bold text-gray-700">
         コメント一覧
         <p class="text-lg">{{ comments.length }}件の改善要望が届いています</p>
       </div>
       <div class="flex pr-1 mt-1 mb-2">
-        <SearchBox
-          :modelValue="search"
-          @on-input="onChangeSearch"
-          @on-submit="filterComments"
-        />
-      </div>
-      <div class="flex flex-col ml-2">
-        <div class="py-2 cursor-pointer">
-          <p>未読のメッセージ</p>
-        </div>
-        <div class="py-2 cursor-pointer">
-          <router-link
-            data-testid="section-submit-link"
-            :to="`/section/${sectionId}/edit`"
-            ><p>戻る</p></router-link
+        <div class="flex flex-col ml-2">
+          <div
+            v-for="type in commentTypes"
+            class="flex justify-between py-2 cursor-pointer"
+            :key="type.id"
+            @click="() => filterCommentsByType(type.id)"
           >
+            <div class="mr-5">
+              <p>
+                {{ type.name }}
+              </p>
+            </div>
+            <div>
+              <p>{{ type.count }}件</p>
+            </div>
+          </div>
+          <div class="py-2 cursor-pointer">
+            <router-link
+              data-testid="section-submit-link"
+              :to="`/section/${sectionId}/edit`"
+              ><p>戻る</p></router-link
+            >
+          </div>
         </div>
       </div>
     </div>
-    <div v-if="comments.length > 0" class="w-full">
+    <div v-if="fComments.length > 0" class="w-full">
       <transition-group
         tag="ul"
         class="flex flex-col p-3"
@@ -35,7 +42,7 @@
       >
         <li
           data-testid="question-card"
-          v-for="(comment, idx) in comments"
+          v-for="(comment, idx) in fComments"
           :key="idx"
           :data-idx="idx"
         >
@@ -43,16 +50,15 @@
         </li>
       </transition-group>
     </div>
-    <div v-else class="w-full h-full">
-      <Spinner />
-    </div>
+  </div>
+  <div v-else class="w-full h-full">
+    <Spinner />
   </div>
 </template>
 <script lang="ts">
-import SearchBox from '../../components/SearchBox.vue';
 import { ref, computed, onMounted, defineComponent } from 'vue';
 import { useStore } from 'vuex';
-import { Comment } from '../../types';
+import { Comment, CountedCommentType } from '../../types';
 import { useRoute, useRouter } from 'vue-router';
 import Spinner from '../../components/Spinner.vue';
 import gsap from 'gsap';
@@ -62,32 +68,29 @@ export default defineComponent({
   name: 'CommentShowPage',
   components: {
     Spinner,
-    SearchBox,
     CommentCard,
   },
   setup() {
     const store = useStore();
     const router = useRouter();
     const isPostedByUser = ref(false);
+    const commentTypes = ref<CountedCommentType[]>([]);
     const user = computed(() => {
       return store.state.user;
     });
     const {
       params: { questionId, sectionId },
     } = useRoute();
-    const search = ref('');
+    const isLoading = ref(false);
     const comments = ref<Comment[]>([]);
     const fComments = ref<Comment[]>([]);
     const showAllComments = () => {
       fComments.value = comments.value;
     };
-    const filterComments = () => {
+    const filterCommentsByType = (type: number) => {
       fComments.value = comments.value.filter((el) => {
-        return el.comment_type.includes(search.value);
+        return el.comment_type.id === type;
       });
-    };
-    const onChangeSearch = (payload: string) => {
-      search.value = payload;
     };
     onMounted(async () => {
       if (!user.value) {
@@ -95,15 +98,20 @@ export default defineComponent({
         return;
       }
       try {
-        const { data } = await axios.get(
+        isLoading.value = true;
+        const commentsData = await axios.get(
           `/questions_several_comments/${questionId}`
         );
-        comments.value = data.comments;
-        console.log(comments.value);
-        if (user.value.id === data.commented_to) {
-          isPostedByUser.value = true;
-        } else {
-          router.push(`/section/${sectionId}/edit`);
+        if (commentsData.status === 200) {
+          if (user.value.id === commentsData.data.commented_to) {
+            isPostedByUser.value = true;
+            comments.value = commentsData.data.comments;
+            fComments.value = commentsData.data.comments;
+            commentTypes.value = commentsData.data.comment_types;
+            isLoading.value = false;
+          } else {
+            router.push(`/section/${sectionId}/edit`);
+          }
         }
       } catch (e) {
         console.log(e);
@@ -126,15 +134,16 @@ export default defineComponent({
     };
     return {
       comments,
+      fComments,
       sectionId,
       user,
       isPostedByUser,
       beforeEnter,
       enter,
       showAllComments,
-      filterComments,
-      search,
-      onChangeSearch,
+      commentTypes,
+      filterCommentsByType,
+      isLoading,
     };
   },
 });

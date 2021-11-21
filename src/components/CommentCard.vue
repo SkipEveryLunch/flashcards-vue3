@@ -3,7 +3,7 @@
     <div class="flex flex-col w-full p-3">
       <div>
         <p class="mb-2 text-3xl">
-          {{ comment.comment_type }}
+          {{ comment.comment_type.name }}
         </p>
       </div>
       <div>
@@ -14,7 +14,7 @@
 </template>
 <script lang="ts">
 import { Comment } from '../types';
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent } from 'vue';
 interface CommentCardProps {
   comment: Comment;
 }

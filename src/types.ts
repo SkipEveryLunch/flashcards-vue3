@@ -22,16 +22,26 @@ export interface Section {
   posted_by: number;
   series: string;
 }
+export interface CommentType {
+  id: number;
+  name: string;
+  created_at: string;
+  updated_at: string;
+}
 export interface Comment {
   id: number;
-  comment_type: string;
+  comment_type: CommentType;
   comment_detail: string;
   user_id: number;
   question_id: number;
   created_at: string;
   updated_at: string;
 }
-
+export interface CountedCommentType {
+  id: number;
+  name: string;
+  count: number;
+}
 export interface Message {
   id: number;
   title: string;

@@ -6,7 +6,7 @@
     <transition name="modalbox" appear>
       <div class="modal">
         <div class="py-2 pl-5 text-gray-100 bg-blue-700">{{ typeName }}</div>
-        <div class="flex justify-center py-5 text-gray-700">
+        <div class="flex justify-center p-5">
           {{ modal.message }}
         </div>
         <div class="flex justify-end mr-3" v-if="modal.cb">
@@ -87,7 +87,7 @@ export default {
   transition: all 0.25s ease;
 }
 .modal {
-  @apply flex flex-col pb-3 bg-gray-100 border-gray-600 rounded-md w-1/4;
+  @apply flex flex-col pb-3 bg-gray-100 rounded-md w-1/4 text-gray-700;
   overflow: hidden;
 }
 </style>

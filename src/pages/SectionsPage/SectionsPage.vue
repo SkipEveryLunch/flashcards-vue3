@@ -31,9 +31,9 @@
           v-for="(aSeries, idx) in series"
           :key="idx"
           class="py-2 cursor-pointer"
-          @click="() => filterBySeries(aSeries)"
+          @click="() => filterBySeries(aSeries.id)"
         >
-          <p>{{ aSeries }}</p>
+          <p>{{ aSeries.name }}</p>
         </div>
       </div>
     </div>
@@ -69,7 +69,7 @@ import gsap from 'gsap';
 import { ref, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
-import { Section } from '../../types';
+import { Section, Series } from '../../types';
 import Spinner from '../../components/Spinner.vue';
 import SectionCard from '../../components/SectionCard.vue';
 import SearchBox from '../../components/SearchBox.vue';
@@ -83,28 +83,28 @@ export default {
   setup() {
     const sections = ref<Section[]>([]);
     const fSections = ref<Section[]>([]);
-    const series = ref<string[]>([]);
+    const series = ref<Series[]>([]);
     const isLoading = ref(false);
     const store = useStore();
     const search = ref('');
     const user = computed(() => store.state.user);
     onMounted(async () => {
       isLoading.value = true;
-      const sectionData = await axios.get('sections');
-      const seriesData = await axios.get('series');
-      if (sectionData.status === 200 && seriesData.status === 200) {
+      const { data, status } = await axios.get('sections');
+      if (status === 200) {
         isLoading.value = false;
-        sections.value = sectionData.data.sections;
-        fSections.value = sectionData.data.sections;
-        series.value = seriesData.data.series;
+        sections.value = data.sections;
+        fSections.value = data.sections;
+        series.value = data.series;
+        console.log(data.sections);
       }
     });
     const showAllSections = () => {
       fSections.value = sections.value;
     };
-    const filterBySeries = (series: string) => {
+    const filterBySeries = (id: number) => {
       fSections.value = sections.value.filter((el) => {
-        return el.series === series;
+        return el.series.id === id;
       });
     };
     const findMySections = () => {

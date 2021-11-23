@@ -20,7 +20,7 @@ export interface Section {
   count_questions: number;
   questions: Question[];
   posted_by: number;
-  series: string;
+  series: Series;
 }
 export interface CommentType {
   id: number;
@@ -41,6 +41,12 @@ export interface CountedCommentType {
   id: number;
   name: string;
   count: number;
+}
+export interface Series {
+  id: number;
+  name: string;
+  created_at: string;
+  updated_at: string;
 }
 export interface Message {
   id: number;

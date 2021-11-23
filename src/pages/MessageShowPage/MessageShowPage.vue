@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-full">
+  <div v-if="!isLoading" class="flex h-full">
     <div class="flex flex-col w-1/3 px-4 py-3">
       <div
         class="pt-2 pb-3 text-4xl font-bold text-gray-700 cursor-pointer"
@@ -47,9 +47,14 @@
         </li>
       </transition-group>
     </div>
-    <div v-else class="w-full h-full">
-      <Spinner />
+    <div v-else class="flex items-center justify-center w-full h-full">
+      <div class="text-lg">
+        <p>まだ問題がありません</p>
+      </div>
     </div>
+  </div>
+  <div v-else class="w-full h-full">
+    <Spinner />
   </div>
 </template>
 <script lang="ts">
@@ -67,6 +72,7 @@ export default defineComponent({
   components: { Spinner, SearchBox, MessageCard },
   setup() {
     const store = useStore();
+    const isLoading = ref(true);
     const router = useRouter();
     const unconfirmed = ref(0);
     const search = ref('');
@@ -96,16 +102,19 @@ export default defineComponent({
         router.push('/');
       }
       try {
-        const { data } = await axios.get('/messages');
-        messages.value = data.messages;
-        fMessages.value = data.messages;
-        let result = 0;
-        messages.value.forEach((el) => {
-          if (!el.is_confirmed) {
-            result += 1;
-          }
-        });
-        unconfirmed.value = result;
+        const { data, status } = await axios.get('/messages');
+        if (status === 200) {
+          messages.value = data.messages;
+          fMessages.value = data.messages;
+          let result = 0;
+          messages.value.forEach((el) => {
+            if (!el.is_confirmed) {
+              result += 1;
+            }
+          });
+          unconfirmed.value = result;
+          isLoading.value = false;
+        }
       } catch (e) {
         console.log(e);
       }
@@ -149,6 +158,7 @@ export default defineComponent({
       messages,
       beforeEnter,
       enter,
+      isLoading,
       fMessages,
       onConfirm,
       unconfirmed,

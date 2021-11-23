@@ -7,14 +7,14 @@
         data-testid="flipcard-front"
         @click="flip"
       >
-        <div class="p-5 border-2 border-white rounded-md floating">
-          <div class="mb-5 text-lg text-center">質問</div>
+        <div class="w-full p-3 border-2 border-gray-700 rounded-md">
+          <div class="text-lg text-center">質問</div>
           <div class="paragraph-container">{{ front }}</div>
         </div>
       </div>
       <div v-else class="card card-back" @click="flip">
-        <div class="p-5 border-2 border-white rounded-md floating">
-          <div class="mb-5 text-lg text-center">解答</div>
+        <div class="w-full p-3 border-2 border-gray-700 rounded-md">
+          <div class="text-lg text-center">解答</div>
           <div class="paragraph-container">{{ back }}</div>
         </div>
       </div>
@@ -39,13 +39,14 @@ export default {
 <style scoped>
 .card {
   width: 250px;
-  @apply p-3 m-3 rounded;
+  height: 300px;
+  @apply p-3 m-3 rounded text-gray-700;
 }
 .card-front {
-  @apply bg-blue-300;
+  @apply bg-gray-300;
 }
 .card-back {
-  @apply bg-yellow-300;
+  @apply bg-blue-200;
 }
 .flip-enter-from {
   transform: rotateY(90deg);
@@ -65,13 +66,9 @@ export default {
 }
 .flip-leave-active {
   transition: all 0.25s ease-out;
-  transform-style: preserve-3d;
-}
-.floating {
-  transform: translateZ(25px);
 }
 .paragraph-container {
-  height: 175px;
-  overflow: hidden;
+  @apply p-3;
+  text-align: center;
 }
 </style>

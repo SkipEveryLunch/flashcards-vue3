@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center h-full">
+  <div class="flex items-center justify-center w-full h-full">
     <FinishedTemplate
       v-if="questions.length > 0 && isFinished"
       @submit="onSubmit"

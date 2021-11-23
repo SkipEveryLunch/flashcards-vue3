@@ -2,7 +2,7 @@
   <div class="flex items-center h-full justfy-center">
     <div
       v-if="section"
-      class="flex flex-col p-5 mx-auto bg-gray-900 rounded-lg"
+      class="flex flex-col p-5 mx-auto bg-gray-700 rounded-lg"
     >
       <div class="mb-5 text-center text-gray-100">
         <h1 class="mb-2 text-2xl">{{ section.title }}</h1>

@@ -20,7 +20,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .flicker {
   animation: flicker 2000ms infinite;
 }

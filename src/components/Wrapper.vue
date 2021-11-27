@@ -64,7 +64,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .modal-enter-from {
   opacity: 0;
 }

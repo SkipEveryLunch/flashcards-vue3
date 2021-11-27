@@ -256,7 +256,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .buttonContainer {
   @apply mt-3 flex justify-center items-center;
 }

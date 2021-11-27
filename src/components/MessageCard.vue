@@ -48,7 +48,7 @@ export default defineComponent({
   },
 });
 </script>
-<style>
+<style scoped>
 .card {
   @apply flex p-2 mb-2 text-gray-100 bg-gray-700 rounded;
   height: 140px;

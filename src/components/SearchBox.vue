@@ -30,7 +30,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .search_container {
   box-sizing: border-box;
   @apply text-gray-700 rounded-full relative bg-gray-100;

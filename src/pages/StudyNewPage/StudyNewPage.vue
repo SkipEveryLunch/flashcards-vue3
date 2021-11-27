@@ -114,7 +114,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .buttonContainer {
   height: 45px;
   @apply:flex justify-center items-center;

@@ -73,7 +73,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .dropdown-enter-from {
   opacity: 0;
   transform-origin: top;

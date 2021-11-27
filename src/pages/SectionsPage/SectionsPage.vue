@@ -96,7 +96,6 @@ export default {
         sections.value = data.sections;
         fSections.value = data.sections;
         series.value = data.series;
-        console.log(data.sections);
       }
     });
     const showAllSections = () => {

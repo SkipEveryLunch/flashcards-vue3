@@ -105,7 +105,6 @@ export default defineComponent({
       const { data, status } = await axios('comment_types');
       if (status === 200) {
         commentTypes.value = data.comment_types;
-        console.log(commentTypes.value);
         if (props.mode === 'edit') {
           const { status, data } = await axios(
             `questions_comments/${props.questionId}`

@@ -1,26 +1,17 @@
 <template>
   <div
     data-testid="profile-dropdown"
-    class="
-      absolute
-      right-0
-      z-10
-      text-black
-      bg-gray-100
-      border border-gray-400
-      rounded
-      shadow-sm
-      top-full
-      w-max
-    "
+    class="absolute right-0 z-10 text-black bg-gray-100 border border-gray-400 rounded shadow-sm  top-full w-max"
     v-click-away="() => toggleDropDown(false)"
   >
     <ul>
-      <li @click="goTo('/message_show')" class="profileList">
-        <span data-testid="message-link"> メッセージを見る </span>
-        <span class="unconfirmedNotion" v-if="unconfirmedMessages > 0">
+      <li @click="goTo('/message_show')" class="flex items-center profileList">
+        <div>
+          <span data-testid="message-link"> メッセージを見る </span>
+        </div>
+        <div class="unconfirmedNotion" v-if="unconfirmedMessages > 0">
           {{ unconfirmedMessages }}
-        </span>
+        </div>
       </li>
       <li @click="goTo('/profile_show')" class="profileList">
         <span data-testid="profile-link"> プロフィールを見る </span>
@@ -89,11 +80,9 @@ export default {
 </script>
 <style scoped>
 .profileList {
-  @apply w-full border-b pl-2 mr-4 py-2 text-gray-800
-    text-lg hover:bg-gray-100 cursor-pointer;
+  @apply w-full border-b pl-2 mr-4 py-2 text-gray-800 text-base hover:bg-gray-100 cursor-pointer;
 }
 .unconfirmedNotion {
-  @apply text-yellow-700 bg-yellow-300 px-2 text-right;
-  border-radius: 50%;
+  @apply text-yellow-700 bg-yellow-300 ml-1 text-center text-xs rounded-full w-4;
 }
 </style>

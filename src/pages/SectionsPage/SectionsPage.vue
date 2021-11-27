@@ -38,6 +38,7 @@
       </div>
     </div>
     <div v-if="fSections.length > 0" data-testid="section-page" class="w-full">
+      <Paginator :page="page" :lastPage="lastPage" />
       <transition-group
         tag="ul"
         appear
@@ -47,7 +48,7 @@
       >
         <li
           data-testid="section-card"
-          v-for="(section, idx) in fSections"
+          v-for="(section, idx) in sSections"
           :key="section.id"
           :data-idx="idx"
         >
@@ -66,24 +67,37 @@
 <script lang="ts">
 class ListElement extends HTMLElement {}
 import gsap from 'gsap';
-import { ref, onMounted, computed } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import { Section, Series } from '../../types';
 import Spinner from '../../components/Spinner.vue';
 import SectionCard from '../../components/SectionCard.vue';
 import SearchBox from '../../components/SearchBox.vue';
+import Paginator from '../../components/Paginator.vue';
 export default {
   name: 'SectionsPage',
   components: {
     Spinner,
     SectionCard,
     SearchBox,
+    Paginator,
   },
   setup() {
     const sections = ref<Section[]>([]);
     const fSections = ref<Section[]>([]);
     const series = ref<Series[]>([]);
+    const page = ref(1);
+    const sSections = computed(() => {
+      if (fSections.value.length > 0) {
+        return fSections.value.slice((page.value - 1) * 15, page.value * 15);
+      } else {
+        return [];
+      }
+    });
+    const lastPage = computed(() => {
+      return Math.floor(fSections.value.length / 15) + 1;
+    });
     const isLoading = ref(false);
     const store = useStore();
     const search = ref('');
@@ -147,6 +161,9 @@ export default {
       filterSections,
       onChangeSearch,
       filterBySeries,
+      sSections,
+      lastPage,
+      page,
     };
   },
 };

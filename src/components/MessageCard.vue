@@ -1,20 +1,19 @@
 <template>
   <div class="card" data-testId="message-card">
     <div class="flex flex-col w-full p-3">
-      <div>
-        <p class="mb-2">
-          <span
-            v-if="!message.is_confirmed"
-            class="px-1 mr-1 text-yellow-700 bg-yellow-300 rounded-sm"
-          >
-            new!</span
-          >
-          <span class="text-3xl">
+      <div class="flex items-center mb-1">
+        <div>
+          <span class="text-2xl">
             {{ message.title }}
           </span>
-        </p>
+        </div>
+        <div class="ml-1" v-if="!message.is_confirmed">
+          <span class="px-1 text-xs text-yellow-700 bg-yellow-300 rounded-sm">
+            new!</span
+          >
+        </div>
       </div>
-      <div>
+      <div class="text-base">
         <p>{{ message.body }}</p>
       </div>
     </div>
@@ -51,6 +50,6 @@ export default defineComponent({
 <style scoped>
 .card {
   @apply flex p-2 mb-2 text-gray-100 bg-gray-700 rounded;
-  height: 140px;
+  min-height: 120px;
 }
 </style>

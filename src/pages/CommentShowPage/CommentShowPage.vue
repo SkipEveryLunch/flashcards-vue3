@@ -32,23 +32,40 @@
         </div>
       </div>
     </div>
-    <div v-if="fComments.length > 0" class="w-full">
-      <transition-group
-        tag="ul"
-        class="flex flex-col p-3"
-        appear
-        @before-enter="beforeEnter"
-        @enter="enter"
-      >
-        <li
-          data-testid="question-card"
-          v-for="(comment, idx) in fComments"
-          :key="idx"
-          :data-idx="idx"
+    <div v-if="fComments.length > 0 && question" class="w-full">
+      <div class="px-3">
+        <div class="flex card">
+          <div class="flex justify-center w-full">
+            <div class="p-2 border-r">
+              <p>質問:</p>
+              <p>{{ question.front }}</p>
+            </div>
+            <div class="p-2 ml-2">
+              <p>解答:</p>
+              <p>{{ question.back }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end">
+        <transition-group
+          tag="ul"
+          class="flex flex-col w-full p-3"
+          appear
+          @before-enter="beforeEnter"
+          @enter="enter"
         >
-          <CommentCard :comment="comment" />
-        </li>
-      </transition-group>
+          <li
+            data-testid="question-card"
+            v-for="(comment, idx) in fComments"
+            :key="idx"
+            :data-idx="idx"
+          >
+            <CommentCard :comment="comment" />
+          </li>
+        </transition-group>
+      </div>
     </div>
   </div>
   <div v-else class="w-full h-full">
@@ -58,7 +75,7 @@
 <script lang="ts">
 import { ref, computed, onMounted, defineComponent } from 'vue';
 import { useStore } from 'vuex';
-import { Comment, CountedCommentType } from '../../types';
+import { Comment, Question, CountedCommentType } from '../../types';
 import { useRoute, useRouter } from 'vue-router';
 import Spinner from '../../components/Spinner.vue';
 import gsap from 'gsap';
@@ -84,6 +101,7 @@ export default defineComponent({
     const isLoading = ref(false);
     const comments = ref<Comment[]>([]);
     const fComments = ref<Comment[]>([]);
+    const question = ref<Question>();
     const showAllComments = () => {
       fComments.value = comments.value;
     };
@@ -102,12 +120,14 @@ export default defineComponent({
         const commentsData = await axios.get(
           `/questions_several_comments/${questionId}`
         );
-        if (commentsData.status === 200) {
+        const questionData = await axios.get(`/questions/${questionId}`);
+        if (commentsData.status === 200 && questionData.status === 200) {
           if (user.value.id === commentsData.data.commented_to) {
             isPostedByUser.value = true;
             comments.value = commentsData.data.comments;
             fComments.value = commentsData.data.comments;
             commentTypes.value = commentsData.data.comment_types;
+            question.value = questionData.data.question;
             isLoading.value = false;
           } else {
             router.push(`/section/${sectionId}/edit`);
@@ -144,7 +164,17 @@ export default defineComponent({
       commentTypes,
       filterCommentsByType,
       isLoading,
+      question,
     };
   },
 });
 </script>
+<style scoped>
+.card {
+  @apply p-3 mb-2 bg-gray-700 rounded flex w-full;
+  height: 140px;
+}
+.border-r {
+  border-right: 2px solid rgba(115, 115, 115);
+}
+</style>

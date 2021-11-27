@@ -172,7 +172,6 @@ export default defineComponent({
 <style scoped>
 .card {
   @apply p-3 mb-2 bg-gray-700 rounded flex w-full;
-  height: 140px;
 }
 .border-r {
   border-right: 2px solid rgba(115, 115, 115);

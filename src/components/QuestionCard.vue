@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="flex flex-col w-1/4">
-      <div class="flex">
+      <div class="flex mb-2">
         <div
           class="flex flex-col justify-start w-2/3 p-2 text-sm  whitespace-nowrap"
         >
@@ -34,16 +34,14 @@
         <router-link
           :to="`/section/${question.section_id}/question/${question.id}/edit`"
         >
-          <button class="mr-2 whitespace-nowrap btn btn-primary">
-            編集する
-          </button>
+          <button class="mr-2 whitespace-nowrap btn btn-primary">編集</button>
         </router-link>
         <button
           data-testid="question-delete-button"
           @click="onDelete"
           class="mr-2 btn btn-sub-white whitespace-nowrap"
         >
-          削除する
+          削除
         </button>
       </div>
     </div>
@@ -143,7 +141,7 @@ export default defineComponent({
 <style scoped>
 .card {
   @apply p-3 mb-2 bg-gray-700 rounded flex w-full;
-  height: 140px;
+  min-height: 120px;
 }
 .border-u {
   border-bottom: 2px solid rgba(115, 115, 115);

@@ -1,16 +1,14 @@
 <template>
   <div class="card">
-    <div class="flex flex-col justify-center w-1/6 h-full px-2">
-      <div>
-        <p class="text-3xl">{{ section.title }}</p>
-      </div>
+    <div class="flex items-center w-1/6 mr-1">
+      <p class="text-2xl">{{ section.title }}</p>
     </div>
-    <div class="flex flex-col justify-center w-1/2 h-full px-2 flex-2 wrap">
+    <div class="flex flex-col justify-center w-1/2 px-2 flex-2 wrap">
       <div>
         <p>{{ section.description }}</p>
       </div>
     </div>
-    <div class="flex items-center justify-end w-1/4 h-full px-2">
+    <div class="flex items-center justify-self-end">
       <div class="flex whitespace-nowrap">
         <router-link :to="`/section/${section.id}/study`">
           <button class="mr-2 btn btn-primary">学習する</button>
@@ -41,8 +39,8 @@ export default {
 </script>
 <style scoped>
 .card {
-  @apply w-full flex flex-row p-3 mb-2 text-gray-100 bg-gray-700 rounded justify-around;
-  height: 100px;
+  @apply w-full flex flex-row pl-2 py-3 mb-2 text-gray-100 bg-gray-700 rounded justify-around;
+  min-height: 90px;
 }
 .slide-enter-from {
   transform: translateX(120px);

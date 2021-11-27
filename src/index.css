@@ -4,7 +4,7 @@
 
 @layer base {
   .btn {
-    @apply text-base rounded;
+    @apply text-sm rounded;
     padding: 0.4rem 0.6rem 0.4rem 0.6rem;
   }
   .btn-primary {

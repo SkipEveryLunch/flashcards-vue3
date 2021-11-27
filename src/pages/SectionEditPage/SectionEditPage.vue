@@ -1,5 +1,5 @@
 <template>
-  <div v-if="section" class="flex h-full">
+  <div v-if="!isLoading && section" class="flex h-full">
     <div class="flex flex-col w-1/3 px-4 py-3">
       <div
         class="pt-2 pb-3 text-4xl font-bold text-gray-700 cursor-pointer"
@@ -7,7 +7,7 @@
       >
         {{ section.title }}
         <p class="text-lg">
-          <span class="mr-3">問題数：{{ section.questions.length }}</span>
+          <span class="mr-3">問題数：{{ section.count_questions }}</span>
           <span>達成率：{{ Math.round(section.complete_rate * 100) }}%</span>
         </p>
       </div>
@@ -35,10 +35,16 @@
       </div>
     </div>
     <div
-      v-if="fQuestions.length > 0"
+      v-if="sQuestions.length > 0"
       class="w-full"
       data-testid="question-page"
     >
+      <Paginator
+        :lastPage="lastPage"
+        :page="page"
+        @page-change="($e) => pageChange($e)"
+      />
+
       <transition-group
         tag="ul"
         class="flex flex-col p-3"
@@ -48,7 +54,7 @@
       >
         <li
           data-testid="question-card"
-          v-for="(question, idx) in fQuestions"
+          v-for="(question, idx) in sQuestions"
           :key="question.id"
           :data-idx="idx"
         >
@@ -70,10 +76,11 @@
 import axios from 'axios';
 import gsap from 'gsap';
 import QuestionCard from '../../components/QuestionCard.vue';
-import { ref, onMounted, watch, computed, defineComponent } from 'vue';
+import { ref, onMounted, computed, defineComponent } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { Section, Question } from '../../types';
+import Paginator from '../../components/Paginator.vue';
 import Spinner from '../../components/Spinner.vue';
 import SearchBox from '../../components/SearchBox.vue';
 export default defineComponent({
@@ -82,6 +89,7 @@ export default defineComponent({
     Spinner,
     QuestionCard,
     SearchBox,
+    Paginator,
   },
   setup() {
     const section = ref<Section | null>(null);
@@ -89,6 +97,8 @@ export default defineComponent({
     const {
       params: { sectionId },
     } = useRoute();
+    const isLoading = ref(true);
+    const page = ref(1);
     const store = useStore();
     const router = useRouter();
     const user = computed(() => {
@@ -96,6 +106,7 @@ export default defineComponent({
     });
     const search = ref('');
     const filterQuestions = () => {
+      page.value = 1;
       if (section.value) {
         fQuestions.value = section.value.questions.filter((el) => {
           return (
@@ -104,11 +115,19 @@ export default defineComponent({
         });
       }
     };
+    const sQuestions = computed(() => {
+      if (fQuestions.value.length > 0) {
+        return fQuestions.value.slice((page.value - 1) * 15, page.value * 15);
+      } else {
+        return [];
+      }
+    });
     const findMyQuestions = () => {
       if (section.value) {
         fQuestions.value = section.value.questions.filter((el) => {
           return el.posted_by === user.value.id;
         });
+        page.value = 1;
       }
     };
     const onChangeSearch = (payload: string) => {
@@ -143,6 +162,12 @@ export default defineComponent({
         });
       }
     };
+    const lastPage = computed(() => {
+      return Math.floor(fQuestions.value.length / 15) + 1;
+    });
+    const pageChange = (newPage: number) => {
+      page.value = newPage;
+    };
     onMounted(async () => {
       if (!user.value) {
         store.dispatch('setModal', {
@@ -152,6 +177,7 @@ export default defineComponent({
         router.push('/');
       } else {
         await load();
+        isLoading.value = false;
       }
     });
     store.watch(
@@ -176,6 +202,8 @@ export default defineComponent({
       }
     };
     return {
+      page,
+      lastPage,
       section,
       user,
       sectionId,
@@ -187,7 +215,9 @@ export default defineComponent({
       onChangeSearch,
       showAllQuestions,
       findMyQuestions,
-      fQuestions,
+      sQuestions,
+      isLoading,
+      pageChange,
     };
   },
 });

@@ -30,6 +30,7 @@
       </div>
     </div>
     <div v-if="fMessages.length > 0" class="w-full">
+      <Paginator :page="page" :lastPage="lastPage" />
       <transition-group
         tag="ul"
         class="flex flex-col p-3"
@@ -39,7 +40,7 @@
       >
         <li
           data-testid="question-card"
-          v-for="(message, idx) in fMessages"
+          v-for="(message, idx) in sMessages"
           :key="message.id"
           :data-idx="idx"
         >
@@ -62,6 +63,7 @@ import { ref, computed, onMounted, defineComponent } from 'vue';
 import { Message } from '../../types';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import Paginator from '../../components/Paginator.vue';
 import Spinner from '../../components/Spinner.vue';
 import axios from 'axios';
 import gsap from 'gsap';
@@ -69,10 +71,11 @@ import MessageCard from '../../components/MessageCard.vue';
 import SearchBox from '../../components/SearchBox.vue';
 export default defineComponent({
   name: 'MessageShowPage',
-  components: { Spinner, SearchBox, MessageCard },
+  components: { Spinner, SearchBox, MessageCard, Paginator },
   setup() {
     const store = useStore();
     const isLoading = ref(true);
+    const page = ref(1);
     const router = useRouter();
     const unconfirmed = ref(0);
     const search = ref('');
@@ -80,6 +83,16 @@ export default defineComponent({
     const fMessages = ref<Message[]>([]);
     const user = computed(() => {
       return store.state.user;
+    });
+    const sMessages = computed(() => {
+      if (fMessages.value.length > 0) {
+        return fMessages.value.slice((page.value - 1) * 15, page.value * 15);
+      } else {
+        return [];
+      }
+    });
+    const lastPage = computed(() => {
+      return Math.floor(fMessages.value.length / 15) + 1;
     });
     const showAllMessages = () => {
       fMessages.value = messages.value;
@@ -159,7 +172,10 @@ export default defineComponent({
       beforeEnter,
       enter,
       isLoading,
+      sMessages,
       fMessages,
+      page,
+      lastPage,
       onConfirm,
       unconfirmed,
       user,

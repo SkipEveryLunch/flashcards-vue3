@@ -44,10 +44,9 @@
         :page="page"
         @page-change="($e) => pageChange($e)"
       />
-
       <transition-group
         tag="ul"
-        class="flex flex-col p-3"
+        class="flex flex-col h-full scroller"
         appear
         @before-enter="beforeEnter"
         @enter="enter"

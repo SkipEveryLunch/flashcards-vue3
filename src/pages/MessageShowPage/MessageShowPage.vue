@@ -33,7 +33,7 @@
       <Paginator :page="page" :lastPage="lastPage" />
       <transition-group
         tag="ul"
-        class="flex flex-col p-3"
+        class="flex flex-col scroller"
         appear
         @before-enter="beforeEnter"
         @enter="enter"

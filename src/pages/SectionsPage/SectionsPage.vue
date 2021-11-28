@@ -42,7 +42,7 @@
       <transition-group
         tag="ul"
         appear
-        class="flex flex-col p-3"
+        class="flex flex-col scroller"
         @before-enter="beforeEnter"
         @enter="enter"
       >

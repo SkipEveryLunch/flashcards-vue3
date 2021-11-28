@@ -30,7 +30,8 @@
   }
 
   .scroller {
-    @apply h-full mb-1 overflow-y-scroll;
+    @apply h-full mb-1;
+    overflow-y: auto;
   }
   .scroller::-webkit-scrollbar {
     display: block;

@@ -18,16 +18,16 @@
         appear
         @before-enter="beforeEnter"
         @enter="enter"
-        class="w-full p-3"
+        class="w-full mt-2 scroller"
         tag="ul"
       >
-        <QuestionCard
+        <li
           v-for="(question, idx) in answeredQuestions"
           :key="question.id"
-          :question="question"
           :data-idx="idx"
-          @load="load"
-        />
+        >
+          <QuestionCard :question="question" @load="load" />
+        </li>
       </transition-group>
     </div>
   </div>

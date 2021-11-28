@@ -1,15 +1,18 @@
 <template>
-  <nav>
+  <nav class="my-2">
     <ul class="flex items-center justify-center w-full px-3 text-base">
       <li class="mr-2">
         <a href="javascript:void(0)" @click="prev"
-          ><font-awesome-icon class="fa-md" :icon="faChevronLeft"
+          ><font-awesome-icon
+            class="fa-md"
+            :class="isArrowLight(page !== 1)"
+            :icon="faChevronLeft"
         /></a>
       </li>
       <div
-        class="px-2 mx-1 border-2 rounded-sm cursor-pointer hover:bg-gray-300"
+        class="px-2 mx-1 border-2 rounded-sm hover:bg-gray-300"
         v-for="p in range(1, lastPage)"
-        :class="boxColor(p)"
+        :class="isBoxLight(p === page)"
         @click="() => goTo(p)"
         :key="p"
       >
@@ -18,7 +21,10 @@
 
       <li class="ml-2">
         <a href="javascript:void(0)" @click="next"
-          ><font-awesome-icon class="fa-md" :icon="faChevronRight"
+          ><font-awesome-icon
+            class="fa-md"
+            :class="isArrowLight(page !== lastPage)"
+            :icon="faChevronRight"
         /></a>
       </li>
     </ul>
@@ -63,11 +69,18 @@ export default defineComponent({
         context.emit('page-change', props.page - 1);
       }
     };
-    const boxColor = (p: number) => {
-      if (p == props.page) {
+    const isBoxLight = (bool: boolean) => {
+      if (bool) {
         return 'text-gray-100 border-gray-100 hover:bg-gray-500 cursor-default';
       } else {
-        return 'text-gray-400 border-gray-400';
+        return 'text-gray-400 border-gray-400 cursor-pointer';
+      }
+    };
+    const isArrowLight = (bool: boolean) => {
+      if (bool) {
+        return 'text-gray-100 border-gray-100 hover:bg-gray-500 cursor-pointer';
+      } else {
+        return 'text-gray-400 border-gray-400 cursor-default';
       }
     };
     return {
@@ -76,7 +89,8 @@ export default defineComponent({
       faChevronLeft,
       faChevronRight,
       range,
-      boxColor,
+      isBoxLight,
+      isArrowLight,
       goTo,
     };
   },

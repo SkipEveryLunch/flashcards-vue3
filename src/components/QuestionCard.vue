@@ -1,6 +1,6 @@
 <template>
-  <div class="flex card">
-    <div class="flex flex-col justify-center w-full m-3">
+  <div class="grid grid-cols-10 card">
+    <div class="flex flex-col justify-center col-span-8">
       <div class="pb-2 border-u">
         <p>{{ question.front }}</p>
       </div>
@@ -8,29 +8,30 @@
         <p>{{ question.back }}</p>
       </div>
     </div>
-    <div class="flex flex-col w-1/4">
-      <div class="flex mb-2">
-        <div
-          class="flex flex-col justify-start w-2/3 p-2 text-sm  whitespace-nowrap"
-        >
-          <p>
-            レベル:
-            {{ question.learning_stage ? question.learning_stage : '未学習' }}
-          </p>
-          <p>
-            次回:
-            {{ question.next_period ? question.next_period : '未学習' }}
-          </p>
-        </div>
-        <div class="flex justify-end w-full pr-2">
-          <CommentIcon
-            :isCommented="isCommentedByMe"
-            :count="question.commented_by.length"
-            @comment="showModal"
-          />
-        </div>
+    <div class="grid grid-cols-10 col-span-2 grid-rows-10">
+      <div
+        class="col-span-4 col-start-2 row-span-3 row-start-1 text-sm  whitespace-nowrap"
+      >
+        <p>
+          レベル:
+          {{ question.learning_stage ? question.learning_stage : '未学習' }}
+        </p>
+        <p>
+          次回:
+          {{ question.next_period ? question.next_period : '未学習' }}
+        </p>
       </div>
-      <div v-if="isPostedByMe" class="flex items-end justify-end h-full">
+      <div class="col-span-2 col-start-9 row-span-2 row-start-1">
+        <CommentIcon
+          :isCommented="isCommentedByMe"
+          :count="question.commented_by.length"
+          @comment="showModal"
+        />
+      </div>
+      <div
+        v-if="isPostedByMe"
+        class="flex items-center justify-center col-span-8 col-start-3 row-span-1  row-start-9"
+      >
         <router-link
           :to="`/section/${question.section_id}/question/${question.id}/edit`"
         >
@@ -140,7 +141,7 @@ export default defineComponent({
 </script>
 <style scoped>
 .card {
-  @apply p-3 mb-2 bg-gray-700 rounded flex w-full;
+  @apply p-3 mb-2 bg-gray-700 rounded w-full;
   min-height: 120px;
 }
 .border-u {

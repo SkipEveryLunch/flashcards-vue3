@@ -6,8 +6,7 @@
     <div class="flex space-x-1">
       <div class="flex items-center px-2 py-3">
         <router-link to="/">
-          <span>💡</span>
-          <span>Fla$hApp</span>
+          <Logo />
         </router-link>
       </div>
     </div>
@@ -49,9 +48,10 @@ import { useStore } from 'vuex';
 import ProfileDropDown from '../ProfileDropDown.vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import Logo from '../../assets/Logo.vue';
 export default {
   name: 'Header',
-  components: { ProfileDropDown, FontAwesomeIcon },
+  components: { ProfileDropDown, FontAwesomeIcon, Logo },
   setup() {
     const store = useStore();
     const showDropDown = ref(false);

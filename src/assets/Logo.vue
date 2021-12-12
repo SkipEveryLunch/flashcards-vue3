@@ -64,29 +64,13 @@
 }
 .tspan {
   font-size: 16px;
-  animation: tspan_animation 1.8s both;
+  animation: tspan_animation 0.5s both;
   fill: url(#l_g);
 }
 @keyframes tspan_animation {
   0% {
     opacity: 0; /*# 0秒では間隔を300px */
     transform: translateX(7.5px);
-  }
-  30% {
-    opacity: 0; /*# 0秒では間隔を300px */
-    fill: white;
-    transform: translateX(7.5px);
-  }
-  60% {
-    opacity: 1; /*# 0秒では間隔を300px */
-    fill: white;
-    transform: translateX(0px);
-  }
-  80% {
-    opacity: 1; /*# 0秒では間隔を300px */
-    fill: white;
-    font-weight: 900;
-    transform: translateX(0px);
   }
   100% {
     opacity: 1; /*# 0秒では間隔を300px */

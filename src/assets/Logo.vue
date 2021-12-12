@@ -10,25 +10,38 @@
         style="enable-background: new 0 0 500 500"
         xml:space="preserve"
       >
+        <defs>
+          <linearGradient id="l_g">
+            <stop offset="0%" stop-color="rgb(150,200,250)" />
+            <stop offset="100%" stop-color="rgb(150,225,225)" />
+          </linearGradient>
+        </defs>
         <polyline
           points="0,10 5,0 85,0 90,10 85,20 5,20 0,10"
           class="polyline"
           stroke-dasharray="300px"
           stroke-dashoffset="300px"
-          stroke-width="1"
-          stroke="white"
           fill="none"
         ></polyline>
         <text
           class="text"
-          x="45"
+          x="37.5"
           y="9"
           dominant-baseline="central"
-          fill="white"
           stroke="none"
           text-anchor="middle"
         >
-          Learn w/ U
+          Learn w/
+        </text>
+        <text
+          x="75"
+          y="9"
+          dominant-baseline="central"
+          stroke="none"
+          text-anchor="middle"
+          class="tspan"
+        >
+          U
         </text>
       </svg>
     </transition>
@@ -41,29 +54,51 @@
 }
 .text {
   font-size: 14px;
-  animation: text_animation 2s both;
+  animation: text_animation 1.5s both;
+  fill: url(#l_g);
 }
 .polyline {
-  animation: line_animation 2s both;
+  animation: line_animation 1.5s both;
+  stroke: url(#l_g);
+  stroke-width: 1;
 }
-
-@keyframes line_animation {
+.tspan {
+  font-size: 16px;
+  animation: tspan_animation 1.25s both;
+  fill: url(#l_g);
+}
+@keyframes tspan_animation {
   0% {
-    stroke-dashoffset: 300px; /*# 0秒では間隔を300px */
+    opacity: 0; /*# 0秒では間隔を300px */
+    transform: translateX(7.5px);
+  }
+  50% {
+    opacity: 0; /*# 0秒では間隔を300px */
+    transform: translateX(7.5px);
   }
   100% {
-    stroke-dashoffset: 0px; /*# 3秒後に間隔を0px */
+    opacity: 1; /*# 0秒では間隔を300px */
+    transform: translateX(0px);
+  }
+}
+@keyframes line_animation {
+  0% {
+    stroke-width: 1.5;
+    stroke-dashoffset: 350px; /*# 0秒では間隔を300px */
+  }
+  100% {
+    stroke: url(#l_g);
+    stroke-width: 1;
+    stroke-dashoffset: 0px;
   }
 }
 @keyframes text_animation {
   0% {
     opacity: 0; /*# 0秒では間隔を300px */
   }
-  75% {
-    opacity: 1;
-  }
   100% {
     opacity: 1; /*# 3秒後に間隔を0px */
+    fill: url(#l_g);
   }
 }
 </style>

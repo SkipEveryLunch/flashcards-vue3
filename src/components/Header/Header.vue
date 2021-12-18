@@ -26,7 +26,7 @@
     <!-- <div v-else class="flex items-center"> -->
     <div v-else class="relative flex items-center px-2 py-3">
       <div
-        class="flex"
+        class="flex px-2 rounded-md hover:bg-gray-600"
         @click="() => toggleDropDown(!showDropDown)"
         data-testid="profile-menu"
       >

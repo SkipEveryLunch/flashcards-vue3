@@ -1,18 +1,7 @@
 <template>
   <div
     data-testid="profile-dropdown"
-    class="
-      absolute
-      right-0
-      z-10
-      text-black
-      bg-gray-100
-      border border-gray-400
-      rounded
-      shadow-sm
-      top-full
-      w-max
-    "
+    class="absolute right-0 z-10 text-black bg-gray-100 border border-gray-400 rounded shadow-sm  top-full w-max"
     v-click-away="() => toggleDropDown(false)"
   >
     <ul>
@@ -91,7 +80,7 @@ export default {
 </script>
 <style scoped>
 .profileList {
-  @apply w-full border-b pl-2 mr-4 py-2 text-gray-800 text-base hover:bg-gray-100 cursor-pointer;
+  @apply w-full border-b pl-2 mr-4 py-2 text-gray-800 text-base hover:bg-gray-300 cursor-pointer;
 }
 .unconfirmedNotion {
   @apply text-yellow-700 bg-yellow-300 ml-1 text-center text-xs rounded-full w-4;

@@ -2,7 +2,7 @@
   <div v-if="!isLoading" class="flex h-full">
     <div class="flex flex-col w-1/3 px-4 py-3">
       <div
-        class="pt-2 pb-3 text-4xl font-bold text-gray-700 cursor-pointer"
+        class="pt-2 pb-3 text-3xl font-bold text-gray-700 cursor-pointer w-max"
         @click="showAllSections"
       >
         セクション一覧
@@ -15,25 +15,25 @@
         />
       </div>
       <div class="flex flex-col ml-2">
-        <div class="py-2 cursor-pointer">
+        <div class="sideRow">
           <router-link
             data-testid="section-submit-link"
             v-if="user"
             to="section_submit"
-            ><p>新規セクション作成</p></router-link
+            ><span>新規セクション作成</span></router-link
           >
         </div>
 
-        <div @click="findMySections" class="py-2 cursor-pointer" v-if="user">
-          <p>投稿したセクション</p>
+        <div @click="findMySections" class="sideRow" v-if="user">
+          <span class="">投稿したセクション</span>
         </div>
         <div
           v-for="(aSeries, idx) in series"
           :key="idx"
-          class="py-2 cursor-pointer"
+          class="sideRow"
           @click="() => filterBySeries(aSeries.id)"
         >
-          <p>{{ aSeries.name }}</p>
+          <span>{{ aSeries.name }}</span>
         </div>
       </div>
     </div>

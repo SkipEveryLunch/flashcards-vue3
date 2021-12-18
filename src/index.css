@@ -47,3 +47,6 @@
     @apply mr-2;
   }
 }
+.sideRow {
+  @apply py-2 cursor-pointer hover:text-gray-300 w-max;
+}

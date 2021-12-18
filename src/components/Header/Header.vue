@@ -12,12 +12,13 @@
     </div>
     <div v-if="name.length === 0">
       <div class="flex items-center px-2 py-3">
-        <router-link data-testid="login-link" to="/login" class="px-2 mr-3"
+        <router-link
+          data-testid="login-link"
+          to="/login"
+          class="px-2 py-1 mr-3 rounded-md hover:bg-gray-600"
           >ログイン</router-link
         >
-        <router-link
-          to="/register"
-          class="px-2 py-1 text-yellow-700 bg-yellow-300 rounded-md"
+        <router-link to="/register" class="px-2 py-1 text-lg btn btn-primary"
           >新規登録</router-link
         >
       </div>

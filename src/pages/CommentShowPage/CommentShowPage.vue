@@ -9,7 +9,7 @@
         <div class="flex flex-col ml-2">
           <div
             v-for="type in commentTypes"
-            class="flex justify-between py-2 cursor-pointer"
+            class="flex justify-between py-2 cursor-pointer sideRow"
             :key="type.id"
             @click="() => filterCommentsByType(type.id)"
           >
@@ -22,7 +22,7 @@
               <p>{{ type.count }}件</p>
             </div>
           </div>
-          <div class="py-2 cursor-pointer">
+          <div class="sideRow">
             <router-link
               data-testid="section-submit-link"
               :to="`/section/${sectionId}/edit`"

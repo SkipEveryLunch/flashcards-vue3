@@ -2,7 +2,7 @@
   <div v-if="!isLoading && section" class="flex h-full">
     <div class="flex flex-col w-1/3 px-4 py-3">
       <div
-        class="pt-2 pb-3 text-4xl font-bold text-gray-700 cursor-pointer"
+        class="pt-2 pb-3 text-4xl font-bold text-gray-700 cursor-pointer w-max"
         @click="showAllQuestions"
       >
         {{ section.title }}
@@ -19,15 +19,15 @@
         />
       </div>
       <div class="flex flex-col ml-2" @click="findMyQuestions">
-        <div class="py-2 cursor-pointer" v-if="user">
+        <div class="sideRow" v-if="user">
           <p>投稿した問題</p>
         </div>
-        <div class="py-2 cursor-pointer">
+        <div class="sideRow">
           <router-link v-if="user" :to="`/section/${sectionId}/submit`"
             ><p>新しい問題を投稿</p></router-link
           >
         </div>
-        <div class="py-2 cursor-pointer" v-if="user">
+        <div class="sideRow" v-if="user">
           <router-link data-testid="section-submit-link" to="/"
             ><p>戻る</p></router-link
           >

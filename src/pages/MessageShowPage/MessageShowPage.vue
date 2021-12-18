@@ -2,7 +2,7 @@
   <div v-if="!isLoading" class="flex h-full">
     <div class="flex flex-col w-1/3 px-4 py-3">
       <div
-        class="pt-2 pb-3 text-4xl font-bold text-gray-700 cursor-pointer"
+        class="pt-2 pb-3 text-4xl font-bold text-gray-700 cursor-pointer w-max"
         @click="showAllMessages"
       >
         メッセージ一覧
@@ -19,10 +19,10 @@
         />
       </div>
       <div class="flex flex-col ml-2">
-        <div class="py-2 cursor-pointer" @click="filterNewMessages">
+        <div class="sideRow" @click="filterNewMessages">
           <p>未読のメッセージ</p>
         </div>
-        <div class="py-2 cursor-pointer">
+        <div class="sideRow">
           <router-link data-testid="section-submit-link" to="/"
             ><p>戻る</p></router-link
           >

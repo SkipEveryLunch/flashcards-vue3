@@ -40,7 +40,7 @@
   </div>
 </template>
 <script lang="ts">
-import { onMounted, computed, defineComponent } from 'vue';
+import { onMounted, onUnmounted, computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 import { Modal } from '../types';
 interface ModalProps {
@@ -67,11 +67,15 @@ export default defineComponent({
       }
     });
     onMounted(() => {
-      console.log(props.modal.messages);
       if (!props.modal.cb) {
         setTimeout(() => {
           store.dispatch('discardModal');
         }, 2000);
+      }
+    });
+    onUnmounted(() => {
+      if (props.modal.cbAfter) {
+        props.modal.cbAfter();
       }
     });
     return {

@@ -119,8 +119,8 @@ export default {
                 `おかえりなさい、${user.first_name}さん。`,
                 `${user.unconfirmed_messages}個の未読メッセージがあります`,
               ],
+              cbAfter: () => store.dispatch('toggleDropDown', true),
             });
-            store.dispatch('toggleDropDown', true);
           } else {
             store.dispatch('setModal', {
               type: 'notification',

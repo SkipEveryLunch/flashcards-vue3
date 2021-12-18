@@ -62,10 +62,11 @@ export interface Message {
 export interface Modal {
   type: 'notification' | 'caution' | 'error';
   messages: string[];
-  cb: {
+  cb?: {
     name: string;
     cb: any;
   };
+  cbAfter?: any;
 }
 export interface User {
   id: number;

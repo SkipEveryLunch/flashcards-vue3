@@ -6,8 +6,8 @@
     <transition name="modalbox" appear>
       <div class="modal">
         <div class="py-2 pl-5 text-gray-100 bg-blue-700">{{ typeName }}</div>
-        <div class="flex justify-center p-5">
-          {{ modal.message }}
+        <div class="p-5">
+          <p v-for="(msg, idx) in modal.messages" :key="idx">{{ msg }}</p>
         </div>
         <div class="flex justify-end mr-3" v-if="modal.cb">
           <button
@@ -39,13 +39,17 @@
     </transition>
   </div>
 </template>
-<script>
-import { onMounted, computed } from 'vue';
+<script lang="ts">
+import { onMounted, computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
-export default {
+import { Modal } from '../types';
+interface ModalProps {
+  modal: Modal;
+}
+export default defineComponent({
   name: 'Modal',
   props: ['modal'],
-  setup(props) {
+  setup(props: ModalProps) {
     const store = useStore();
     const onClose = () => {
       store.dispatch('discardModal');
@@ -63,6 +67,7 @@ export default {
       }
     });
     onMounted(() => {
+      console.log(props.modal.messages);
       if (!props.modal.cb) {
         setTimeout(() => {
           store.dispatch('discardModal');
@@ -74,7 +79,7 @@ export default {
       typeName,
     };
   },
-};
+});
 </script>
 <style scoped>
 .modalbox-enter-from {

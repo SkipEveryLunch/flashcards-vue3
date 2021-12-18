@@ -146,18 +146,18 @@ export default defineComponent({
         } else if (status === 404) {
           store.dispatch('setModal', {
             type: 'error',
-            message: 'セクションが見つかりません',
+            messages: ['セクションが見つかりません'],
           });
         } else {
           store.dispatch('setModal', {
             type: 'error',
-            message: '不明なエラーです',
+            messages: ['不明なエラーです'],
           });
         }
       } catch (e) {
         store.dispatch('setModal', {
           type: 'error',
-          message: '不明なエラーです',
+          messages: ['不明なエラーです'],
         });
       }
     };
@@ -171,7 +171,7 @@ export default defineComponent({
       if (!user.value) {
         store.dispatch('setModal', {
           type: 'error',
-          message: 'ログインが必要です',
+          messages: ['ログインが必要です'],
         });
         router.push('/');
       } else {

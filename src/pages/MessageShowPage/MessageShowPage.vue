@@ -145,7 +145,7 @@ export default defineComponent({
         if (status !== 200) {
           store.dispatch('setModal', {
             type: 'error',
-            message: '不明なエラーが発生しました',
+            messages: ['不明なエラーが発生しました'],
           });
         } else {
           store.dispatch('decreaseUnconfirmed');

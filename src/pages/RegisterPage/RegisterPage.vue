@@ -176,19 +176,19 @@ export default {
           router.push('/login');
           store.dispatch('setModal', {
             type: 'notification',
-            message: '登録が完了しました',
+            messages: ['登録が完了しました'],
           });
         }
       } catch (e) {
         if (e.response.status === 409) {
           store.dispatch('setModal', {
             type: 'error',
-            message: 'そのメールアドレスは既に使われています',
+            messages: ['そのメールアドレスは既に使われています'],
           });
         } else {
           store.dispatch('setModal', {
             type: 'error',
-            message: '不明なエラーです',
+            messages: ['不明なエラーです'],
           });
         }
       }

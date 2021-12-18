@@ -142,7 +142,7 @@ export default defineComponent({
       if (!user.value) {
         store.dispatch('setModal', {
           type: 'error',
-          message: '実行するにはログインしてください',
+          messages: ['実行するにはログインしてください'],
         });
         router.push('/login');
       } else {
@@ -168,24 +168,24 @@ export default defineComponent({
           router.push('/');
           store.dispatch('setModal', {
             type: 'notification',
-            message: 'セクションを作成しました',
+            messages: ['セクションを作成しました'],
           });
         }
       } catch (e) {
         if (e.response.status === 401) {
           store.dispatch('setModal', {
             type: 'error',
-            message: '投稿はログインしないとできません',
+            messages: ['投稿はログインしないとできません'],
           });
         } else if (e.response.status === 409) {
           store.dispatch('setModal', {
             type: 'error',
-            message: '既に登録されているタイトルです',
+            messages: ['既に登録されているタイトルです'],
           });
         } else {
           store.dispatch('setModal', {
             type: 'error',
-            message: '不明なエラーです',
+            messages: ['不明なエラーです'],
           });
         }
         isCalling.value = false;

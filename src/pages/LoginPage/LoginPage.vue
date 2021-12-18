@@ -115,12 +115,15 @@ export default {
           if (user.unconfirmed_messages > 0) {
             store.dispatch('setModal', {
               type: 'notification',
-              message: `おかえりなさい、${user.first_name}さん。${user.unconfirmed_messages}個の未読メッセージがあります`,
+              messages: [
+                `おかえりなさい、${user.first_name}さん。`,
+                `${user.unconfirmed_messages}個の未読メッセージがあります`,
+              ],
             });
           } else {
             store.dispatch('setModal', {
               type: 'notification',
-              message: 'ログインしました',
+              messages: ['ログインしました'],
             });
           }
         }
@@ -128,12 +131,12 @@ export default {
         if (e.response.status === 401) {
           store.dispatch('setModal', {
             type: 'error',
-            message: 'メールアドレスかパスワードが違います',
+            messages: ['メールアドレスかパスワードが違います'],
           });
         } else {
           store.dispatch('setModal', {
             type: 'error',
-            message: '不明なエラーです',
+            messages: ['不明なエラーです'],
           });
         }
         isCalling.value = false;

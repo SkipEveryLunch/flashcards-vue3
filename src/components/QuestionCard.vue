@@ -10,7 +10,12 @@
     </div>
     <div class="grid grid-cols-10 col-span-2 grid-rows-10">
       <div
-        class="col-span-4 col-start-2 row-span-3 row-start-1 text-sm  whitespace-nowrap"
+        class="
+          col-span-4 col-start-2
+          row-span-3 row-start-1
+          text-sm
+          whitespace-nowrap
+        "
       >
         <p>
           レベル:
@@ -30,7 +35,13 @@
       </div>
       <div
         v-if="isPostedByMe"
-        class="flex items-center justify-center col-span-8 col-start-3 row-span-1  row-start-9"
+        class="
+          flex
+          items-center
+          justify-center
+          col-span-8 col-start-3
+          row-span-1 row-start-9
+        "
       >
         <router-link
           :to="`/section/${question.section_id}/question/${question.id}/edit`"
@@ -91,7 +102,7 @@ export default defineComponent({
     const onDelete = () => {
       store.dispatch('setModal', {
         type: 'caution',
-        message: '本当に削除しますか?',
+        messages: ['本当に削除しますか?'],
         cb: {
           name: '削除します',
           cb: async () => {
@@ -103,25 +114,25 @@ export default defineComponent({
                 await store.dispatch('discardModal');
                 store.dispatch('setModal', {
                   type: 'notification',
-                  message: '削除しました',
+                  messages: ['削除しました'],
                 });
                 emit('load');
               } else {
                 store.dispatch('setModal', {
                   type: 'error',
-                  message: '不明なエラーです',
+                  messages: ['不明なエラーです'],
                 });
               }
             } catch (e) {
               if (e.response.status === 404) {
                 store.dispatch('setModal', {
                   type: 'error',
-                  message: '質問が見つかりません',
+                  messages: ['質問が見つかりません'],
                 });
               } else {
                 store.dispatch('setModal', {
                   type: 'error',
-                  message: '不明なエラーです',
+                  messages: ['不明なエラーです'],
                 });
               }
             }

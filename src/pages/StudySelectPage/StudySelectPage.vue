@@ -51,7 +51,7 @@ export default {
       if (!user.value) {
         store.dispatch('setModal', {
           type: 'error',
-          message: 'ログインが必要です',
+          messages: ['ログインが必要です'],
         });
         router.push('/');
       } else {
@@ -65,7 +65,7 @@ export default {
       } catch (e) {
         store.dispatch('setModal', {
           type: 'error',
-          message: '不明なエラーです',
+          messages: ['不明なエラーです'],
         });
       }
     };

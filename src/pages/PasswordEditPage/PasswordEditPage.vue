@@ -124,7 +124,7 @@ export default {
       if (form.password.length > 0 || form.password_confirm.length > 0) {
         store.dispatch('setModal', {
           type: 'caution',
-          message: '戻ると編集内容は破棄されます。破棄して戻りますか？',
+          messages: ['戻ると編集内容は破棄されます。', '破棄して戻りますか？'],
           cb: {
             name: '戻る',
             cb: () => {

@@ -137,7 +137,7 @@ export default defineComponent({
             onClose();
             store.dispatch('setModal', {
               type: 'notification',
-              message: 'コメントを投稿しました',
+              messages: ['コメントを投稿しました'],
             });
           }
         }
@@ -145,7 +145,7 @@ export default defineComponent({
         onClose();
         store.dispatch('setModal', {
           type: 'caution',
-          message: '投稿されておりません',
+          messages: ['投稿されておりません'],
         });
       }
     };
@@ -164,7 +164,7 @@ export default defineComponent({
             onClose();
             store.dispatch('setModal', {
               type: 'notification',
-              message: 'コメントを編集しました',
+              messages: ['コメントを編集しました'],
             });
           }
         }
@@ -172,7 +172,7 @@ export default defineComponent({
         onClose();
         store.dispatch('setModal', {
           type: 'caution',
-          message: '投稿されておりません',
+          messages: ['投稿されておりません'],
         });
       }
     };
@@ -187,7 +187,7 @@ export default defineComponent({
             onClose();
             store.dispatch('setModal', {
               type: 'notification',
-              message: 'コメントを削除しました',
+              messages: ['コメントを削除しました'],
             });
           }
         }
@@ -195,7 +195,7 @@ export default defineComponent({
         onClose();
         store.dispatch('setModal', {
           type: 'caution',
-          message: '投稿されておりません',
+          messages: ['投稿されておりません'],
         });
       }
     };

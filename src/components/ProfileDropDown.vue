@@ -1,7 +1,18 @@
 <template>
   <div
     data-testid="profile-dropdown"
-    class="absolute right-0 z-10 text-black bg-gray-100 border border-gray-400 rounded shadow-sm  top-full w-max"
+    class="
+      absolute
+      right-0
+      z-10
+      text-black
+      bg-gray-100
+      border border-gray-400
+      rounded
+      shadow-sm
+      top-full
+      w-max
+    "
     v-click-away="() => toggleDropDown(false)"
   >
     <ul>
@@ -49,7 +60,7 @@ export default {
     const onLogout = async () => {
       store.dispatch('setModal', {
         type: 'caution',
-        message: 'ログアウトしますか？',
+        messages: ['ログアウトしますか？'],
         cb: {
           name: 'はい',
           cb: async () => {
@@ -61,7 +72,7 @@ export default {
               router.push('/');
               store.dispatch('setModal', {
                 type: 'notification',
-                message: 'ログアウトしました',
+                messages: ['ログアウトしました'],
               });
             } catch (e) {
               console.log(e);

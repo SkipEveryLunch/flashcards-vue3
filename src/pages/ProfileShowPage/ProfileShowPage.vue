@@ -60,7 +60,7 @@ export default {
       if (!store.state.user) {
         store.dispatch('setModal', {
           type: 'error',
-          message: 'ログインが必要です',
+          messages: ['ログインが必要です'],
         });
         router.push('/');
       }

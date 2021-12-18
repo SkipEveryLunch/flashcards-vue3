@@ -124,7 +124,7 @@ export default {
       if (!user.value) {
         store.dispatch('setModal', {
           type: 'error',
-          message: 'ログインが必要です',
+          messages: ['ログインが必要です'],
         });
         router.push('/');
       } else {
@@ -138,7 +138,7 @@ export default {
       } catch (e) {
         store.dispatch('setModal', {
           type: 'error',
-          message: '不明なエラーです',
+          messages: ['不明なエラーです'],
         });
       }
     };
@@ -150,7 +150,7 @@ export default {
         if (data.message === "next assignment isn't yet") {
           store.dispatch('setModal', {
             type: 'notification',
-            message: '本日の新規学習は終了しました。明日また頑張ろうね',
+            messages: ['本日の新規学習は終了しました。', '明日また頑張ろうね'],
           });
         } else if (status == 200) {
           questions.value = data.questions;
@@ -159,13 +159,13 @@ export default {
         } else {
           store.dispatch('setModal', {
             type: 'error',
-            message: '不明なエラーです',
+            messages: ['不明なエラーです'],
           });
         }
       } catch (e) {
         store.dispatch('setModal', {
           type: 'error',
-          message: '不明なエラーです',
+          messages: ['不明なエラーです'],
         });
       }
     };
@@ -177,7 +177,7 @@ export default {
         if (data.questions.length === 0) {
           store.dispatch('setModal', {
             type: 'notification',
-            message: '本日の復習は終了しました。明日また頑張ろうね',
+            messages: ['本日の復習は終了しました。', '明日また頑張ろうね'],
           });
         } else {
           questions.value = data.questions;
@@ -187,7 +187,7 @@ export default {
       } else {
         store.dispatch('setModal', {
           type: 'error',
-          message: '不明なエラーです',
+          messages: ['不明なエラーです'],
         });
       }
     };
@@ -228,7 +228,7 @@ export default {
       if (status === 200) {
         store.dispatch('setModal', {
           type: 'notification',
-          message: '同期しました',
+          messages: ['同期しました'],
         });
         questions.value = [];
         remains.value = [];

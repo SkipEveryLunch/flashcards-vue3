@@ -45,7 +45,7 @@ export default {
       if (!user.value) {
         store.dispatch('setModal', {
           type: 'error',
-          message: 'ログインが必要です',
+          messages: ['ログインが必要です'],
         });
         router.push('/');
       } else {
@@ -63,7 +63,7 @@ export default {
         if (data.message === "next assignment isn't yet") {
           store.dispatch('setModal', {
             type: 'notification',
-            message: '本日の新規学習は終了しました。明日また頑張ろうね',
+            messages: ['本日の新規学習は終了しました。明日また頑張ろうね'],
           });
           router.push(`/section/${sectionId}/study`);
         } else if (status == 200) {
@@ -71,13 +71,13 @@ export default {
         } else {
           store.dispatch('setModal', {
             type: 'error',
-            message: '不明なエラーです',
+            messages: ['不明なエラーです'],
           });
         }
       } catch (e) {
         store.dispatch('setModal', {
           type: 'error',
-          message: '不明なエラーです',
+          messages: ['不明なエラーです'],
         });
       }
     };
@@ -91,7 +91,7 @@ export default {
       if (status === 200) {
         store.dispatch('setModal', {
           type: 'notification',
-          message: '同期しました',
+          messages: ['同期しました'],
         });
         questions.value = [];
         answeredIds.value = [];

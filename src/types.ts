@@ -61,7 +61,7 @@ export interface Message {
 }
 export interface Modal {
   type: 'notification' | 'caution' | 'error';
-  message: string;
+  messages: string[];
   cb: {
     name: string;
     cb: any;

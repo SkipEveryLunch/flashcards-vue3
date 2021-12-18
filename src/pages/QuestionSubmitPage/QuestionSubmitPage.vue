@@ -133,18 +133,18 @@ export default {
           form.back = '';
           store.dispatch('setModal', {
             type: 'notification',
-            message: '新しい問題を作成しました',
+            messages: ['新しい問題を作成しました'],
           });
         } else {
           store.dispatch('setModal', {
             type: 'error',
-            message: '不明なエラーです',
+            messages: ['不明なエラーです'],
           });
         }
       } catch (e) {
         store.dispatch('setModal', {
           type: 'error',
-          message: '不明なエラーです',
+          messages: ['不明なエラーです'],
         });
       }
     };
@@ -155,7 +155,7 @@ export default {
       if (form.front.length > 0 || form.back.length > 0) {
         store.dispatch('setModal', {
           type: 'caution',
-          message: '戻ると編集内容は破棄されます',
+          messages: ['戻ると編集内容は破棄されます'],
           cb: {
             name: '破棄して戻る',
             cb: () => {

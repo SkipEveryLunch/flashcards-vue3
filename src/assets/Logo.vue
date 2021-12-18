@@ -15,6 +15,10 @@
             <stop offset="0%" stop-color="rgb(150,200,250)" />
             <stop offset="100%" stop-color="rgb(150,225,225)" />
           </linearGradient>
+          <linearGradient id="l_g_hover">
+            <stop offset="0%" stop-color="rgb(100,150,200)" />
+            <stop offset="100%" stop-color="rgb(100,175,175)" />
+          </linearGradient>
         </defs>
         <polyline
           points="0,10 5,0 85,0 90,10 85,20 5,20 0,10"
@@ -52,6 +56,15 @@
 .container {
   @apply w-40 h-8;
 }
+.container:hover .text {
+  fill: url(#l_g_hover);
+}
+.container:hover .polyline {
+  stroke: url(#l_g_hover);
+}
+.container:hover .tspan {
+  fill: url(#l_g_hover);
+}
 .text {
   font-size: 14px;
   animation: text_animation 1.5s both;
@@ -75,8 +88,6 @@
   100% {
     opacity: 1; /*# 0秒では間隔を300px */
     transform: translateX(0px);
-    fill: url(#l_g);
-    font-weight: normal;
   }
 }
 @keyframes line_animation {
@@ -85,18 +96,16 @@
     stroke-dashoffset: 350px; /*# 0秒では間隔を300px */
   }
   100% {
-    stroke: url(#l_g);
     stroke-width: 1;
     stroke-dashoffset: 0px;
   }
 }
 @keyframes text_animation {
   0% {
-    opacity: 0; /*# 0秒では間隔を300px */
+    opacity: 0;
   }
   100% {
-    opacity: 1; /*# 3秒後に間隔を0px */
-    fill: url(#l_g);
+    opacity: 1;
   }
 }
 </style>

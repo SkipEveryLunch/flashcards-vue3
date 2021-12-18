@@ -120,6 +120,7 @@ export default {
                 `${user.unconfirmed_messages}個の未読メッセージがあります`,
               ],
             });
+            store.dispatch('toggleDropDown', true);
           } else {
             store.dispatch('setModal', {
               type: 'notification',

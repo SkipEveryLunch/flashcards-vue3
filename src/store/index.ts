@@ -7,6 +7,7 @@ export default createStore({
     modal: null,
     commentModal: null,
     sectionReloader: false,
+    showDropDown: false,
   },
   mutations: {
     SET_USER: (state, user) => {
@@ -34,6 +35,9 @@ export default createStore({
     RELOAD_SECTION: (state) => {
       state.sectionReloader = !state.sectionReloader;
     },
+    TOGGLE_DROP_DOWN: (state, isShown) => {
+      state.showDropDown = isShown;
+    },
   },
   actions: {
     setUser: ({ commit }, user) => {
@@ -59,6 +63,9 @@ export default createStore({
     },
     reloadSection: ({ commit }) => {
       commit('RELOAD_SECTION');
+    },
+    toggleDropDown: ({ commit }, isShown) => {
+      commit('TOGGLE_DROP_DOWN', isShown);
     },
   },
 });

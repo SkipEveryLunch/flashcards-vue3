@@ -55,14 +55,16 @@ export default {
   components: { ProfileDropDown, FontAwesomeIcon, Logo },
   setup() {
     const store = useStore();
-    const showDropDown = ref(false);
+    const showDropDown = computed(() => {
+      return store.state.showDropDown;
+    });
     const name = computed(() => {
       return store.state.user
         ? `${store.state.user.first_name} ${store.state.user.last_name} `
         : '';
     });
-    const toggleDropDown = (isOpen) => {
-      showDropDown.value = isOpen;
+    const toggleDropDown = (isShown) => {
+      store.dispatch('toggleDropDown', isShown);
     };
 
     return {

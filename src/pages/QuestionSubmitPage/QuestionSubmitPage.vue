@@ -8,14 +8,16 @@
       <h1 class="mt-5 text-3xl font-bold text-gray-700 mb-7">問題の投稿</h1>
     </div>
     <div class="w-1/3 p-5 bg-gray-700 rounded pr-7">
-      <Input
+      <TextArea
+        row="4"
         id="front"
         name="問題"
         @custom-input="onChangeFront"
         :modelValue="form.front"
         :error="errors.front"
       />
-      <Input
+      <TextArea
+        row="4"
         id="back"
         name="解答"
         @custom-input="onChangeBack"
@@ -56,11 +58,11 @@
 import { reactive, watch, ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
-import Input from '../../components/Input.vue';
+import TextArea from '../../components/TextArea.vue';
 import axios from 'axios';
 export default {
   name: 'QuestionSubmitPage',
-  components: { Input },
+  components: { TextArea },
   setup() {
     const router = useRouter();
     const store = useStore();

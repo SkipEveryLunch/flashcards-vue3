@@ -13,9 +13,11 @@
         <p>達成率：{{ Math.round(section.complete_rate * 100) }}%</p>
       </div>
       <div data-testid="study-start-message" class="flex justify-center">
-        <button class="mr-2 btn btn-primary" data-testid="review-button">
-          <span class="whitespace-nowrap"> 復習 </span>
-        </button>
+        <router-link :to="`/section/${sectionId}/study_review`">
+          <button class="mr-2 btn btn-primary" data-testid="review-button">
+            <span class="whitespace-nowrap"> 復習 </span>
+          </button>
+        </router-link>
         <router-link :to="`/section/${sectionId}/study_new`">
           <button class="mr-2 btn btn-sub-white" data-testid="study-button">
             <span class="whitespace-nowrap"> 新問 </span>

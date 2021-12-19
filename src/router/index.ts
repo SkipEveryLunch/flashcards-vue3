@@ -13,6 +13,7 @@ import QuestionEditPage from '../pages/QuestionEditPage/QuestionEditPage.vue';
 import CommentShowPage from '../pages/CommentShowPage/CommentShowPage.vue';
 import StudySelectPage from '../pages/StudySelectPage/StudySelectPage.vue';
 import StudyNewPage from '../pages/StudyNewPage/StudyNewPage.vue';
+import StudyReviewPage from '../pages/StudyReviewPage/StudyReviewPage.vue';
 import MessageShowPage from '../pages/MessageShowPage/MessageShowPage.vue';
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage.vue';
 import axios from 'axios';
@@ -73,6 +74,11 @@ const routes: Array<RouteRecordRaw> = [
         path: '/section/:sectionId/study_new',
         name: 'StudyNewPage',
         component: StudyNewPage,
+      },
+      {
+        path: '/section/:sectionId/study_review',
+        name: 'StudyReviewPage',
+        component: StudyReviewPage,
       },
       {
         path: '/section/:sectionId/edit',

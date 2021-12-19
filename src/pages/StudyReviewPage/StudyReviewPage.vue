@@ -12,6 +12,7 @@
       @finish="finish"
       @add-to-answer="AddToAnswer"
     />
+    <Spinner v-else />
   </div>
 </template>
 <script lang="ts">
@@ -22,11 +23,13 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import StudyTemplate from '../../components/StudyTemplate.vue';
 import FinishedTemplate from '../../components/FinishedTemplated.vue';
+import Spinner from '../../components/Spinner.vue';
 export default {
   name: 'StudyNewPage',
   components: {
     StudyTemplate,
     FinishedTemplate,
+    Spinner,
   },
   setup() {
     const {

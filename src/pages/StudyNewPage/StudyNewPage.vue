@@ -12,21 +12,24 @@
       @finish="finish"
       @add-to-answer="AddToAnswer"
     />
+    <Spinner v-else />
   </div>
 </template>
 <script lang="ts">
 import { Section, Question } from '../../types';
 import axios from 'axios';
-import { ref, reactive, onMounted, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import StudyTemplate from '../../components/StudyTemplate.vue';
 import FinishedTemplate from '../../components/FinishedTemplated.vue';
+import Spinner from '../../components/Spinner.vue';
 export default {
   name: 'StudyNewPage',
   components: {
     StudyTemplate,
     FinishedTemplate,
+    Spinner,
   },
   setup() {
     const {
@@ -67,7 +70,15 @@ export default {
           });
           router.push(`/section/${sectionId}/study`);
         } else if (status == 200) {
-          questions.value = data.questions;
+          if (data.questions.length > 0) {
+            questions.value = data.questions;
+          } else {
+            store.dispatch('setModal', {
+              type: 'notification',
+              messages: ['学習する問題がありません'],
+            });
+            router.push(`/section/${sectionId}/study`);
+          }
         } else {
           store.dispatch('setModal', {
             type: 'error',

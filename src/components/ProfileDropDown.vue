@@ -5,7 +5,12 @@
     v-click-away="() => toggleDropDown(false)"
   >
     <ul>
-      <li @click="goTo('/message_show')" class="flex items-center profileList">
+      <li
+        @click="goTo('/message_show')"
+        :class="`flex
+        items-center justify-between
+        ${unconfirmedMessages > 0 ? 'shinyProfileList' : 'profileList'}`"
+      >
         <div>
           <span data-testid="message-link"> メッセージを見る </span>
         </div>
@@ -82,7 +87,34 @@ export default {
 .profileList {
   @apply w-full border-b pl-2 mr-4 py-2 text-gray-800 text-base hover:bg-gray-300 cursor-pointer;
 }
+.shinyProfileList {
+  @apply w-full border-b pl-2 mr-4 py-2  relative text-gray-800 text-base hover:bg-gray-300 cursor-pointer overflow-hidden;
+}
+.shinyProfileList::after {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -20%;
+  width: 40px;
+  height: 100%;
+  transform: scale(2) rotate(20deg);
+  background-image: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 10%,
+    rgba(255, 214, 79, 0.4) 100%,
+    rgba(255, 255, 255, 0) 0%
+  );
+  animation: shining 1s infinite;
+}
 .unconfirmedNotion {
-  @apply text-yellow-700 bg-yellow-300 ml-1 text-center text-xs rounded-full w-4;
+  @apply text-yellow-700 bg-yellow-300 mr-2 text-center text-xs rounded-full w-4;
+}
+@keyframes shining {
+  0% {
+    left: -20%;
+  }
+  100% {
+    left: 120%;
+  }
 }
 </style>

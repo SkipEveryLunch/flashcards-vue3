@@ -17,8 +17,9 @@
         :modelValue="form.title"
         :error="errors.title"
       />
-      <Input
+      <TextArea
         id="description"
+        row="4"
         name="説明文"
         @custom-input="onChangeDescription"
         :modelValue="form.description"
@@ -73,13 +74,14 @@ import {
   defineComponent,
 } from 'vue';
 import Input from '../../components/Input.vue';
+import TextArea from '../../components/TextArea.vue';
 import axios from 'axios';
 import { Series } from '../../types';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 export default defineComponent({
   name: 'LoginPage',
-  components: { Input },
+  components: { Input, TextArea },
   setup() {
     const router = useRouter();
     const store = useStore();

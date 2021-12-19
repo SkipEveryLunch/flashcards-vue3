@@ -95,3 +95,8 @@ export default defineComponent({
   },
 });
 </script>
+<style scoped>
+.buttonContainer {
+  height: 35px;
+}
+</style>

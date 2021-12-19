@@ -38,8 +38,8 @@ export default {
 </script>
 <style scoped>
 .card {
-  width: 250px;
-  height: 300px;
+  width: 300px;
+  height: 250px;
   @apply p-3 m-3 rounded text-gray-700;
 }
 .card-front {

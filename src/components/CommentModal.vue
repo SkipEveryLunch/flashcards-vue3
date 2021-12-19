@@ -7,13 +7,18 @@
     <transition name="modalbox" appear>
       <div class="modal">
         <div class="py-2 pl-5 text-gray-100 bg-blue-700">コメントの投稿</div>
-        <div class="flex justify-center p-3">
-          <span v-if="mode === 'new'"> 改善要望を以下から選んでください </span>
-          <span v-else> 以前に投稿した要望を編集・削除しますか？ </span>
-        </div>
-        <div class="flex justify-center mt-5">
+        <div class="flex flex-col m-5">
           <div class="flex flex-col">
-            <select v-model="form.comment_type_id">
+            <div>
+              <span v-if="mode === 'new'">
+                改善要望を以下から選んでください
+              </span>
+              <span v-else> 以前に投稿した要望を編集・削除しますか？ </span>
+            </div>
+            <select
+              class="border border-gray-300 rounded-sm focus:outline-none"
+              v-model="form.comment_type_id"
+            >
               <option
                 v-for="type in commentTypes"
                 :key="type.id"
@@ -23,56 +28,60 @@
               </option>
             </select>
           </div>
-        </div>
-        <div class="mx-5 my-2">
-          <label for="not-proper-detail">詳細：</label>
-          <input
-            class="w-full border-2 border-gray-200"
-            id="not-proper-detail"
-            v-model="form.comment_detail"
-            type="text"
-          />
-        </div>
-        <div v-if="mode === 'new'" class="flex justify-center mt-4">
-          <button
-            class="mr-1 btn btn-primary"
-            data-testid="modal-yes-button"
-            @click="onSubmit"
-            :disabled="isDisabled"
-          >
-            投稿
-          </button>
-          <button
-            class="btn btn-sub-white"
-            data-testid="modal-no-button"
-            @click="onClose"
-          >
-            戻る
-          </button>
-        </div>
-        <div v-else class="flex justify-center mt-4">
-          <button
-            class="mr-1 btn btn-primary"
-            data-testid="modal-yes-button"
-            @click="onEdit"
-            :disabled="isDisabled"
-          >
-            編集
-          </button>
-          <button
-            class="mr-1 btn btn-sub-white"
-            data-testid="modal-yes-button"
-            @click="onDelete"
-          >
-            削除
-          </button>
-          <button
-            class="btn btn-sub-white"
-            data-testid="modal-no-button"
-            @click="onClose"
-          >
-            戻る
-          </button>
+
+          <div class="flex flex-col mt-6">
+            <label for="not-proper-detail">詳細を以下にご記入ください</label>
+            <textarea
+              rows="4"
+              class="w-full p-1 border border-gray-300 focus:outline-none"
+              id="not-proper-detail"
+              v-model="form.comment_detail"
+              type="text"
+            />
+          </div>
+          <div class="mt-3">
+            <div v-if="mode === 'new'" class="flex justify-center">
+              <button
+                class="mr-1 btn btn-primary"
+                data-testid="modal-yes-button"
+                @click="onSubmit"
+                :disabled="isDisabled"
+              >
+                投稿
+              </button>
+              <button
+                class="btn btn-sub-white"
+                data-testid="modal-no-button"
+                @click="onClose"
+              >
+                戻る
+              </button>
+            </div>
+            <div v-else class="flex justify-center">
+              <button
+                class="mr-2 btn btn-primary"
+                data-testid="modal-yes-button"
+                @click="onEdit"
+                :disabled="isDisabled"
+              >
+                編集
+              </button>
+              <button
+                class="mr-1 btn btn-sub-white"
+                data-testid="modal-yes-button"
+                @click="onDelete"
+              >
+                削除
+              </button>
+              <button
+                class="btn btn-sub-white"
+                data-testid="modal-no-button"
+                @click="onClose"
+              >
+                戻る
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </transition>
@@ -223,7 +232,7 @@ export default defineComponent({
   transition: all 0.25s ease;
 }
 .modal {
-  @apply flex flex-col pb-3 bg-gray-100 rounded-md w-1/4 text-gray-700;
+  @apply flex flex-col  bg-gray-100 rounded-md w-1/4 text-gray-700;
   overflow: hidden;
 }
 </style>

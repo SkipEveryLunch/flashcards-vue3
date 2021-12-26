@@ -17,11 +17,19 @@
           <p>{{ comment.comment_detail }}</p>
         </div>
       </div>
+      <button
+        v-if="user.role.id === 1"
+        @click="() => deleteComment(comment.id)"
+      >
+        削除する
+      </button>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue';
+import axios from 'axios';
+import { useStore } from 'vuex';
+import { computed, defineComponent } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 export default defineComponent({
@@ -31,8 +39,28 @@ export default defineComponent({
     FontAwesomeIcon,
   },
   setup() {
+    const store = useStore();
+    const user = computed(() => {
+      return store.state.user;
+    });
+    const deleteComment = async (commentId: number) => {
+      const { status } = await axios.delete(`comments/${commentId}`);
+      if (status === 204) {
+        store.dispatch('setModal', {
+          type: 'notion',
+          messages: ['コメントを削除しました'],
+        });
+      } else {
+        store.dispatch('setModal', {
+          type: 'caution',
+          messages: ['不明なエラーです'],
+        });
+      }
+    };
     return {
       faUser,
+      deleteComment,
+      user,
     };
   },
 });

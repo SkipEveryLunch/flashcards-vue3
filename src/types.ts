@@ -74,6 +74,11 @@ export interface User {
   last_name: string;
   email: string;
   unconfirmed_messages: number;
+  role: Role;
   created_at: string;
   updated_at: string;
+}
+export interface Role {
+  id: number;
+  name: string;
 }

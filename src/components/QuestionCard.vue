@@ -10,12 +10,7 @@
     </div>
     <div class="grid grid-cols-10 col-span-2 grid-rows-10">
       <div
-        class="
-          col-span-4 col-start-2
-          row-span-3 row-start-1
-          text-sm
-          whitespace-nowrap
-        "
+        class="col-span-4 col-start-2 row-span-3 row-start-1 text-sm  whitespace-nowrap"
       >
         <p>
           レベル:
@@ -34,14 +29,8 @@
         />
       </div>
       <div
-        v-if="isPostedByMe"
-        class="
-          flex
-          items-center
-          justify-center
-          col-span-8 col-start-3
-          row-span-1 row-start-9
-        "
+        v-if="isAbleToSeeComments"
+        class="flex items-center justify-center col-span-8 col-start-3 row-span-1  row-start-9"
       >
         <router-link
           :to="`/section/${question.section_id}/question/${question.id}/edit`"
@@ -81,14 +70,16 @@ export default defineComponent({
     const user = computed(() => {
       return store.state.user;
     });
-    const isPostedByMe = computed(() => {
-      return props.question.posted_by === user.value.id;
+    const isAbleToSeeComments = computed(() => {
+      return (
+        props.question.posted_by === user.value.id || user.value.role.id === 1
+      );
     });
     const isCommentedByMe = computed(() => {
       return props.question.commented_by.includes(user.value.id);
     });
     const showModal = () => {
-      if (isPostedByMe.value) {
+      if (isAbleToSeeComments.value) {
         router.push(
           `/section/${props.question.section_id}/question/${props.question.id}/comment`
         );
@@ -144,7 +135,7 @@ export default defineComponent({
       onDelete,
       user,
       showModal,
-      isPostedByMe,
+      isAbleToSeeComments,
       isCommentedByMe,
     };
   },

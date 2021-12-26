@@ -123,7 +123,7 @@ export default defineComponent({
         const questionData = await axios.get(`/questions/${questionId}`);
         if (commentsData.status === 200 && questionData.status === 200) {
           if (
-            user.value.role.id == '1' ||
+            user.value.role.id === 1 ||
             user.value.id === commentsData.data.commented_to
           ) {
             isPostedByUser.value = true;

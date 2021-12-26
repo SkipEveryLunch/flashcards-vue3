@@ -62,7 +62,7 @@
             :key="idx"
             :data-idx="idx"
           >
-            <CommentCard :comment="comment" />
+            <CommentCard :comment="comment" @reload="reloadComments" />
           </li>
         </transition-group>
       </div>
@@ -109,6 +109,23 @@ export default defineComponent({
       fComments.value = comments.value.filter((el) => {
         return el.comment_type.id === type;
       });
+    };
+    const reloadComments = async () => {
+      isLoading.value = true;
+      const commentsData = await axios.get(
+        `/questions_several_comments/${questionId}`
+      );
+      if (commentsData.status === 200) {
+        comments.value = commentsData.data.comments;
+        fComments.value = commentsData.data.comments;
+        commentTypes.value = commentsData.data.comment_types;
+        isLoading.value = false;
+      } else {
+        store.dispatch('setModal', {
+          type: 'caution',
+          messages: ['不明なエラーです'],
+        });
+      }
     };
     onMounted(async () => {
       if (!user.value) {
@@ -168,6 +185,7 @@ export default defineComponent({
       filterCommentsByType,
       isLoading,
       question,
+      reloadComments,
     };
   },
 });

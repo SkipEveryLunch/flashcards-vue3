@@ -35,10 +35,11 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 export default defineComponent({
   name: 'CommentCard',
   props: ['comment'],
+  emits: ['reload'],
   components: {
     FontAwesomeIcon,
   },
-  setup() {
+  setup(_, { emit }) {
     const store = useStore();
     const user = computed(() => {
       return store.state.user;
@@ -47,9 +48,10 @@ export default defineComponent({
       const { status } = await axios.delete(`comments/${commentId}`);
       if (status === 204) {
         store.dispatch('setModal', {
-          type: 'notion',
+          type: 'notification',
           messages: ['コメントを削除しました'],
         });
+        emit('reload');
       } else {
         store.dispatch('setModal', {
           type: 'caution',

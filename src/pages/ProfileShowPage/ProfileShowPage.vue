@@ -9,6 +9,10 @@
           <span class="ml-3" data-testid="user-lastname">
             {{ user.last_name }}
           </span>
+          <span v-if="user.role.id === 1" data-testid="user-isadmin">
+            (管理者)
+          </span>
+          <span v-else data-testid="user-isadmin">(一般ユーザー)</span>
         </p>
         <p class="mb-3">
           メールアドレス：<span data-testid="user-email">

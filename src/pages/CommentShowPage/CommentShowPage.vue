@@ -35,14 +35,14 @@
     <div v-if="fComments.length > 0 && question" class="w-full">
       <div class="px-3">
         <div class="flex card">
-          <div class="flex justify-center w-full">
-            <div class="p-2 border-r">
-              <p>質問:</p>
-              <p>{{ question.front }}</p>
+          <div class="flex w-full">
+            <div class="w-1/2 p-2 border-r">
+                <p>質問:</p>
+                <p>{{ question.front }}</p>
             </div>
-            <div class="p-2 ml-2">
-              <p>解答:</p>
-              <p>{{ question.back }}</p>
+            <div class="w-1/2 p-2 ml-2">
+                <p>解答:</p>
+                <p>{{ question.back }}</p>
             </div>
           </div>
         </div>

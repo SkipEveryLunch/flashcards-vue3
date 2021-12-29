@@ -112,21 +112,20 @@ export default {
         if (status === 200 && user) {
           store.dispatch('setUser', user);
           router.push('/');
-          if (user.unconfirmed_messages > 0) {
-            store.dispatch('setModal', {
-              type: 'notification',
-              messages: [
-                `おかえりなさい、${user.first_name}さん。`,
-                `${user.unconfirmed_messages}個の未読メッセージがあります`,
-              ],
-              cbAfter: () => store.dispatch('toggleDropDown', true),
-            });
-          } else {
-            store.dispatch('setModal', {
-              type: 'notification',
-              messages: ['ログインしました'],
-            });
+          const messages = [`おかえりなさい、${user.first_name}さん。`];
+          if (user.role.id === 1) {
+            messages.push('管理者権限でログインしました。');
           }
+          if (user.unconfirmed_messages > 0) {
+            messages.push(
+              `${user.unconfirmed_messages}個の未読メッセージがあります`
+            );
+          }
+          store.dispatch('setModal', {
+            type: 'notification',
+            messages: messages,
+            cbAfter: () => store.dispatch('toggleDropDown', true),
+          });
         }
       } catch (e) {
         if (e.response.status === 401) {

@@ -124,7 +124,10 @@ export default {
           store.dispatch('setModal', {
             type: 'notification',
             messages: messages,
-            cbAfter: () => store.dispatch('toggleDropDown', true),
+            cbAfter:
+              user.unconfirmed_messages > 0
+                ? () => store.dispatch('toggleDropDown', true)
+                : null,
           });
         }
       } catch (e) {

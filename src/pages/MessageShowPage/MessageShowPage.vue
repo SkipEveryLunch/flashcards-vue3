@@ -8,7 +8,7 @@
         メッセージ一覧
         <p class="text-lg">
           <span class="mr-3">全{{ messages.length }}件</span>
-          <span>うち{{ unconfirmed }}件未読</span>
+          <span data-testid="unconfirmed">うち{{ unconfirmed }}件未読</span>
         </p>
       </div>
       <div class="flex pr-1 mt-1 mb-2">

@@ -37,12 +37,12 @@
         <div class="flex card">
           <div class="flex w-full">
             <div class="w-1/2 p-2 border-r">
-                <p>質問:</p>
-                <p>{{ question.front }}</p>
+              <p>質問:</p>
+              <p>{{ question.front }}</p>
             </div>
             <div class="w-1/2 p-2 ml-2">
-                <p>解答:</p>
-                <p>{{ question.back }}</p>
+              <p>解答:</p>
+              <p>{{ question.back }}</p>
             </div>
           </div>
         </div>
@@ -98,7 +98,7 @@ export default defineComponent({
     const {
       params: { questionId, sectionId },
     } = useRoute();
-    const isLoading = ref(false);
+    const isLoading = ref(true);
     const comments = ref<Comment[]>([]);
     const fComments = ref<Comment[]>([]);
     const question = ref<Question>();
@@ -133,7 +133,6 @@ export default defineComponent({
         return;
       }
       try {
-        isLoading.value = true;
         const commentsData = await axios.get(
           `/questions_several_comments/${questionId}`
         );

@@ -95,8 +95,8 @@ export const userData = {
   last_name: 'Smith',
   email: 'js@test.io',
   role: {
-    id: 1,
-    name: 'admin',
+    id: 2,
+    name: 'user',
   },
 };
 

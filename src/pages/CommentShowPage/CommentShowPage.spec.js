@@ -18,17 +18,17 @@ const setup = () => {
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterAll(() => server.close());
 
-it('does not show commentCards when not logged in', async () => {
+it('show spinner when not logged in', async () => {
   setup();
-  const cannotDisplay = await screen.findByTestId('cannot-display');
-  expect(cannotDisplay).toBeInTheDocument();
+  const spinner = await screen.findByTestId('spinner');
+  expect(spinner).toBeInTheDocument();
 });
 
-it('does not show commentCards when wrong user is logged in', async () => {
+it('show spinner when wrong user is logged in', async () => {
   store.dispatch('setUser', { ...userData, id: 1 });
   setup();
-  const cannotDisplay = await screen.findByTestId('cannot-display');
-  expect(cannotDisplay).toBeInTheDocument();
+  const spinner = await screen.findByTestId('spinner');
+  expect(spinner).toBeInTheDocument();
 });
 
 it('has the same number of commentCards as API sent', async () => {

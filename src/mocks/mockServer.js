@@ -80,6 +80,10 @@ export const server = setupServer(
   rest.get(`${baseUrl}messages`, (req, res, ctx) => {
     reqBody = req.body;
     return res(ctx.status(200), ctx.json({ messages: messagesData }));
+  }),
+  rest.get(`${baseUrl}series`, (req, res, ctx) => {
+    reqBody = req.body;
+    return res(ctx.status(200), ctx.json({ series: seriesData }));
   })
 );
 export const userData = {
@@ -87,32 +91,74 @@ export const userData = {
   first_name: 'John',
   last_name: 'Smith',
   email: 'js@test.io',
+  role: {
+    id: 1,
+    name: 'admin',
+  },
 };
 
+export const seriesData = [
+  {
+    id: 1,
+    name: '前置詞・名詞',
+    created_at: '2021-12-26T12:59:06.000000Z',
+    updated_at: '2021-12-26T12:59:06.000000Z',
+  },
+  {
+    id: 2,
+    name: '単位・度合',
+    created_at: '2021-12-26T12:59:06.000000Z',
+    updated_at: '2021-12-26T12:59:06.000000Z',
+  },
+  {
+    id: 3,
+    name: '時・条件',
+    created_at: '2021-12-26T12:59:06.000000Z',
+    updated_at: '2021-12-26T12:59:06.000000Z',
+  },
+  {
+    id: 4,
+    name: '仮定法',
+    created_at: '2021-12-26T12:59:06.000000Z',
+    updated_at: '2021-12-26T12:59:06.000000Z',
+  },
+];
 export const sectionsData = [
   {
     id: 1,
     title: 'enim',
     created_at: '2021-09-11T13:42:10.000000Z',
     updated_at: '2021-09-11T13:42:10.000000Z',
+    count_questions: 9,
+    posted_by: 1,
+    series: seriesData[1],
   },
   {
     id: 2,
     title: 'error',
     created_at: '2021-09-11T13:42:10.000000Z',
     updated_at: '2021-09-11T13:42:10.000000Z',
+    count_questions: 9,
+    posted_by: 1,
+    series: seriesData[1],
   },
   {
     id: 3,
     title: 'sit',
     created_at: '2021-09-11T13:42:10.000000Z',
     updated_at: '2021-09-11T13:42:10.000000Z',
+    count_questions: 9,
+    posted_by: 1,
+    series: seriesData[1],
   },
   {
     id: 4,
     title: 'amet',
     created_at: '2021-09-11T13:42:10.000000Z',
     updated_at: '2021-09-11T13:42:10.000000Z',
+    count_questions: 9,
+    posted_by: 1,
+    series: seriesData[1],
   },
 ];
 export const questionsData = [

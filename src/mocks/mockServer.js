@@ -45,7 +45,10 @@ export const server = setupServer(
   }),
   rest.get(`${baseUrl}sections`, (req, res, ctx) => {
     reqBody = req.body;
-    return res(ctx.status(200), ctx.json({ sections: sectionsData }));
+    return res(
+      ctx.status(200),
+      ctx.json({ sections: sectionsData, series: seriesData })
+    );
   }),
   rest.post(`${baseUrl}sections`, (req, res, ctx) => {
     reqBody = req.body;

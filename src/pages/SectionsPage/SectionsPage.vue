@@ -17,23 +17,25 @@
       <div class="flex flex-col ml-2">
         <div class="sideRow">
           <router-link
-            data-testid="section-submit-link"
             v-if="user"
             to="section_submit"
+            data-testid="section-submit-link"
             ><span>新規セクション作成</span></router-link
           >
         </div>
 
         <div @click="findMySections" class="sideRow" v-if="user">
-          <span class="">投稿したセクション</span>
+          <span>投稿したセクション</span>
         </div>
-        <div
-          v-for="(aSeries, idx) in series"
-          :key="idx"
-          class="sideRow"
-          @click="() => filterBySeries(aSeries.id)"
-        >
-          <span>{{ aSeries.name }}</span>
+        <div v-if="series.length > 0">
+          <div
+            v-for="(aSeries, idx) in series"
+            :key="idx"
+            class="sideRow"
+            @click="() => filterBySeries(aSeries.id)"
+          >
+            <span>{{ aSeries.name }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -98,12 +100,11 @@ export default {
     const lastPage = computed(() => {
       return Math.floor(fSections.value.length / 15) + 1;
     });
-    const isLoading = ref(false);
+    const isLoading = ref(true);
     const store = useStore();
     const search = ref('');
     const user = computed(() => store.state.user);
     onMounted(async () => {
-      isLoading.value = true;
       const { data, status } = await axios.get('sections');
       if (status === 200) {
         isLoading.value = false;

@@ -16,10 +16,10 @@ const setup = () => {
   });
 };
 
-it('shows not found message when not logged in', async () => {
+it('shows spinner when not logged in', async () => {
   await setup();
-  const notFoundMessage = screen.getByTestId('not-found-message');
-  expect(notFoundMessage).toBeInTheDocument();
+  const spinner = screen.getByTestId('spinner');
+  expect(spinner).toBeInTheDocument();
 });
 
 it('shows section title when logged in', async () => {

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center h-full">
+  <div class="flex items-center justify-center h-full" data-testid="spinner">
     <div>
       <font-awesome-icon
         class="mr-3 text-blue-200 fa-2x fa-spin"

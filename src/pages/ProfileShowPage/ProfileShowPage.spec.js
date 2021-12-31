@@ -1,4 +1,5 @@
 import ProfileShowPage from './ProfileShowPage.vue';
+import { userData } from '../../mocks/mockServer';
 import { render, screen } from '@testing-library/vue';
 import '@testing-library/jest-dom';
 import store from '../../store/index.ts';
@@ -9,12 +10,6 @@ const setup = async () => {
     global: { plugins: [store, router] },
   });
   await store.dispatch('setUser', userData);
-};
-
-const userData = {
-  first_name: 'John',
-  last_name: 'Smith',
-  email: 'js@test.io',
 };
 
 it('shows first name', async () => {

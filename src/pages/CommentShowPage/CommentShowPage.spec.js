@@ -45,3 +45,12 @@ it('shows CommentShowPage when logged in as an admin', async () => {
   const commentShowPage = await screen.findByTestId('comment-show-page');
   expect(commentShowPage).toBeInTheDocument();
 });
+
+it('shows CommentDeleteButton when logged in as an admin', async () => {
+  store.dispatch('setUser', adminData);
+  setup();
+  const commentDeleteButtons = await screen.findAllByTestId(
+    'comment-delete-button'
+  );
+  expect(commentDeleteButtons[0]).toBeInTheDocument();
+});

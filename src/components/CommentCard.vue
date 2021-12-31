@@ -21,6 +21,7 @@
       </div>
       <div
         v-if="user.role.id === 1"
+        data-testid="comment-delete-button"
         class="flex items-end justify-end px-3 py-2"
       >
         <button

@@ -1,5 +1,5 @@
 import ProfileShowPage from './ProfileShowPage.vue';
-import { userData } from '../../mocks/mockServer';
+import { userData, adminData } from '../../mocks/mockServer';
 import { render, screen } from '@testing-library/vue';
 import '@testing-library/jest-dom';
 import store from '../../store/index.ts';
@@ -28,4 +28,11 @@ it('shows Email', async () => {
   setup();
   const userEmail = await screen.findByTestId('user-email');
   expect(userEmail.textContent).toBe(userData.email);
+});
+
+it('shows isAdmin when logged in as an admin', async () => {
+  setup();
+  await store.dispatch('setUser', adminData);
+  const isAdminSpan = await screen.findByTestId('user-isadmin');
+  expect(isAdminSpan).toBeInTheDocument();
 });

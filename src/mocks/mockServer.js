@@ -99,7 +99,16 @@ export const userData = {
     name: 'user',
   },
 };
-
+export const adminData = {
+  id: 1,
+  first_name: 'Tom',
+  last_name: 'Smith',
+  email: 'ts@test.io',
+  role: {
+    id: 1,
+    name: 'admin',
+  },
+};
 export const seriesData = [
   {
     id: 1,

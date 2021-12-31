@@ -152,7 +152,7 @@ describe('Authentication', () => {
   it('shows Modal after failing loging in', async () => {
     await setup('/login');
     server.use(
-      rest.post('http://localhost:8000/api/login', (req, res, ctx) => {
+      rest.post(`${process.env.VUE_APP_API_BASE}/login`, (req, res, ctx) => {
         return res.once(ctx.status(401));
       })
     );
@@ -242,7 +242,7 @@ describe('Authentication', () => {
 
   it('shows modal when password is duplicated', async () => {
     server.use(
-      rest.post('http://localhost:8000/api/register', (req, res, ctx) => {
+      rest.post(`${process.env.VUE_APP_API_BASE}register`, (req, res, ctx) => {
         return res.once(ctx.status(409));
       })
     );
@@ -265,7 +265,7 @@ describe('Authentication', () => {
 
   it('shows modal when unknown registaration error occurred', async () => {
     server.use(
-      rest.post('http://localhost:8000/api/register', (req, res, ctx) => {
+      rest.post(`${process.env.VUE_APP_API_BASE}register`, (req, res, ctx) => {
         return res.once(ctx.status(400));
       })
     );
@@ -306,7 +306,7 @@ describe('Authentication', () => {
 
   it('shows modal after submit a duplicated section', async () => {
     server.use(
-      rest.post('http://localhost:8000/api/register', (req, res, ctx) => {
+      rest.post(`${process.env.VUE_APP_API_BASE}register`, (req, res, ctx) => {
         return res.once(ctx.status(409));
       })
     );

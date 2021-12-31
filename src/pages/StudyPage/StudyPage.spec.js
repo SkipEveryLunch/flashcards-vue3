@@ -48,7 +48,7 @@ it('shows start study message when logged in', async () => {
 it('shows finish study message after answering all questions', async () => {
   server.use(
     rest.get(
-      'http://localhost:8000/api/sections/*/new_questions',
+      `${process.env.VUE_APP_API_BASE}sections/*/new_questions`,
       (req, res, ctx) => {
         return res.once(ctx.json({ questions: [questionsData[0]] }));
       }

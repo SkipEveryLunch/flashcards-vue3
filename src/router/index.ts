@@ -17,7 +17,7 @@ import StudyReviewPage from '../pages/StudyReviewPage/StudyReviewPage.vue';
 import MessageShowPage from '../pages/MessageShowPage/MessageShowPage.vue';
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage.vue';
 import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:8000/api/';
+axios.defaults.baseURL = `${process.env.VUE_APP_API_BASE}`;
 axios.defaults.withCredentials = true;
 
 const routes: Array<RouteRecordRaw> = [

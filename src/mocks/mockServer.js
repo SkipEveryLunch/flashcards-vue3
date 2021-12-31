@@ -1,7 +1,7 @@
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 
-const baseUrl = 'http://localhost:8000/api/';
+const baseUrl = `${process.env.VUE_APP_API_BASE}`;
 
 export let reqBody;
 export const server = setupServer(

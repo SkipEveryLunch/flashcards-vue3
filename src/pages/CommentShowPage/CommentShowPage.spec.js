@@ -1,12 +1,13 @@
 import CommentShowPage from './CommentShowPage.vue';
-import {
-  render,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/vue';
+import { render, screen } from '@testing-library/vue';
 import '@testing-library/jest-dom';
 import router from '../../router/index.ts';
-import { server, userData, commentsData } from '../../mocks/mockServer';
+import {
+  server,
+  adminData,
+  userData,
+  commentsData,
+} from '../../mocks/mockServer';
 import store from './../../store/index.ts';
 
 const setup = () => {
@@ -36,4 +37,11 @@ it('has the same number of commentCards as API sent', async () => {
   setup();
   const commentCards = await screen.findAllByTestId('comment-card');
   expect(commentCards.length).toBe(commentsData.length);
+});
+
+it('shows CommentShowPage when logged in as an admin', async () => {
+  store.dispatch('setUser', adminData);
+  setup();
+  const commentShowPage = await screen.findByTestId('comment-show-page');
+  expect(commentShowPage).toBeInTheDocument();
 });

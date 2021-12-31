@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isLoading" class="flex h-full">
+  <div v-if="!isLoading" data-testid="comment-show-page" class="flex h-full">
     <div class="flex flex-col w-1/3 px-4 py-3">
       <div class="pt-2 pb-3 text-4xl font-bold text-gray-700">
         コメント一覧

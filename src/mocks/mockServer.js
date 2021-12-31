@@ -100,7 +100,7 @@ export const userData = {
   },
 };
 export const adminData = {
-  id: 1,
+  id: 2,
   first_name: 'Tom',
   last_name: 'Smith',
   email: 'ts@test.io',

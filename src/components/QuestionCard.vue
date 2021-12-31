@@ -30,6 +30,7 @@
       </div>
       <div
         v-if="isAbleToSeeComments"
+        data-testid="edit-buttons"
         class="flex items-center justify-center col-span-8 col-start-3 row-span-1  row-start-9"
       >
         <router-link

@@ -4,7 +4,12 @@ import '@testing-library/jest-dom';
 import router from '../../router/index.ts';
 import userEvent from '@testing-library/user-event';
 import store from '../../store/index.ts';
-import { server, reqBody, userData, sectionData } from '../../mocks/mockServer';
+import {
+  server,
+  adminData,
+  userData,
+  sectionData,
+} from '../../mocks/mockServer';
 import { rest } from 'msw';
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
@@ -34,4 +39,10 @@ it('shows the same number of questions as the server returned', async () => {
   await setup();
   const questions = await screen.findAllByTestId('question-card');
   expect(questions.length).toBe(sectionData.questions.length);
+});
+it('shows edit buttons when logged in as an admin', async () => {
+  store.dispatch('setUser', adminData);
+  setup();
+  const editButtons = await screen.findAllByTestId('edit-buttons');
+  expect(editButtons[0]).toBeInTheDocument();
 });
